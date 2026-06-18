@@ -1,12 +1,12 @@
 'use client'
 
 import {
-  CalendarDays,
+  Car,
   Home,
   Package,
   User,
   type LucideIcon,
-  Building2,
+  Crown,
 } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -18,9 +18,9 @@ interface NavItem {
 
 const items: NavItem[] = [
   { label: 'Home', icon: Home },
-  { label: 'Reserve', icon: CalendarDays },
+  { label: 'Reserve', icon: Car },
   { label: 'Packages', icon: Package },
-  { label: 'Chauffeur', icon: Building2 },
+  { label: 'Chauffeur', icon: Crown },
   { label: 'Account', icon: User },
 ]
 

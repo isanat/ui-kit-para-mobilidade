@@ -11,21 +11,31 @@ interface LogoProps {
 export function Logo({
   className,
   showWordmark = true,
-  size = 40,
+  size = 44,
   subtitle,
 }: LogoProps) {
   return (
     <div className={cn('flex items-center gap-3', className)}>
       <div
-        className="flex shrink-0 items-center justify-center rounded-xl bg-primary/15 ring-1 ring-inset ring-primary/25"
+        className="relative shrink-0 overflow-hidden rounded-xl ring-1 ring-inset ring-border"
         style={{ width: size, height: size }}
       >
+        {/* Light theme: gold eagle on light background */}
         <Image
-          src="/eagle-logo.png"
+          src="/eagle-logo-light.png"
           alt="Eagle Eye Rides logo"
-          width={size}
-          height={size}
-          className="object-contain p-1.5"
+          fill
+          sizes="44px"
+          className="bg-white object-contain p-1 dark:hidden"
+        />
+        {/* Dark theme: gold eagle on dark background */}
+        <Image
+          src="/eagle-logo-dark.png"
+          alt=""
+          aria-hidden
+          fill
+          sizes="44px"
+          className="hidden bg-black object-contain p-1 dark:block"
         />
       </div>
       {showWordmark && (

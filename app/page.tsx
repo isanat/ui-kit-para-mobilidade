@@ -3,11 +3,11 @@ import {
   CalendarDays,
   Car,
   Crown,
+  MapPin,
   Megaphone,
   Package,
   Search,
   Truck,
-  Zap,
 } from 'lucide-react'
 import { BottomNav } from '@/components/eer/bottom-nav'
 import { DriverCard } from '@/components/eer/driver-card'
@@ -44,13 +44,13 @@ const neutralTokens = [
 const icons = [
   Search,
   Bell,
-  CalendarDays,
+  Car,
   Package,
   Megaphone,
-  Zap,
-  Car,
-  Crown,
   Truck,
+  Crown,
+  MapPin,
+  CalendarDays,
 ]
 
 function Block({
@@ -242,7 +242,7 @@ export default function Page() {
                 <SectionLabel>Service cards</SectionLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <ServiceCard
-                    icon={CalendarDays}
+                    icon={Car}
                     title="Reserve"
                     description="Book a ride"
                     accent="cyan"
@@ -260,7 +260,7 @@ export default function Page() {
                     accent="magenta"
                   />
                   <ServiceCard
-                    icon={Zap}
+                    icon={Truck}
                     title="Tow Truck"
                     description="Roadside help"
                     accent="gold"

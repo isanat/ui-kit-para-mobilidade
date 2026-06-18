@@ -25,12 +25,12 @@ export function AppHeader({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-white/15 ring-1 ring-inset ring-white/20">
+          <span className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-black ring-1 ring-inset ring-white/25">
             <Image
-              src="/eagle-logo.png"
+              src="/eagle-logo-dark.png"
               alt="Eagle Eye Rides logo"
-              width={40}
-              height={40}
+              fill
+              sizes="44px"
               className="object-contain p-1.5"
             />
           </span>

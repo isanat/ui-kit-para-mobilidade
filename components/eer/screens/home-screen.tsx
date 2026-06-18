@@ -1,11 +1,4 @@
-import {
-  CalendarDays,
-  Megaphone,
-  Package,
-  Zap,
-  MapPin,
-  Clock,
-} from 'lucide-react'
+import { Car, Megaphone, Package, Truck, MapPin, Clock } from 'lucide-react'
 import { AppHeader } from '@/components/eer/app-header'
 import { BottomNav } from '@/components/eer/bottom-nav'
 import { EmptyState } from '@/components/eer/empty-state'
@@ -23,7 +16,7 @@ export function HomeScreen() {
           <SectionLabel>Services</SectionLabel>
           <div className="grid grid-cols-2 gap-3">
             <ServiceCard
-              icon={CalendarDays}
+              icon={Car}
               title="Reserve"
               description="Book a ride"
               accent="cyan"
@@ -41,7 +34,7 @@ export function HomeScreen() {
               accent="magenta"
             />
             <ServiceCard
-              icon={Zap}
+              icon={Truck}
               title="Tow Truck"
               description="Roadside help"
               accent="gold"
