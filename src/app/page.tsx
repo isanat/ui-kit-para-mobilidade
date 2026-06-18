@@ -621,7 +621,7 @@ function Block({
 function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`rounded-2xl border border-border bg-card p-6 ${className ?? ""}`}
+      className={`min-w-0 overflow-hidden rounded-2xl border border-border bg-card p-6 ${className ?? ""}`}
     >
       {children}
     </div>
@@ -743,7 +743,7 @@ export default function Page() {
           </div>
         </div>
         {/* Section nav */}
-        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav className="mx-auto flex w-full max-w-7xl min-w-0 gap-1 overflow-x-auto px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {sections.map((s) => (
             <a
               key={s.id}
@@ -756,7 +756,7 @@ export default function Page() {
         </nav>
       </header>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 space-y-20 px-5 py-12">
+      <main className="mx-auto w-full max-w-7xl flex-1 space-y-20 overflow-x-hidden px-5 py-12">
         {/* Hero */}
         <div className="max-w-2xl space-y-4">
           <StatusBadge tone="cyan">Urban Mobility Platform</StatusBadge>

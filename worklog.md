@@ -524,3 +524,22 @@ Stage Summary:
 - 109 EER files total (17 base + 12 forms + 19 user + 8 driver + 3 system + 37 admin + 13 emails).
 - Production-quality layer added: skeletons, inline alerts, detail drawer, form-field validation, themed toasts.
 - Full documentation: THEME.md (rebrand by editing one file) + COMPONENTS.md (reference + page map). Any programmer can now rebrand or find the right component without reading source.
+
+---
+Task ID: D1
+Agent: main (orchestrator)
+Task: Fix mobile-friendliness issues (hydration + horizontal overflow) discovered during testing.
+
+Work Log:
+- Fixed hydration mismatch: 11 `.toLocaleString()` calls without explicit locale caused server (en-US "2,450") vs client (pt-BR "2.450") mismatch. Added `"en-US"` to all number formatters across points-screen, drivers-table, users-table, ad-detail-card, ad-statistics-card (4), tips-report-card (2), earnings-chart.
+- Fixed horizontal overflow at mobile widths:
+  * Section nav had `max-w-7xl` without `w-full` → expanded to fit 10 items instead of scrolling. Added `w-full min-w-0`.
+  * Panel component (grid item) had default `min-width: auto` → couldn't shrink below content min-width, causing 50px overflow at 375px. Added `min-w-0 overflow-hidden`.
+  * Added `overflow-x-hidden` to <main> as a safety net.
+- Verified at 375px (iPhone X): 0px horizontal overflow. Admin tables (834px, 1433px wide) scroll horizontally inside `overflow-x-auto` card wrappers — correct responsive pattern.
+- Verified at 320px (iPhone SE): 0px overflow. Header, hero, nav all usable.
+- Lint clean. HTTP 200. No console errors.
+
+Stage Summary:
+- UI kit is now fully mobile-friendly: no horizontal overflow at 320px/375px, tables scroll horizontally, phone frames shrink via max-w-full, section nav scrolls, cards stack vertically.
+- All number formatting is locale-deterministic (en-US) preventing hydration issues in any browser locale.
