@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Bell,
   CalendarDays,
@@ -14,6 +15,7 @@ import {
   Search,
   Truck,
   Users,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -110,6 +112,63 @@ import {
   type ChauffeurBooking,
 } from "@/components/eer/admin/chauffeur-bookings-table";
 import { DriverEarningsConfig } from "@/components/eer/admin/driver-earnings-config";
+import { UsersTable } from "@/components/eer/admin/users-table";
+import { PaymentsTable } from "@/components/eer/admin/payments-table";
+import { CancellationsTable } from "@/components/eer/admin/cancellations-table";
+import { CancellationPolicyEditor } from "@/components/eer/admin/cancellation-policy-editor";
+import { RatingsTable } from "@/components/eer/admin/ratings-table";
+import { TipsReportCard } from "@/components/eer/admin/tips-report-card";
+import { ReassignmentLogsTable } from "@/components/eer/admin/reassignment-logs-table";
+import { UserEditForm } from "@/components/eer/admin/user-edit-form";
+import { DriverEditForm } from "@/components/eer/admin/driver-edit-form";
+import { DriversAvailableMap } from "@/components/eer/admin/drivers-available-map";
+import { AdCreateForm } from "@/components/eer/admin/ad-create-form";
+import { AdDetailCard } from "@/components/eer/admin/ad-detail-card";
+import { AdEditForm } from "@/components/eer/admin/ad-edit-form";
+import { AdStatisticsCard } from "@/components/eer/admin/ad-statistics-card";
+import { PackagesAdminTable } from "@/components/eer/admin/packages-admin-table";
+import { AdminSigninScreen } from "@/components/eer/admin/admin-signin-screen";
+import { AdminSignupScreen } from "@/components/eer/admin/admin-signup-screen";
+
+import { SettingsScreen } from "@/components/eer/screens/settings-screen";
+import { PaymentCheckoutScreen } from "@/components/eer/screens/payment-checkout-screen";
+import { ForgotPasswordScreen } from "@/components/eer/screens/forgot-password-screen";
+import { ResetPasswordScreen } from "@/components/eer/screens/reset-password-screen";
+import { ProfileLockScreen } from "@/components/eer/screens/profile-lock-screen";
+import { DriverSigninScreen } from "@/components/eer/screens/driver/driver-signin-screen";
+import { DriverSignupScreen } from "@/components/eer/screens/driver/driver-signup-screen";
+import { DriverTipsReportScreen } from "@/components/eer/screens/driver/driver-tips-report-screen";
+
+import { ErrorScreen } from "@/components/eer/screens/system/error-screen";
+import { MaintenanceScreen } from "@/components/eer/screens/system/maintenance-screen";
+import { PricingScreen } from "@/components/eer/screens/system/pricing-screen";
+
+import {
+  CardSkeleton,
+  StatCardSkeleton,
+  RideOptionSkeleton,
+  DriverCardSkeleton,
+  TableSkeleton,
+  ScreenSkeleton,
+} from "@/components/eer/skeletons";
+import { EerAlert } from "@/components/eer/eer-alert";
+import { DetailDrawer } from "@/components/eer/detail-drawer";
+import { FormField } from "@/components/eer/forms";
+import { EerToastDemo } from "@/components/eer/eer-toast-demo";
+import { Input } from "@/components/ui/input";
+import {
+  EmailFrame,
+  BookingConfirmationEmail,
+  BookingCancelledEmail,
+  PaymentReceiptEmail,
+  DriverAssignedNotificationEmail,
+  DriverAssignedPassengerEmail,
+  AdminDriverAssignmentEmail,
+  AdminWithdrawalRequestEmail,
+  WithdrawalApprovedEmail,
+  WithdrawalRejectedEmail,
+  ResetPasswordEmail,
+} from "@/components/eer/emails";
 
 /* ------------------------------------------------------------------ */
 /* Design token data                                                   */
@@ -150,9 +209,12 @@ const sections = [
   { id: "foundations", label: "Foundations" },
   { id: "mobile-components", label: "Mobile" },
   { id: "forms", label: "Forms" },
+  { id: "quality", label: "Quality" },
   { id: "screens", label: "User screens" },
   { id: "driver-screens", label: "Driver" },
+  { id: "system", label: "System" },
   { id: "admin", label: "Admin" },
+  { id: "emails", label: "Emails" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -566,6 +628,92 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
   );
 }
 
+/**
+ * Interactive demo for the DetailDrawer — opens on click so the showcase
+ * visitor can preview the slide-over without permanently overlaying the page.
+ */
+function DrawerDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="space-y-3">
+      <Button onClick={() => setOpen(true)}>Open ride detail</Button>
+      <p className="text-xs text-muted-foreground">
+        Click to preview the slide-over drawer with ride details, driver
+        info and fare breakdown.
+      </p>
+      <DetailDrawer
+        open={open}
+        onOpenChange={setOpen}
+        title="Ride EER-2491"
+        description="Logan Airport → Back Bay"
+        footer={
+          <>
+            <Button variant="outline" className="flex-1">
+              Cancel ride
+            </Button>
+            <Button className="flex-1">Assign driver</Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Status</span>
+              <StatusBadge tone="cyan" dot>
+                Scheduled
+              </StatusBadge>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Pickup</span>
+              <span className="text-right font-medium text-foreground">
+                Logan Airport, Terminal C
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Drop-off</span>
+              <span className="text-right font-medium text-foreground">
+                Back Bay, 200 Dartmouth St
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">When</span>
+              <span className="font-medium text-foreground">
+                Today · 4:30 PM
+              </span>
+            </div>
+          </div>
+          <div className="rounded-xl border border-border bg-background p-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Driver
+            </p>
+            <div className="mt-2 flex items-center gap-3">
+              <span className="flex size-10 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
+                MR
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-medium text-foreground">
+                  Marcus Reed
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Tesla Model 3 · Black · EAG-4821
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between rounded-xl bg-muted px-4 py-3">
+            <span className="text-sm text-muted-foreground">
+              Estimated fare
+            </span>
+            <span className="text-lg font-semibold text-foreground">
+              $28.45
+            </span>
+          </div>
+        </div>
+      </DetailDrawer>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
@@ -630,11 +778,21 @@ export default function Page() {
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 pt-4">
-            <StatusBadge tone="muted">13 base components</StatusBadge>
-            <StatusBadge tone="muted">10 form components</StatusBadge>
-            <StatusBadge tone="muted">14 user screens</StatusBadge>
-            <StatusBadge tone="muted">5 driver screens</StatusBadge>
-            <StatusBadge tone="muted">20 admin components</StatusBadge>
+            <StatusBadge tone="muted">15 base components</StatusBadge>
+            <StatusBadge tone="muted">11 form components</StatusBadge>
+            <StatusBadge tone="muted">19 user screens</StatusBadge>
+            <StatusBadge tone="muted">8 driver screens</StatusBadge>
+            <StatusBadge tone="muted">3 system pages</StatusBadge>
+            <StatusBadge tone="muted">37 admin components</StatusBadge>
+            <StatusBadge tone="muted">10 email templates</StatusBadge>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4">
+            <FileText className="size-5 shrink-0 text-primary" aria-hidden />
+            <p className="flex-1 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">Documentation:</span>{" "}
+              read <code className="rounded bg-muted px-1.5 py-0.5 text-xs">THEME.md</code> to rebrand the whole kit by editing one file, and{" "}
+              <code className="rounded bg-muted px-1.5 py-0.5 text-xs">COMPONENTS.md</code> for the full component reference with a map to every real eagleeyerides page.
+            </p>
           </div>
         </div>
 
@@ -954,6 +1112,96 @@ export default function Page() {
         </Block>
 
         {/* ============================================================ */}
+        {/* QUALITY                                                      */}
+        {/* ============================================================ */}
+        <Block
+          id="quality"
+          title="Quality patterns"
+          description="Loading skeletons, inline alerts, detail drawers, form validation and toasts — the production-ready layer."
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Panel className="space-y-4">
+              <SectionLabel>Content skeletons</SectionLabel>
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                <CardSkeleton />
+                <StatCardSkeleton />
+                <RideOptionSkeleton />
+                <DriverCardSkeleton />
+              </div>
+              <SectionLabel className="pt-2">Table skeleton</SectionLabel>
+              <TableSkeleton />
+            </Panel>
+
+            <Panel className="space-y-4">
+              <SectionLabel>Screen skeleton</SectionLabel>
+              <PhoneFrame label="Loading">
+                <ScreenSkeleton />
+              </PhoneFrame>
+            </Panel>
+          </div>
+
+          <Panel className="space-y-3">
+            <SectionLabel>Inline alerts</SectionLabel>
+            <EerAlert
+              variant="info"
+              title="Notifications are off"
+              description="Enable them to receive new ride alerts."
+            />
+            <EerAlert
+              variant="success"
+              title="Payment received"
+              description="$28.45 was charged to your Visa ending 4242."
+            />
+            <EerAlert
+              variant="warning"
+              title="High demand in your area"
+              description="Surge pricing is in effect — fares are 1.4× higher."
+            />
+            <EerAlert
+              variant="danger"
+              title="Payment failed"
+              description="Your card was declined. Update your payment method."
+            />
+            <EerAlert
+              variant="brand"
+              title="Welcome to Eagle Eye Rides"
+              description="Complete your profile to get your first ride free."
+            />
+          </Panel>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Panel className="space-y-4">
+              <SectionLabel>Form field validation</SectionLabel>
+              <FormField
+                label="Email"
+                htmlFor="q-email"
+                error="Enter a valid email"
+                required
+              >
+                <Input id="q-email" defaultValue="not-an-email" />
+              </FormField>
+              <FormField
+                label="Phone"
+                htmlFor="q-phone"
+                description="We'll send a verification code."
+              >
+                <Input id="q-phone" defaultValue="+1 (617) 555-0142" />
+              </FormField>
+            </Panel>
+
+            <Panel>
+              <SectionLabel className="mb-4">Toasts</SectionLabel>
+              <EerToastDemo />
+            </Panel>
+          </div>
+
+          <Panel>
+            <SectionLabel className="mb-4">Detail drawer (ride)</SectionLabel>
+            <DrawerDemo />
+          </Panel>
+        </Block>
+
+        {/* ============================================================ */}
         {/* MOBILE SCREENS                                               */}
         {/* ============================================================ */}
         <Block
@@ -1004,6 +1252,21 @@ export default function Page() {
             <PhoneFrame label="Tips history">
               <TipsHistoryScreen />
             </PhoneFrame>
+            <PhoneFrame label="Settings">
+              <SettingsScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Checkout">
+              <PaymentCheckoutScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Forgot password">
+              <ForgotPasswordScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Reset password">
+              <ResetPasswordScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Profile lock">
+              <ProfileLockScreen />
+            </PhoneFrame>
           </div>
         </Block>
 
@@ -1030,6 +1293,42 @@ export default function Page() {
             </PhoneFrame>
             <PhoneFrame label="Driver earnings">
               <DriverEarningsScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Driver sign in">
+              <DriverSigninScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Driver sign up">
+              <DriverSignupScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Driver tips">
+              <DriverTipsReportScreen />
+            </PhoneFrame>
+          </div>
+        </Block>
+
+        {/* ============================================================ */}
+        {/* SYSTEM                                                       */}
+        {/* ============================================================ */}
+        <Block
+          id="system"
+          title="System pages"
+          description="Error pages, maintenance and pricing — for when things go wrong or onboarding."
+        >
+          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+            <PhoneFrame label="404">
+              <ErrorScreen code={404} inFrame />
+            </PhoneFrame>
+            <PhoneFrame label="500">
+              <ErrorScreen code={500} inFrame />
+            </PhoneFrame>
+            <PhoneFrame label="Maintenance">
+              <MaintenanceScreen inFrame />
+            </PhoneFrame>
+            <PhoneFrame label="403">
+              <ErrorScreen code={403} inFrame />
+            </PhoneFrame>
+            <PhoneFrame label="Pricing">
+              <PricingScreen />
             </PhoneFrame>
           </div>
         </Block>
@@ -1197,6 +1496,73 @@ export default function Page() {
                     <DriverEarningsConfig />
                   </div>
 
+                  {/* Users & payments */}
+                  <div className="space-y-3">
+                    <SectionLabel>Users & payments</SectionLabel>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                      <UsersTable />
+                      <PaymentsTable />
+                    </div>
+                  </div>
+
+                  {/* Cancellations */}
+                  <div className="space-y-3">
+                    <SectionLabel>Cancellations</SectionLabel>
+                    <div className="grid gap-6 lg:grid-cols-2">
+                      <CancellationsTable />
+                      <CancellationPolicyEditor />
+                    </div>
+                  </div>
+
+                  {/* Ratings & tips */}
+                  <div className="space-y-3">
+                    <SectionLabel>Ratings & tips</SectionLabel>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                      <RatingsTable />
+                      <TipsReportCard />
+                    </div>
+                  </div>
+
+                  {/* Reassignment logs */}
+                  <div className="space-y-3">
+                    <SectionLabel>Reassignment logs</SectionLabel>
+                    <ReassignmentLogsTable />
+                  </div>
+
+                  {/* Edit forms */}
+                  <div className="space-y-3">
+                    <SectionLabel>Edit forms</SectionLabel>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                      <UserEditForm />
+                      <DriverEditForm />
+                    </div>
+                  </div>
+
+                  {/* Drivers available map */}
+                  <div className="space-y-3">
+                    <SectionLabel>Drivers available map</SectionLabel>
+                    <DriversAvailableMap />
+                  </div>
+
+                  {/* Advertisements CRUD */}
+                  <div className="space-y-3">
+                    <SectionLabel>Advertisements CRUD</SectionLabel>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                      <AdCreateForm />
+                      <AdEditForm />
+                    </div>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                      <AdDetailCard />
+                      <AdStatisticsCard />
+                    </div>
+                  </div>
+
+                  {/* Packages */}
+                  <div className="space-y-3">
+                    <SectionLabel>Packages</SectionLabel>
+                    <PackagesAdminTable />
+                  </div>
+
                   {/* Config sample */}
                   <div className="space-y-3">
                     <SectionLabel>Settings sample</SectionLabel>
@@ -1234,6 +1600,130 @@ export default function Page() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Admin auth screens */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-border">
+              <AdminSigninScreen />
+            </div>
+            <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-border">
+              <AdminSignupScreen />
+            </div>
+          </div>
+        </Block>
+
+        {/* ============================================================ */}
+        {/* EMAILS                                                       */}
+        {/* ============================================================ */}
+        <Block
+          id="emails"
+          title="Email templates"
+          description="Transactional emails for bookings, payments, drivers, withdrawals and password resets."
+        >
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <EmailFrame subject="Your ride is confirmed">
+              <BookingConfirmationEmail
+                riderName="Olivia Bennett"
+                bookingId="EER-2491"
+                pickup="Logan Airport"
+                destination="Back Bay"
+                dateTime="Today · 4:30 PM"
+                vehicle="Black"
+                driverName="Marcus Reed"
+                rating={4.9}
+                plate="EAG-4821"
+                fare="$28.45"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Your ride was cancelled">
+              <BookingCancelledEmail
+                riderName="Daniel Cho"
+                bookingId="EER-2488"
+                reason="No driver available"
+                refundAmount="$0.00"
+                refundMethod="Original payment method"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Payment receipt #RC-9921">
+              <PaymentReceiptEmail
+                riderName="Olivia Bennett"
+                receiptId="RC-9921"
+                rideSummary="Logan Airport → Back Bay"
+                items={[
+                  { label: "Base fare", amount: "$30.00" },
+                  { label: "Distance", amount: "$13.14" },
+                  { label: "Tip", amount: "$5.00" },
+                ]}
+                total="$48.14"
+                paymentMethod="Visa •••• 4242"
+                date="Today · 4:32 PM"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Your driver is on the way">
+              <DriverAssignedNotificationEmail
+                riderName="Olivia Bennett"
+                driverName="Marcus Reed"
+                rating={4.9}
+                vehicle="Tesla Model 3 · Black"
+                plate="EAG-4821"
+                eta="4 min"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="New ride assigned">
+              <DriverAssignedPassengerEmail
+                driverName="Marcus Reed"
+                riderName="Olivia Bennett"
+                pickup="Logan Airport, Terminal C"
+                destination="Back Bay, 200 Dartmouth St"
+                fare="$28.45"
+                distance="4.2 mi"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Driver assignment alert">
+              <AdminDriverAssignmentEmail
+                rideId="EER-2491"
+                rider="Olivia Bennett"
+                driver="Marcus Reed"
+                assignmentType="auto"
+                timestamp="Today · 4:28 PM"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Withdrawal request for review">
+              <AdminWithdrawalRequestEmail
+                driverName="Marcus Reed"
+                amount="$820.00"
+                method="Bank transfer"
+                requestedDate="Today · 4:02 PM"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Your withdrawal was approved">
+              <WithdrawalApprovedEmail
+                driverName="Sofia Alvarez"
+                amount="$540.00"
+                method="PayPal"
+                processedDate="Today · 1:30 PM"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Update on your withdrawal request">
+              <WithdrawalRejectedEmail
+                driverName="James Okafor"
+                amount="$210.00"
+                reason="Minimum withdrawal amount is $50.00"
+              />
+            </EmailFrame>
+
+            <EmailFrame subject="Reset your Eagle Eye Rides password">
+              <ResetPasswordEmail userName="Olivia" resetUrl="#" />
+            </EmailFrame>
           </div>
         </Block>
       </main>
