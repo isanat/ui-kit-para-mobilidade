@@ -92,7 +92,7 @@ export function PointsScreen() {
             <div className="space-y-1">
               <p className="text-sm text-white/80">Your balance</p>
               <p className="text-4xl font-semibold tracking-tight text-white">
-                {TOTAL_POINTS.toLocaleString()}{" "}
+                {TOTAL_POINTS.toLocaleString("en-US")}{" "}
                 <span className="text-lg font-medium text-white/80">pts</span>
               </p>
             </div>

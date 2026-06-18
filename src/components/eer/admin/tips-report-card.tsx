@@ -179,7 +179,7 @@ export function TipsReportCard({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <StatTile
             label="Total tips"
-            value={`$${totalTips.toLocaleString()}`}
+            value={`$${totalTips.toLocaleString("en-US")}`}
             hint="Across all completed rides"
             icon={HandCoins}
             accent="bg-gold/20 text-gold"
@@ -246,7 +246,7 @@ export function TipsReportCard({
                     indicator="dot"
                     formatter={(value) => (
                       <span className="font-mono font-medium text-foreground tabular-nums">
-                        ${Number(value).toLocaleString()}
+                        ${Number(value).toLocaleString("en-US")}
                       </span>
                     )}
                   />

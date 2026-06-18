@@ -114,7 +114,7 @@ function formatNumber(n: number) {
 }
 
 function formatCurrency(n: number) {
-  return `$${n.toLocaleString(undefined, {
+  return `$${n.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
@@ -314,7 +314,7 @@ export function AdStatisticsCard({
                     indicator="dot"
                     formatter={(value, name) => (
                       <span className="font-mono font-medium text-foreground tabular-nums">
-                        {Number(value).toLocaleString()}{" "}
+                        {Number(value).toLocaleString("en-US")}{" "}
                         <span className="text-muted-foreground">{name}</span>
                       </span>
                     )}
@@ -418,10 +418,10 @@ export function AdStatisticsCard({
                       </div>
                     </TableCell>
                     <TableCell className="px-4 text-right font-mono text-sm font-medium text-foreground tabular-nums">
-                      {row.impressions.toLocaleString()}
+                      {row.impressions.toLocaleString("en-US")}
                     </TableCell>
                     <TableCell className="px-4 text-right font-mono text-sm text-muted-foreground tabular-nums">
-                      {row.clicks.toLocaleString()}
+                      {row.clicks.toLocaleString("en-US")}
                     </TableCell>
                     <TableCell className="px-4 text-right">
                       <Badge

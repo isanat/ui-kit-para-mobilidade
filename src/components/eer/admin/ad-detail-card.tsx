@@ -278,7 +278,7 @@ export function AdDetailCard({
                     indicator="dot"
                     formatter={(value) => (
                       <span className="font-mono font-medium text-foreground tabular-nums">
-                        {Number(value).toLocaleString()}
+                        {Number(value).toLocaleString("en-US")}
                       </span>
                     )}
                   />

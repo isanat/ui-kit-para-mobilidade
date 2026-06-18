@@ -173,7 +173,7 @@ export function DriversTable({
                   </StatusBadge>
                 </TableCell>
                 <TableCell className="font-mono text-foreground tabular-nums">
-                  {driver.totalRides.toLocaleString()}
+                  {driver.totalRides.toLocaleString("en-US")}
                 </TableCell>
                 <TableCell className="font-mono font-medium text-foreground tabular-nums">
                   {driver.earnings}

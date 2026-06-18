@@ -232,7 +232,7 @@ export function UsersTable({
                   {user.joined}
                 </TableCell>
                 <TableCell className="font-mono text-foreground tabular-nums">
-                  {user.totalRides.toLocaleString()}
+                  {user.totalRides.toLocaleString("en-US")}
                 </TableCell>
                 <TableCell className="font-mono font-medium text-foreground tabular-nums">
                   {user.totalSpent}

@@ -106,7 +106,7 @@ export function EarningsChart({
                   indicator="dot"
                   formatter={(value) => (
                     <span className="font-mono font-medium tabular-nums text-foreground">
-                      ${Number(value).toLocaleString()}
+                      ${Number(value).toLocaleString("en-US")}
                     </span>
                   )}
                 />
