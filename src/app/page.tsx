@@ -39,6 +39,16 @@ import { ProfileScreen } from "@/components/eer/screens/profile-screen";
 import { WalletScreen } from "@/components/eer/screens/wallet-screen";
 import { RideHistoryScreen } from "@/components/eer/screens/ride-history-screen";
 import { DirectionsScreen } from "@/components/eer/screens/directions-screen";
+import { PointsScreen } from "@/components/eer/screens/points-screen";
+import { ReferralsScreen } from "@/components/eer/screens/referrals-screen";
+import { TipsHistoryScreen } from "@/components/eer/screens/tips-history-screen";
+import { MapViewScreen } from "@/components/eer/screens/map-view-screen";
+
+import { DriverHomeScreen } from "@/components/eer/screens/driver/driver-home-screen";
+import { DriverChauffeurScheduleScreen } from "@/components/eer/screens/driver/driver-chauffeur-schedule-screen";
+import { DriverPackagesScreen } from "@/components/eer/screens/driver/driver-packages-screen";
+import { DriverMapScreen } from "@/components/eer/screens/driver/driver-map-screen";
+import { DriverEarningsScreen } from "@/components/eer/screens/driver/driver-earnings-screen";
 
 import {
   AddressInput,
@@ -83,6 +93,23 @@ import {
   type VehicleRow,
 } from "@/components/eer/admin/fleet-vehicle-card";
 import { PageHeader } from "@/components/eer/admin/page-header";
+import { DispatchConfigCard } from "@/components/eer/admin/dispatch-config-card";
+import { SurgePricingCard } from "@/components/eer/admin/surge-pricing-card";
+import {
+  CouponsTable,
+  type CouponRow,
+} from "@/components/eer/admin/coupons-table";
+import { SosAlertCard, type SosAlert } from "@/components/eer/admin/sos-alert-card";
+import { SafetyOverview } from "@/components/eer/admin/safety-overview";
+import {
+  DocumentVerificationRow,
+  type DocumentDriver,
+} from "@/components/eer/admin/document-verification-row";
+import {
+  ChauffeurBookingsTable,
+  type ChauffeurBooking,
+} from "@/components/eer/admin/chauffeur-bookings-table";
+import { DriverEarningsConfig } from "@/components/eer/admin/driver-earnings-config";
 
 /* ------------------------------------------------------------------ */
 /* Design token data                                                   */
@@ -123,7 +150,8 @@ const sections = [
   { id: "foundations", label: "Foundations" },
   { id: "mobile-components", label: "Mobile" },
   { id: "forms", label: "Forms" },
-  { id: "screens", label: "Screens" },
+  { id: "screens", label: "User screens" },
+  { id: "driver-screens", label: "Driver" },
   { id: "admin", label: "Admin" },
 ];
 
@@ -348,6 +376,156 @@ const sampleVehicles: VehicleRow[] = [
   },
 ];
 
+const sampleCoupons: CouponRow[] = [
+  {
+    id: "CP-1",
+    code: "RIDE20",
+    type: "percentage",
+    value: "20%",
+    used: 142,
+    limit: 500,
+    status: "Active",
+    isActive: true,
+  },
+  {
+    id: "CP-2",
+    code: "EAGLE50",
+    type: "fixed",
+    value: "$10",
+    used: 410,
+    limit: 500,
+    status: "Active",
+    isActive: true,
+  },
+  {
+    id: "CP-3",
+    code: "SPRING15",
+    type: "percentage",
+    value: "15%",
+    used: 320,
+    limit: 320,
+    status: "Used Up",
+    isActive: false,
+  },
+  {
+    id: "CP-4",
+    code: "LOGAN10",
+    type: "fixed",
+    value: "$5",
+    used: 88,
+    limit: 200,
+    status: "Expired",
+    isActive: false,
+  },
+];
+
+const sampleSosAlerts: SosAlert[] = [
+  {
+    id: "SOS-1042",
+    rider: "Olivia Bennett",
+    driver: "Marcus Reed",
+    rideId: "EER-2491",
+    triggeredAt: "2 min ago",
+    location: "Back Bay, Dartmouth St",
+    status: "active",
+  },
+  {
+    id: "SOS-1041",
+    rider: "Daniel Cho",
+    driver: "Sofia Alvarez",
+    rideId: "EER-2487",
+    triggeredAt: "18 min ago",
+    location: "Seaport Blvd",
+    status: "resolved",
+  },
+];
+
+const sampleDocumentDrivers: DocumentDriver[] = [
+  {
+    id: "DRV-04",
+    name: "Liam Chen",
+    initials: "LC",
+    documentVerificationStatus: "pending",
+    fileCount: 3,
+    documents: [
+      { type: "License", status: "valid" },
+      { type: "Insurance", status: "valid" },
+      { type: "Registration", status: "missing" },
+    ],
+  },
+  {
+    id: "DRV-05",
+    name: "Aisha Khan",
+    initials: "AK",
+    documentVerificationStatus: "verified",
+    fileCount: 4,
+    documents: [
+      { type: "License", status: "valid" },
+      { type: "Insurance", status: "valid" },
+      { type: "Registration", status: "valid" },
+      { type: "Background check", status: "valid" },
+    ],
+  },
+  {
+    id: "DRV-06",
+    name: "Noah Patel",
+    initials: "NP",
+    documentVerificationStatus: "rejected",
+    fileCount: 2,
+    documents: [
+      { type: "License", status: "expired" },
+      { type: "Insurance", status: "valid" },
+    ],
+  },
+];
+
+const sampleChauffeurBookings: ChauffeurBooking[] = [
+  {
+    id: "CHF-201",
+    customer: "Olivia Bennett",
+    chauffeur: "Marcus Reed",
+    tier: "Luxury",
+    date: "Today",
+    time: "6:00 PM",
+    durationHours: 4,
+    totalFare: "$320.00",
+    status: "Scheduled",
+  },
+  {
+    id: "CHF-200",
+    customer: "Daniel Cho",
+    chauffeur: null,
+    tier: "Business",
+    date: "Today",
+    time: "8:30 PM",
+    durationHours: 2,
+    totalFare: "$140.00",
+    status: "Scheduled",
+  },
+  {
+    id: "CHF-199",
+    customer: "Priya Shah",
+    chauffeur: "Sofia Alvarez",
+    tier: "First",
+    date: "Today",
+    time: "2:10 PM",
+    durationHours: 6,
+    totalFare: "$510.00",
+    status: "In Progress",
+  },
+  {
+    id: "CHF-198",
+    customer: "Liam Walsh",
+    chauffeur: "James Okafor",
+    tier: "Luxury",
+    date: "Yesterday",
+    time: "9:00 PM",
+    durationHours: 3,
+    totalFare: "$270.00",
+    status: "Completed",
+  },
+];
+
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
@@ -452,10 +630,11 @@ export default function Page() {
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 pt-4">
-            <StatusBadge tone="muted">12 base components</StatusBadge>
+            <StatusBadge tone="muted">13 base components</StatusBadge>
             <StatusBadge tone="muted">10 form components</StatusBadge>
-            <StatusBadge tone="muted">10 mobile screens</StatusBadge>
-            <StatusBadge tone="muted">12 admin components</StatusBadge>
+            <StatusBadge tone="muted">14 user screens</StatusBadge>
+            <StatusBadge tone="muted">5 driver screens</StatusBadge>
+            <StatusBadge tone="muted">20 admin components</StatusBadge>
           </div>
         </div>
 
@@ -779,8 +958,8 @@ export default function Page() {
         {/* ============================================================ */}
         <Block
           id="screens"
-          title="App screens"
-          description="The components assembled into the real Eagle Eye Rides app screens — the full rider journey."
+          title="User app screens"
+          description="The components assembled into the real Eagle Eye Rides rider app — the full user journey, including loyalty, referrals and live map."
         >
           <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
             <PhoneFrame label="Home">
@@ -791,6 +970,9 @@ export default function Page() {
             </PhoneFrame>
             <PhoneFrame label="Live tracking">
               <TrackingScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Live map">
+              <MapViewScreen />
             </PhoneFrame>
             <PhoneFrame label="Chauffeur service">
               <ChauffeurScreen />
@@ -812,6 +994,42 @@ export default function Page() {
             </PhoneFrame>
             <PhoneFrame label="Ride history">
               <RideHistoryScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Loyalty points">
+              <PointsScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Refer & earn">
+              <ReferralsScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Tips history">
+              <TipsHistoryScreen />
+            </PhoneFrame>
+          </div>
+        </Block>
+
+        {/* ============================================================ */}
+        {/* DRIVER SCREENS                                               */}
+        {/* ============================================================ */}
+        <Block
+          id="driver-screens"
+          title="Driver app screens"
+          description="The separate driver-facing app: go online, accept chauffeur & package jobs, navigate, and track earnings."
+        >
+          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+            <PhoneFrame label="Driver home">
+              <DriverHomeScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Chauffeur schedule">
+              <DriverChauffeurScheduleScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Package queue">
+              <DriverPackagesScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Driver navigation">
+              <DriverMapScreen />
+            </PhoneFrame>
+            <PhoneFrame label="Driver earnings">
+              <DriverEarningsScreen />
             </PhoneFrame>
           </div>
         </Block>
@@ -935,6 +1153,48 @@ export default function Page() {
                         <WithdrawalRow key={w.id} withdrawal={w} />
                       ))}
                     </div>
+                  </div>
+
+                  {/* Operations: dispatch + surge */}
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <DispatchConfigCard />
+                    <SurgePricingCard />
+                  </div>
+
+                  {/* Coupons + chauffeur bookings */}
+                  <div className="grid gap-6 xl:grid-cols-2">
+                    <CouponsTable coupons={sampleCoupons} />
+                    <ChauffeurBookingsTable bookings={sampleChauffeurBookings} />
+                  </div>
+
+                  {/* Safety overview + SOS alerts */}
+                  <div className="grid gap-6 lg:grid-cols-3">
+                    <div className="lg:col-span-1">
+                      <SafetyOverview recentAlerts={sampleSosAlerts} />
+                    </div>
+                    <div className="space-y-3 lg:col-span-2">
+                      <SectionLabel>SOS alerts</SectionLabel>
+                      <div className="space-y-3">
+                        {sampleSosAlerts.map((a) => (
+                          <SosAlertCard key={a.id} alert={a} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Document verification */}
+                  <div className="space-y-3">
+                    <SectionLabel>Driver document verification</SectionLabel>
+                    <div className="space-y-2">
+                      {sampleDocumentDrivers.map((d) => (
+                        <DocumentVerificationRow key={d.id} driver={d} />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Driver earnings config */}
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <DriverEarningsConfig />
                   </div>
 
                   {/* Config sample */}
