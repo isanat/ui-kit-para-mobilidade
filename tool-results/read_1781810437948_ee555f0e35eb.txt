@@ -1,0 +1,253 @@
+     1→     1→# Eagle Eye Rides — UI Kit Worklog
+     2→     2→
+     3→     3→This worklog tracks the construction of the Eagle Eye Rides UI Kit.
+     4→     4→The UI kit is based on the design system from
+     5→     5→`github.com/isanat/ui-kit-para-mobilidade` (branch `v0/isanat-cd9bd9c5`)
+     6→     6→and is being expanded to cover the full EagleEyeRides system
+     7→     7→(home, reservation, chauffeur service, directions, auth, admin).
+     8→     8→
+     9→     9→---
+    10→    10→Task ID: 1
+    11→    11→Agent: main (orchestrator)
+    12→    12→Task: Examine both repositories and the live eagleeyerides.com system, then lay the design-system foundation.
+    13→    13→
+    14→    14→Work Log:
+    15→    15→- Cloned `ui-kit-para-mobilidade` (branch v0/isanat-cd9bd9c5) to /tmp/ui-kit-tmp.
+    16→    16→- eagleeyerides GitHub repo is private (404); examined the live PWA at https://eagleeyerides.com instead.
+    17→    17→- Discovered routes via sitemap.xml: `/`, `/reservation`, `/chauffeur-service`, `/directions`, `/auth/login/{user,driver}`, `/auth/signup/{user,driver}`.
+    18→    18→- Discovered system config via `/api/global-data`: services = One-Way (Comfort + Black SUV), Chauffeur Service, Package Delivery, Advertisement; plus fares, payments (Square), maps (Google), driver earnings %, cancellation policy, withdrawals.
+    19→    19→- Ported the OKLCH color token system (brand/cyan/amber/magenta/gold/success accents) into `src/app/globals.css`.
+    20→    20→- Updated `src/app/layout.tsx` with EER metadata, ThemeProvider (default dark), icon set.
+    21→    21→- Copied eagle logo assets into `public/`.
+    22→    22→- Created base EER components in `src/components/eer/`:
+    23→    23→  - accents.ts (shared Accent/Tone maps)
+    24→    24→  - logo.tsx, theme-toggle.tsx, section-label.tsx, status-badge.tsx, empty-state.tsx, phone-frame.tsx
+    25→    25→  - app-header.tsx, bottom-nav.tsx, where-to-bar.tsx, service-card.tsx, ride-option.tsx, driver-card.tsx
+    26→    26→
+    27→    27→Stage Summary:
+    28→    28→- Design tokens (light/dark) + brand accents fully wired into Tailwind theme.
+    29→    29→- 12 base components ready as building blocks for screens, forms and admin.
+    30→    30→- The project uses shadcn/ui "new-york" style (@radix-ui primitives) — NOT @base-ui/react. All new components MUST use the existing `@/components/ui/*` primitives and `cn()` from `@/lib/utils`.
+    31→    31→- Logo assets available at `/eagle-logo-light.png`, `/eagle-logo-dark.png`, `/eagle-logo.png`, `/eagle-icon.svg`.
+    32→    32→- Default theme is DARK (matches the UI kit's primary look).
+    33→    33→
+    34→    34→---
+    35→    35→Task ID: 6
+    36→    36→Agent: mobile-screens-builder
+    37→    37→Task: Build EER mobile app screens
+    38→    38→
+    39→    39→Work Log:
+    40→    40→- Read worklog, existing EER base components, design tokens in globals.css, and the 3 reference screens in /tmp/ui-kit-tmp/components/eer/screens/.
+    41→    41→- Ported home-screen.tsx, reserve-screen.tsx (added "use client"), tracking-screen.tsx from the original UI kit, adapting imports to @/components/eer/* and @/components/ui/button. Reserve/tracking BottomNav wired with the correct active tab.
+    42→    42→- Built chauffeur-screen.tsx ("use client"): back header, pickup card, date/time picker cards, 4-option hours selector (2h/4h/8h/Full day) with prices, 3-tier vehicle selector (Business/First Class/Luxury SUV) with crown/briefcase/car icons, total + "Reserve chauffeur" button, BottomNav active="Chauffeur".
+    43→    43→- Built package-screen.tsx ("use client"): back header, pickup/dropoff address inputs with CircleDot/MapPin icons, package details card with item-type chip grid (Documents/Small/Medium/Large) using amber accent, weight input, optional photo button, delivery options (Standard/Express/Same-day) as RideOption rows, "Book delivery" button, BottomNav active="Packages".
+    44→    44→- Built auth-screen.tsx ("use client"): centered logo + welcome headline, custom segmented Role toggle (User/Driver), custom segmented Mode toggle (Login/Sign up), login form with email/password (eye toggle) + forgot link + Log in + Google/Apple outline buttons with custom Google SVG icon, signup form with name/email/phone/password, driver-signup-only license + vehicle plate card, Terms footer at bottom. State drives which form renders.
+    45→    45→- Built profile-screen.tsx: AppHeader (no search), avatar+name+email+edit card with gold-member rating, 3-card stats row (Rides/Spent/Rating), card-grouped menu list (Payment methods, Saved places, Ride history, Promotions, Wallet, Settings, Help) with accent-tinted icons + ChevronRight, destructive-outline Logout button, BottomNav active="Account".
+    46→    46→- Built wallet-screen.tsx: back header "Wallet", gradient primary balance card with Add funds/Withdraw buttons + status badge, 2-col quick stats (This week earnings, Pending payouts), transactions list as card-grouped rows with arrow-up-left/arrow-down-right icons colored success/destructive, EmptyState fallback, BottomNav active="Account".
+    47→    47→- Built ride-history-screen.tsx ("use client"): back header "Your rides", filter chips (All/Completed/Cancelled) that actually filter the list, ride cards showing route (pickup pin → dashed line → destination pin), date/time, status badge (success/muted), driver avatar+name+rating, fare + Rebook button, scrollable list, BottomNav active="Account".
+    48→    48→- Built directions-screen.tsx: back header "Directions", WhereToBar-style search card, 2-col saved places quick-access, recent destinations card-grouped list, route preview card with pickup/destination pins + dashed connector and 3-col ETA/Distance/Fare grid, "Start navigation" primary button, BottomNav active="Home".
+    49→    49→- Verified all 10 screens: `npx tsc --noEmit` reports zero errors in src/components/eer/screens and `npx eslint src/components/eer/screens --max-warnings=0` passes clean.
+    50→    50→
+    51→    51→Stage Summary:
+    52→    52→- Files created (10) in src/components/eer/screens/: home-screen.tsx, reserve-screen.tsx, tracking-screen.tsx, chauffeur-screen.tsx, package-screen.tsx, auth-screen.tsx, profile-screen.tsx, wallet-screen.tsx, ride-history-screen.tsx, directions-screen.tsx.
+    53→    53→- 3 ports (home/reserve/tracking) + 7 new screens covering the full Eagle Eye Rides mobile surface (booking, chauffeur hourly, package delivery, auth with role+mode, profile, wallet/earnings, ride history with filters, directions).
+    54→    54→- Brand accent system applied consistently: Reserve=cyan, Packages=amber, Ads=magenta, Tow Truck=gold, Chauffeur=primary, Success=success. Reused existing EER primitives (AppHeader, BottomNav, ServiceCard, RideOption, StatusBadge, SectionLabel, DriverCard, EmptyState, WhereToBar) plus shadcn Button/Input.
+    55→    55→- "use client" added only where state is required (reserve, chauffeur, package, auth, ride-history). Home/tracking/profile/wallet/directions remain server components.
+    56→    56→- All screens are 380px PhoneFrame-ready (`flex h-full flex-col bg-background`), with consistent back-header pattern, sticky BottomNav (active prop wired), and dark-theme-first surfaces using bg-card/border-border/text-* tokens.
+    57→    57→- TypeScript strict + ESLint clean.
+    58→    58→
+    59→    59→---
+    60→    60→Task ID: 8
+    61→    61→Agent: admin-components-builder
+    62→    62→Task: Build EER admin/web dashboard components
+    63→    63→
+    64→    64→Work Log:
+    65→    65→- Read existing foundation: globals.css (OKLCH tokens + sidebar tokens), accents.ts (Accent/Tone + accentSoft/accentSolid), status-badge.tsx, logo.tsx, shadcn/ui primitives (card, table, chart, button, input, avatar, switch, badge, scroll-area, dropdown-menu, separator).
+    66→    66→- Verified available shadcn chart wrapper exports `ChartContainer`, `ChartTooltip`, `ChartTooltipContent`, `ChartConfig`; `recharts` 2.15 + `lucide-react` 0.525 installed.
+    67→    67→- Created `/src/components/eer/admin/` directory and 12 components:
+    68→    68→  1. `admin-sidebar.tsx` — "use client" vertical sidebar (w-64, full height, scrollable). Logo header + grouped nav (Overview / Operations / Finance / Content / System) with 12 items, active state via `bg-sidebar-accent` + primary left indicator. Exports `adminNavItems` + `AdminNavItem` type. Controllable (`active`, `onNavigate`) with internal state fallback.
+    69→    69→  2. `admin-topbar.tsx` — "use client" sticky top bar (`bg-background/80 backdrop-blur border-b`). Title + breadcrumb on left, search input (lg+) center, Create button + amber-dot notification bell + theme toggle slot + user avatar with name/role on right. Props: `title`, `breadcrumb?`, `themeToggle?`, `user?`.
+    70→    70→  3. `stat-card.tsx` — KPI card on `Card rounded-2xl p-5`. Label (uppercase tracking), big value, trend row (ArrowUp/DownRight colored success/destructive), accent icon in tinted square top-right via `accentSoft`. Exports `StatCard` + `StatCardData`.
+    71→    71→  4. `earnings-chart.tsx` — "use client" recharts `AreaChart` inside shadcn `ChartContainer` with `ChartConfig` (primary color). Gradient fill under line, CartesianGrid, X axis Mon-Sun, Y axis $k formatter, `ChartTooltip` + `ChartTooltipContent` with $ formatter. Card-wrapped. Props: `data?`, `height?`, `title?`. Default = realistic Boston week earnings.
+    72→    72→  5. `rides-table.tsx` — Card-wrapped shadcn Table of recent rides with header (title + "View all" link). Columns: Ride ID, Rider, Driver, Route (pickup → destination, truncated), Date, Fare, Status via `StatusBadge` (Completed=success, In progress=brand, Cancelled=muted, Scheduled=cyan). Header row uppercase muted, rows `hover:bg-muted/50`. Exports `RideRow`, `RideStatus`, `ridesStatusTone`.
+    73→    73→  6. `drivers-table.tsx` — Card-wrapped Table of drivers. Columns: Driver (avatar + name + star rating with gold fill), Vehicle, Plate (mono), Status (online/offline badge w/ dot), Total rides, Earnings, Actions ("..." ghost button). Exports `DriverRow`. Boston-area sample data.
+    74→    74→  7. `fare-config-card.tsx` — "use client" editable fare config card. Header = service name + accent letter badge + accent word badge + Save button (w/ "Saving…" state). 2-col grid of labeled inputs with `$`/`%` prefix. Local state holds values; `onSave(values)` callback. Props: `serviceName`, `accent`, `fields: FareField[]`, `onSave?`. Exports `FareField`.
+    75→    75→  8. `config-field.tsx` — Reusable labeled settings row. Grid layout: label + description on left, control on right; stacks on mobile. Props: `label`, `description?`, `htmlFor?`, `children`.
+    76→    76→  9. `withdrawal-row.tsx` — List row for a payout request. Driver avatar + name, method icon (Landmark/Wallet), amount (mono), requested date, status badge (Pending=amber dot, Approved=success, Rejected=muted), Approve/Reject buttons when pending. Exports `WithdrawalRow`, `WithdrawalStatus`, `WithdrawalMethod`. Props: `withdrawal`, `onApprove?`, `onReject?`.
+    77→    77→  10. `ad-card.tsx` — "use client" ad management card. Gradient thumbnail with Megaphone icon, placement badge (top-left), status badge (top-right: Active=success, Paused=muted, Scheduled=cyan). Title + advertiser. Stats row (Impressions / Clicks / CTR%). Switch to toggle active state (local state + `onToggle` callback). Exports `AdRow`, `AdStatus`, `AdPlacement`.
+    78→    78→  11. `fleet-vehicle-card.tsx` — Vehicle card. Tier-based gradient header with tier icon (Comfort/Black=Car, Package=Truck, Chauffeur=Crown). Tier badge top-right, plate (mono, glass) + status badge bottom. Body: assigned driver, seats + bags stat tiles. Exports `VehicleRow`, `VehicleTier`, `VehicleStatus`. Tiers map to brand/magenta/amber/gold accents.
+    79→    79→  12. `page-header.tsx` — Reusable admin page header. Large semibold title + muted description on left, actions slot on right. Stacks on mobile. Props: `title`, `description?`, `actions?`.
+    80→    80→- Ran `tsc --noEmit` on the whole project: zero errors in any admin file (only unrelated pre-existing errors in `examples/` and `skills/`).
+    81→    81→
+    82→    82→Stage Summary:
+    83→    83→- Files created (all in `src/components/eer/admin/`): admin-sidebar.tsx, admin-topbar.tsx, stat-card.tsx, earnings-chart.tsx, rides-table.tsx, drivers-table.tsx, fare-config-card.tsx, config-field.tsx, withdrawal-row.tsx, ad-card.tsx, fleet-vehicle-card.tsx, page-header.tsx (12 files).
+    84→    84→- Exported shared types: `AdminNavItem`, `StatCardData`, `EarningsDataPoint`, `RideRow`, `RideStatus`, `ridesStatusTone`, `DriverRow`, `FareField`, `WithdrawalRow`, `WithdrawalStatus`, `WithdrawalMethod`, `AdRow`, `AdStatus`, `AdPlacement`, `VehicleRow`, `VehicleTier`, `VehicleStatus`.
+    85→    85→- Exported data/helpers: `adminNavItems` (12 nav entries grouped Overview/Operations/Finance/Content/System), `ridesStatusTone` map.
+    86→    86→- Design decisions:
+    87→    87→  - Sidebar uses sidebar tokens (`bg-sidebar`, `border-sidebar-border`, `bg-sidebar-accent`) as specified; all other surfaces use `bg-card`/`border-border`/`text-muted-foreground`.
+    88→    88→  - Charts use the shadcn `ChartContainer` + `ChartConfig` pattern with `var(--primary)` so they auto-theme on dark/light.
+    89→    89→  - Accent tinting uses `accentSoft` from `@/components/eer/accents` for consistency with the rest of the EER kit; `StatusBadge` reused for all status chips (rides, drivers, withdrawals, ads, fleet).
+    90→    90→  - Stat cards and tables follow the mandated `rounded-2xl border bg-card` + uppercase muted header rows + `hover:bg-muted/50` row highlighting.
+    91→    91→  - Default sample data is Boston-area (Logan Airport, Kendall Sq, Back Bay, Fenway, etc.) with realistic $ fares and Boston driver names.
+    92→    92→  - Components are desktop-first but responsive (topbar search collapses on small screens, config-field stacks, page-header stacks).
+    93→    93→  - All `"use client"` directives applied where needed (sidebar internal state, topbar is interactive, chart, fare card local state, ad card switch).
+    94→    94→- All 12 admin components compile cleanly under `strict` mode and are ready to be wired into `/admin/*` routes by the next agent.
+    95→    95→
+    96→    96→---
+    97→    97→Task ID: 7
+    98→    98→Agent: form-components-builder
+    99→    99→Task: Build EER reusable form components
+   100→   100→
+   101→   101→Work Log:
+   102→   102→- Read worklog, accents.ts, globals.css and existing EER primitives (ride-option, service-card, where-to-bar, status-badge, section-label, empty-state) to align visual language.
+   103→   103→- Verified available shadcn primitives (Popover, Calendar, Select, RadioGroup, Card, Input, Button, Separator, ScrollArea) and confirmed `@/*` -> `./src/*` path alias.
+   104→   104→- Created `src/components/eer/forms/` with 10 form components + 1 barrel `index.ts`.
+   105→   105→- address-input.tsx: rounded-2xl card row with role-driven icon (pickup=CircleDot primary, destination=MapPin amber, stop=small dot), transparent borderless input, clear (X) button + LocateFixed "use current location" button.
+   106→   106→- date-time-picker.tsx: Now/Schedule toggle pill + two side-by-side cards (Calendar in Popover for date; scrollable half-hour time slot list in Popover for time). Switching to "Now" clears date/time via callbacks.
+   107→   107→- vehicle-selector.tsx: single-select rounded-2xl buttons reusing the RideOption visual pattern, with per-option accent tint, selected check badge, and selected primary border/background.
+   108→   108→- payment-method-selector.tsx: radiogroup-style list with custom filled circle indicator, optional icon tile (selected -> primary solid), and an "Add payment method" dashed row at the bottom.
+   109→   109→- fare-summary.tsx: card with labeled line items, optional success-toned discount row, divider, then large bold Total.
+   110→   110→- booking-summary-card.tsx: vertical pickup->destination route (primary dot top, amber MapPin bottom, dashed connector) + accent-soft service badge + date/time and passenger chips.
+   111→   111→- trip-progress.tsx: numbered circles connected by a line; completed=filled primary w/ Check, current=primary ring, upcoming=muted; connector fills primary as steps complete.
+   112→   112→- promo-code-input.tsx: transparent input + inline Apply button (Enter submits). When applied: success-tinted card showing code, "Applied" badge, saved amount, and remove (X) button.
+   113→   113→- rating-stars.tsx: interactive star rating with hover preview, gold fill for active stars, ARIA radiogroup semantics, optional readonly mode and configurable size.
+   114→   114→- filter-chips.tsx: horizontally scrollable single-select chips (hidden scrollbar) with leading "All" chip; selected chip = primary bg, others = muted.
+   115→   115→- Ran `tsc --noEmit` and `eslint src/components/eer/forms/` — both clean (no errors in the forms directory).
+   116→   116→
+   117→   117→Stage Summary:
+   118→   118→- Files created (11):
+   119→   119→  - src/components/eer/forms/address-input.tsx
+   120→   120→  - src/components/eer/forms/date-time-picker.tsx
+   121→   121→  - src/components/eer/forms/vehicle-selector.tsx
+   122→   122→  - src/components/eer/forms/payment-method-selector.tsx
+   123→   123→  - src/components/eer/forms/fare-summary.tsx
+   124→   124→  - src/components/eer/forms/booking-summary-card.tsx
+   125→   125→  - src/components/eer/forms/trip-progress.tsx
+   126→   126→  - src/components/eer/forms/promo-code-input.tsx
+   127→   127→  - src/components/eer/forms/rating-stars.tsx
+   128→   128→  - src/components/eer/forms/filter-chips.tsx
+   129→   129→  - src/components/eer/forms/index.ts (barrel)
+   130→   130→- Exported types: AddressInputProps, AddressVariant, DateTimePickerProps, VehicleOption, VehicleSelectorProps, PaymentMethod, PaymentMethodSelectorProps, FareSummaryItem, FareSummaryProps, BookingSummaryCardProps, TripProgressProps, AppliedPromo, PromoCodeInputProps, RatingStarsProps, FilterChipsProps.
+   131→   131→- Key decisions:
+   132→   132→  - All client components marked `"use client"`; pure presentational ones (fare-summary, booking-summary-card) left as server-safe.
+   133→   133→  - Single-select lists (vehicle, payment) use button-based `aria-pressed`/`aria-checked` + `role="radio"` for keyboard/AT support rather than raw RadioGroup, to fully control the visual indicator and tile states.
+   134→   134→  - Accent system reused via `accentSoft` from `@/components/eer/accents` for booking-summary-card; vehicle-selector defines a local `accentSoftMap` matching the same tokens (kept local so the public API stays just `VehicleOption`).
+   135→   135→  - Surfaces consistently use `bg-card`, `border-border`, `text-card-foreground`, `text-muted-foreground`; primary/amber/success/gold tokens applied via the brand tokens defined in globals.css.
+   136→   136→  - Rounded corners: cards `rounded-2xl`, chips `rounded-full`, controls `rounded-xl`; padding cards `p-3`/`p-4`, inputs `p-3`.
+   137→   137→  - Components are theme-agnostic (work in light and dark) since they reference only token-based classes.
+   138→   138→- Next consumers can import via `import { AddressInput, VehicleSelector, FareSummary, ... } from "@/components/eer/forms"`.
+   139→   139→
+   140→   140→---
+   141→   141→Task ID: 9
+   142→   142→Agent: main (orchestrator)
+   143→   143→Task: Build the showcase page (`/`) and perform end-to-end verification with Agent Browser.
+   144→   144→
+   145→   145→Work Log:
+   146→   146→- Read all prop signatures from the 3 subagents' components (forms index, admin exports).
+   147→   147→- Wrote `src/app/page.tsx` as a comprehensive showcase: sticky header + section nav, hero, design tokens (colors/typography/icons), foundations (buttons/badges/where-to-bar/empty-state), mobile components, booking forms, 10 mobile screens in PhoneFrames, and a full admin dashboard shell (sidebar + topbar + 4 stat cards + earnings chart + fare config + rides/drivers tables + fleet cards + ad cards + withdrawal rows + settings sample).
+   148→   148→- Marked the page `"use client"` because client components (VehicleSelector, PaymentMethodSelector) receive Lucide icon component refs as props (non-serializable from a server component).
+   149→   149→- Fixed `withdrawal-row.tsx` (was a server component using inline onClick handlers) by adding `"use client"`.
+   150→   150→- Fixed `theme-toggle.tsx` lint error (set-state-in-effect) by switching to a CSS-only `dark:` icon-swap pattern (no mounted state).
+   151→   151→- Lint passes clean (`bun run lint` → no errors).
+   152→   152→- Agent Browser verification:
+   153→   153→  * Page returns HTTP 200, no runtime/console errors.
+   154→   154→  * Dark theme (default) renders correctly across all sections.
+   155→   155→  * Theme toggle switches to light theme correctly.
+   156→   156→  * Admin dashboard shows sidebar + topbar + 4 KPI stat cards + earnings area chart + fare config + rides/drivers tables with status badges.
+   157→   157→  * Mobile screens render inside phone frames.
+   158→   158→  * Footer is sticky at the bottom (no gap, no overlap).
+   159→   159→  * Mobile viewport (390px) is responsive (header stacks, no horizontal overflow, touch targets OK).
+   160→   160→
+   161→   161→Stage Summary:
+   162→   162→- Showcase page live at `/` displaying the entire Eagle Eye Rides UI Kit (46 components across base/forms/screens/admin).
+   163→   163→- All interactions verified end-to-end in the browser.
+   164→   164→- UI kit fully adapted from `ui-kit-para-mobilidade` and expanded to cover the complete EagleEyeRides platform (rider app + admin console).
+   165→   165→
+   166→   166→---
+   167→   167→Task ID: 10
+   168→   168→Agent: real-admin-components-builder
+   169→   169→Task: Build 8 new admin components matching the real eagleeyerides admin pages
+   170→   170→
+   171→   171→Work Log:
+   172→   172→- Read worklog (foundation + Tasks 1/6/7/8/9), the existing 12 admin components, accents.ts, status-badge.tsx, shadcn primitives (Switch/Slider/Progress/Badge/Select/Label/Card/Table), and globals.css to confirm available brand tokens (brand/cyan/amber/magenta/gold/success) + destructive + default Tailwind palette (emerald/teal/orange/red/yellow/zinc) for surge gradients.
+   173→   173→- Built `dispatch-config-card.tsx` ("use client"): master enable Switch with a Live (success-dot) / Paused (muted-dot) status badge in CardAction; 2-col grid of bounded number inputs (Broadcast count 1-10, Offer timeout 5-120s, Max cascade rounds 1-10, Max radius 1-200km) each clamped on change; a tinted "Driver scoring weights" sub-panel with three 0-1 step-0.05 Sliders (Proximity / Rating / Completion rate) each showing a live mono value chip; Save button with saving state. Exports `DispatchConfig` + `DispatchWeights` types.
+   174→   174→- Built `surge-pricing-card.tsx` ("use client"): hero banner whose `bg-gradient-to-br` classes come from `surgeGradient(level)` (none=zinc, low=emerald→teal, medium=amber→yellow, high=orange→amber, critical=red→red) showing "Surge: {level}" + big `{multiplier}×`; Enable + Auto-surge toggles (two Switch rows); multiplier Slider (1.0-5.0, step 0.1) with cyan value chip and 1×/2×/3×/5× scale labels; reason Input; "Fare simulator" sub-panel with $-prefixed base fare + mi-suffixed distance inputs computing a live estimated surged fare (`(base + dist*2.35) * multiplier`). Exports `SurgeLevel`, `surgeLevelFor(m)`, `surgeGradient(level)`.
+   175→   175→- Built `coupons-table.tsx` (client for local toggle state): Card-wrapped shadcn Table with magenta Ticket header icon and three SummaryChips (Active/Expired/Used Up counts computed from rows). Columns: Code (mono uppercase bold), Type (magenta "Percentage" / cyan "Fixed" badge), Value, Usage (Progress bar with x/y + pct text, indicator turns destructive when >80% full via `[&_[data-slot=progress-indicator]]:bg-destructive`), Status (StatusBadge success/muted/amber), Actions (Activate button=success solid when inactive, Deactivate=outline when active). 5 Boston sample coupons (RIDE20, EAGLE50, SPRING15, BACK2SCHOOL, LOGAN10). Exports `CouponRow`, `CouponType`, `CouponStatus`.
+   176→   176→- Built `sos-alert-card.tsx`: Card per alert; border + header bg tinted destructive when `status === "active"`, muted otherwise. Header: TriangleAlert icon tile + `#SOS-id` (mono) + StatusBadge (active=magenta dot, resolved=success, false_alarm=muted). Body: 4-icon detail grid (rider, driver, ride id mono, triggered time, location with MapPin) on 2 cols. Footer action buttons only when active: "False alarm" ghost + "Resolve" (success solid w/ Check). Added a `compact` prop that renders a horizontal list-row variant (icon + id/badge + rider·driver·location + timestamp) for reuse in safety-overview. Exports `SosAlert`, `SosStatus`, `SosResolution`.
+   177→   177→- Built `safety-overview.tsx`: 3-tile stat grid (SOS alerts=destructive accent / Documents pending=amber / Trip shares=success), each tile = icon tile + big mono number + label + sublabel. Below: a Card titled "Recent alerts" rendering the SosAlertCard compact variant for each entry (with an empty-state when there are none). Defaults: 2 active SOS / 7 pending docs / 14 trip shares + 3 sample Boston alerts (2 active, 1 resolved). Props: `stats?`, `recentAlerts?`, `className?`.
+   178→   178→- Built `document-verification-row.tsx`: rounded-xl row card. Left: 11px Avatar with 2px colored ring (pending=amber, verified=success, rejected=destructive, expired=muted-foreground/60, none=border) + name + StatusBadge + a "files" pill (FileText icon + count) + per-document-type chips (License / Insurance / Registration) each with a colored status dot (valid=success, expired=amber, missing=destructive). Right: action buttons. When pending/rejected → Review (outline, ShieldCheck) + Reject (destructive-tinted outline, X) + Approve (success solid, Check). Otherwise → "View docs" outline. Exports `DocumentDriver`, `DocumentVerificationStatus`, `DriverDocument`.
+   179→   179→- Built `chauffeur-bookings-table.tsx` ("use client"): gold Crown header + count badge ("X of Y"). Filter row: search Input (Search icon, matches id/customer/chauffeur), date Input (Calendar icon), and a custom native `<select>` styled to match the shadcn Select look (All statuses / Scheduled / In Progress / Completed / Cancelled). shadcn Table with 9 columns: Booking ID (mono), Customer, Chauffeur ("Unassigned" italic muted when null), Tier (Business=primary / First=cyan / Luxury=gold badge), When (date + mono time), Duration ("Nh" mono), Total fare (mono), Status (StatusBadge cyan/brand/success/muted, dot when In Progress), Actions ("Assign" default button when unassigned, "View" outline otherwise). 5 samples covering all tiers + statuses. Empty-state row when filters return nothing. Exports `ChauffeurBooking`, `ChauffeurTier`, `ChauffeurStatus`.
+   180→   180→- Built `driver-earnings-config.tsx` ("use client"): success-tinted Percent header. Responsive grid rows (one column on mobile, [label | enabled | driver%] on sm+) for the 4 mandated services (One Way — Black SUV, One Way — Black, Chauffeur Service, Package Delivery). Each row: label + helper copy ("Driver keeps X% of each fare" when enabled, "Disabled — falls back to default" when not), an enable Switch, and a 0-100 number Input with a `%` suffix glyph (disabled + dimmed when the tier is off). Dashed-border "Default percentage" row at the bottom. Save button with saving state. Exports `DriverEarningTier`, `DriverEarningsConfig`.
+   181→   181→- Ran `npx tsc --noEmit` — zero errors in any of the 8 new files (only the same pre-existing unrelated errors in `examples/` and `skills/` that Task 8 already documented).
+   182→   182→- Ran `npx eslint` on all 8 files with `--max-warnings=0` — clean, no warnings or errors.
+   183→   183→
+   184→   184→Stage Summary:
+   185→   185→- Files created (all in `src/components/eer/admin/`): dispatch-config-card.tsx, surge-pricing-card.tsx, coupons-table.tsx, sos-alert-card.tsx, safety-overview.tsx, document-verification-row.tsx, chauffeur-bookings-table.tsx, driver-earnings-config.tsx (8 files).
+   186→   186→- Exported shared types: `DispatchConfig`, `DispatchWeights`, `SurgeLevel`, `surgeLevelFor`, `surgeGradient`, `CouponRow`, `CouponType`, `CouponStatus`, `SosAlert`, `SosStatus`, `SosResolution`, `DocumentDriver`, `DocumentVerificationStatus`, `DriverDocument`, `ChauffeurBooking`, `ChauffeurTier`, `ChauffeurStatus`, `DriverEarningTier`, `DriverEarningsConfig`.
+   187→   187→- Key decisions:
+   188→   188→  - All 5 interactive components (dispatch / surge / coupons / chauffeur-bookings / driver-earnings) marked `"use client"`; sos-alert-card, safety-overview, and document-verification-row remain server-safe (no hooks, no events).
+   189→   189→  - Surge hero gradients use default Tailwind families (zinc/emerald/teal/amber/yellow/orange/red) via `from-* to-*` per the spec, since the project's `@theme inline` block only adds brand tokens and never strips the default palette; all other accents stay on brand tokens (primary/cyan/amber/magenta/gold/success/destructive).
+   190→   190→  - sos-alert-card exposes a `compact` prop so safety-overview reuses the SAME component (no duplicate alert markup) — the full card layout is for the SOS page, the compact list-row layout is for the safety dashboard.
+   191→   191→  - Status colors follow the Tone system from `@/components/eer/status-badge` wherever possible (Active=success, Expired=muted, Used Up=amber, Scheduled=cyan, In Progress=brand, etc.); destructive/red is reserved for true alert/danger states (active SOS, rejected docs, usage >80%, surge critical) via the `destructive` token.
+   192→   192→  - Tables follow the established admin pattern: `rounded-2xl` Card, header row `text-muted-foreground text-xs tracking-wider uppercase`, rows `hover:bg-muted/50`, mono/tabular-nums for IDs, fares, and counts.
+   193→   193→  - All sample data is Boston-area ($ fares, Back Bay / Seaport / Logan / Fenway, realistic driver names matching the existing kit, coupon codes RIDE20 / EAGLE50 / SPRING15 / BACK2SCHOOL / LOGAN10, chauffeur tiers Business/First/Luxury at $60/hr).
+   194→   194→  - All interactive components use local React state and call optional `onSave`/`onResolve`/`onApprove`/`onReject` callbacks; nothing depends on external state so they can be dropped straight into `/admin/*` routes.
+   195→   195→- The 8 new components compile cleanly under `strict` mode and pass ESLint with zero warnings; the admin component count is now 20 (12 from Task 8 + 8 here), covering every real eagleeyerides admin page enumerated in the brief (dispatch, surge, coupons, sos, safety, documents, chauffeur-bookings, driver-earnings, plus the previously built bookings/drivers/users/payments/withdrawals/advertisements/settings/fleet/fares).
+   196→   196→
+   197→   197→---
+   198→   198→Task ID: 11
+   199→   199→Agent: user-driver-screens-builder
+   200→   200→Task: Build 4 new user screens + 5 driver screens matching the real eagleeyerides pages
+   201→   201→
+   202→   202→Work Log:
+   203→   203→- Read worklog (foundation + bottom-nav now supports variant="user"/"driver" with a center CTA), home-screen.tsx + ride-history-screen.tsx for code style (server vs "use client", back-header pattern, `flex h-full flex-col bg-background`, sticky BottomNav), tracking-screen.tsx for the map/bottom-sheet pattern, and accents/section-label/empty-state/driver-card/filter-chips for the available primitives.
+   204→   204→- USER — points-screen.tsx ("use client"): back header "Points", gold gradient hero card with 2,450 pts + Gold tier badge + a Progress bar to Platinum (550 pts to go, custom progress rail over the gold gradient), "Ways to earn" card-grouped list (Book +10 / Rate +5 / Refer +500 / 10 rides +100) with gold-tinted icons, "Points history" list filtered via `FilterChips` from `@/components/eer/forms` (All / Earned / Redeemed) with positive/negative deltas in success/muted. BottomNav variant="user" active="Profile".
+   205→   205→- USER — referrals-screen.tsx ("use client"): back header "Refer & earn", magenta→darker gradient hero with "Give $10, Get $10" + description + a referral-link box that has a Copy button which toggles to "Copied!" for 1.8s (uses `navigator.clipboard`), 2x2 grid of outline share buttons (Copy link / WhatsApp / Email / X), 3-up stats row (Invited / Signed up / Earned), and "Your referrals" list with avatar + name + Joined/Pending StatusBadge + date + bonus. BottomNav variant="user" active="Profile".
+   206→   206→- USER — tips-history-screen.tsx (server component): back header "Tips", success→darker gradient summary card with total tipped ($48.50), tip count badge, and 2-col This month / Avg per ride breakdown, "Recent tips" list with driver avatar initials + name + gold star + ride id + date + heart (filled gold) + amount (+$X.XX). EmptyState fallback. BottomNav variant="user" active="Profile".
+   207→   207→- USER — map-view-screen.tsx ("use client", no BottomNav): focused live-map screen. Full-height map area with the same grid background as tracking-screen, an SVG dashed route path (primary stroke) from a pickup pin (primary CircleDot) to a destination pin (amber MapPin), and the driver car icon (Car lucide in a primary circle) positioned mid-route with a ping halo. Top floating bar with round back button + En route StatusBadge + ETA chip. Bottom sheet (rounded-t-3xl, shadow) with grab handle, driver mini-card (avatar + name + rating + car), big "4 min" ETA, 3-up round action buttons (Call / Message / Share trip) and a ghost-destructive "Cancel ride" at the bottom.
+   208→   208→- DRIVER — driver-home-screen.tsx ("use client"): custom gradient header (matching AppHeader look) with greeting "Good evening" + driver name + online Switch toggle in a white/15 pill replacing the search + bell. Online-status banner card with success/gray state + animated ping when online (a Switch also toggles the same `online` state). 3-up Today's stats (Rides / Earnings / Online hours). Upcoming chauffeur job card with customer avatar + Business tier badge + pickup/stops route + time + fare + Navigate button. Recent trips card-grouped list (3 items). BottomNav variant="driver" active="Home".
+   209→   209→- DRIVER — driver-chauffeur-schedule-screen.tsx ("use client"): back header "Chauffeur Schedule" + Refresh button. 2x2 stats grid (Scheduled / In progress / Completed / Today's earnings). Filter row: shadcn Select for status (All / Scheduled / In progress / Completed), a date pill button, and a search Input (with Search icon) wired to local state — actually filters the list. Job cards: customer avatar + name + date/time, pickup route preview, duration chip + tier StatusBadge, fare, and Navigate (primary) + Details (outline) action buttons (disabled when completed). EmptyState fallback. BottomNav variant="driver" active="Schedule".
+   210→   210→- DRIVER — driver-packages-screen.tsx ("use client"): back header "Packages". Dismissible amber notification banner ("Notifications are off" + Enable now button + Dismiss + X). "Available offers" list: each card has an amber countdown chip ("expires in Ns", turns destructive when ≤15s), pickup→dropoff route, distance/item-type/weight chips, and Accept (primary) + Decline (ghost/destructive when urgent) buttons that remove the offer from the list via state. "My active deliveries" section with in-progress card + status + Navigate button. EmptyState fallbacks for both sections. BottomNav variant="driver" active="Schedule".
+   211→   211→- DRIVER — driver-map-screen.tsx ("use client", no BottomNav): full-height map with grid + dashed SVG route from driver's current position (animated Car icon) to a target pin (cyan CircleDot when en-route-to-pickup, amber MapPin when picked-up). Top floating bar with back + ride-status StatusBadge (brand→success on pickup) + ETA/distance chip. Bottom sheet with grab handle, customer mini-card (avatar + name + rating + ride id), pickup/destination addresses card with dashed connector, big ETA, 3-up actions (Navigate primary + Call + Message), and either a "Mark rider picked up" outline-primary button or a "Complete ride" success button — state-driven via `pickedUp`.
+   212→   212→- DRIVER — driver-earnings-screen.tsx ("use client"): back header "Earnings". Gradient primary balance card with available balance, "Pending payouts" subline, and a white-on-primary "Withdraw" button. Segmented control (Today / Week / Month) drives a 2x2 stats grid (Rides / Earnings / Tips / Online hours) that updates per period. Lightweight recharts BarChart (Mon–Sun, primary fill, rounded-top bars) wrapped in shadcn `ChartContainer`. "Recent payouts" list with Bank/CreditCard method icon, date, amount, and Paid/Pending StatusBadge (success/amber). BottomNav variant="driver" active="Earnings".
+   213→   213→- Verified the whole batch: `npx tsc --noEmit` reports zero errors in any of the new files (only pre-existing errors in examples/ and skills/). `npx eslint <all 9 files> --max-warnings=0` passes clean.
+   214→   214→
+   215→   215→Stage Summary:
+   216→   216→- Files created (9):
+   217→   217→  - src/components/eer/screens/points-screen.tsx (user, loyalty, "use client")
+   218→   218→  - src/components/eer/screens/referrals-screen.tsx (user, refer & earn, "use client")
+   219→   219→  - src/components/eer/screens/tips-history-screen.tsx (user, tips given, server)
+   220→   220→  - src/components/eer/screens/map-view-screen.tsx (user, focused live map, "use client", no BottomNav)
+   221→   221→  - src/components/eer/screens/driver/driver-home-screen.tsx (driver home, "use client")
+   222→   222→  - src/components/eer/screens/driver/driver-chauffeur-schedule-screen.tsx (driver schedule, "use client")
+   223→   223→  - src/components/eer/screens/driver/driver-packages-screen.tsx (driver package delivery queue, "use client")
+   224→   224→  - src/components/eer/screens/driver/driver-map-screen.tsx (driver live navigation, "use client", no BottomNav)
+   225→   225→  - src/components/eer/screens/driver/driver-earnings-screen.tsx (driver earnings / tips-report / payments, "use client")
+   226→   226→- New `driver/` subfolder created under `src/components/eer/screens/` for the 5 driver screens, matching the real eagleeyerides `views/driver/` split.
+   227→   227→- Brand accent system applied consistently: Points=gold gradient, Referrals=magenta gradient, Tips=success gradient, Map-view=primary route line + amber destination pin, Driver-home=primary gradient header + success/gray online state, Driver-schedule=cyan/brand/muted status badges, Driver-packages=amber countdowns (destructive when ≤15s), Driver-map=cyan→amber target pin transition on pickup, Driver-earnings=primary gradient balance card + cyan/magenta payout method icons.
+   228→   228→- All user-facing screens use `BottomNav variant="user"` with `active="Profile"` (Points/Referrals/Tips all flow from the Profile tab). All driver screens use `BottomNav variant="driver"` with the appropriate active tab (Home / Schedule / Earnings). The two focused map screens (map-view-screen, driver-map-screen) correctly omit the BottomNav per spec.
+   229→   229→- Sample data is Boston-area and realistic: drivers Marcus Reed / Sofia Alvarez / Liam Chen / Aisha Khan, rider Jane Doe, pickups at The Plaza Hotel / Kendall Sq / Back Bay / Fenway / Logan Airport, fares and earnings in $ with realistic tip amounts.
+   230→   230→- Reused existing EER primitives + shadcn: `AppHeader`-style header in driver-home, `StatusBadge`, `SectionLabel`, `EmptyState`, `FilterChips` (from `@/components/eer/forms`), `BottomNav`, shadcn `Button`/`Input`/`Switch`/`Select`/`ChartContainer`, recharts `BarChart`.
+   231→   231→- All 9 screens are 380×760 PhoneFrame-ready (`flex h-full flex-col bg-background`), follow the back-header pattern (`flex items-center gap-3 border-b border-border bg-card px-5 py-4` + `size-9 rounded-full bg-muted` back button), and the gradient hero pattern (`bg-gradient-to-br from-<accent> to-[oklch(...)] p-5 text-white`).
+   232→   232→- TypeScript strict + ESLint clean across all 9 files.
+   233→   233→
+   234→   234→---
+   235→   235→Task ID: 12
+   236→   236→Agent: main (orchestrator)
+   237→   237→Task: Gain access to the real eagleeyerides private repo (via user-provided token) and expand the UI kit to match the REAL pages.
+   238→   238→
+   239→   239→Work Log:
+   240→   240→- Cloned the private `isanat/eagleeyerides` repo using the user's GitHub token.
+   241→   241→- Discovered the real structure: an Express + EJS app with 3 sub-apps (User / Driver / Admin) + a Vue PWA client + emails.
+   242→   242→- Mapped the REAL pages: 25 admin pages (dispatch, surge, coupons, sos, safety, documents, chauffeur-bookings, driver-earnings, etc.), 10 user pages (points, referrals, tips-history, mapView, etc.), 7 driver pages (chauffeur-schedule, packages, mapView, tips-report).
+   243→   243→- Updated `bottom-nav.tsx` to support `variant="user"` (Home/Trips/Ride-CTA/Wallet/Profile) and `variant="driver"` (Home/Schedule/Online-CTA/Earnings/Profile) matching the real app navigation, with a raised center CTA button.
+   244→   244→- Launched 2 subagents in parallel:
+   245→   245→  * Task 10 → 8 new admin components: dispatch-config-card, surge-pricing-card, coupons-table, sos-alert-card, safety-overview, document-verification-row, chauffeur-bookings-table, driver-earnings-config.
+   246→   246→  * Task 11 → 9 new screens: 4 user (points, referrals, tips-history, map-view) + 5 driver (driver-home, chauffeur-schedule, packages, driver-map, driver-earnings) in a new `screens/driver/` folder.
+   247→   247→- Expanded the showcase page: added a "Driver" nav section + Driver screens block, added 4 user screens to the Screens block, added all 8 new admin components to the Admin dashboard shell (dispatch+ surge, coupons+chauffeur-bookings, safety+SOS, document verification, driver-earnings-config), updated the hero component counts.
+   248→   248→- Lint passes clean. HTTP 200. Agent Browser verified all new sections render correctly in dark theme with no errors; footer still sticky at the bottom.
+   249→   249→
+   250→   250→Stage Summary:
+   251→   251→- UI kit grew from 46 → 63 EER files (13 base + 14 user screens + 5 driver screens + 11 forms + 20 admin).
+   252→   252→- The kit now mirrors the actual eagleeyerides platform (rider app + driver app + admin console) instead of being inferred from the public site.
+   253→   253→

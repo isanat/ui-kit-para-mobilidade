@@ -1,0 +1,1252 @@
+     1→"use client";
+     2→
+     3→import {
+     4→  Bell,
+     5→  CalendarDays,
+     6→  Car,
+     7→  Crown,
+     8→  CreditCard,
+     9→  Banknote,
+    10→  Wallet,
+    11→  MapPin,
+    12→  Megaphone,
+    13→  Package,
+    14→  Search,
+    15→  Truck,
+    16→  Users,
+    17→  type LucideIcon,
+    18→} from "lucide-react";
+    19→
+    20→import { Logo } from "@/components/eer/logo";
+    21→import { ThemeToggle } from "@/components/eer/theme-toggle";
+    22→import { StatusBadge } from "@/components/eer/status-badge";
+    23→import { SectionLabel } from "@/components/eer/section-label";
+    24→import { EmptyState } from "@/components/eer/empty-state";
+    25→import { PhoneFrame } from "@/components/eer/phone-frame";
+    26→import { ServiceCard } from "@/components/eer/service-card";
+    27→import { RideOption } from "@/components/eer/ride-option";
+    28→import { DriverCard } from "@/components/eer/driver-card";
+    29→import { WhereToBar } from "@/components/eer/where-to-bar";
+    30→import { BottomNav } from "@/components/eer/bottom-nav";
+    31→
+    32→import { HomeScreen } from "@/components/eer/screens/home-screen";
+    33→import { ReserveScreen } from "@/components/eer/screens/reserve-screen";
+    34→import { TrackingScreen } from "@/components/eer/screens/tracking-screen";
+    35→import { ChauffeurScreen } from "@/components/eer/screens/chauffeur-screen";
+    36→import { PackageScreen } from "@/components/eer/screens/package-screen";
+    37→import { AuthScreen } from "@/components/eer/screens/auth-screen";
+    38→import { ProfileScreen } from "@/components/eer/screens/profile-screen";
+    39→import { WalletScreen } from "@/components/eer/screens/wallet-screen";
+    40→import { RideHistoryScreen } from "@/components/eer/screens/ride-history-screen";
+    41→import { DirectionsScreen } from "@/components/eer/screens/directions-screen";
+    42→import { PointsScreen } from "@/components/eer/screens/points-screen";
+    43→import { ReferralsScreen } from "@/components/eer/screens/referrals-screen";
+    44→import { TipsHistoryScreen } from "@/components/eer/screens/tips-history-screen";
+    45→import { MapViewScreen } from "@/components/eer/screens/map-view-screen";
+    46→
+    47→import { DriverHomeScreen } from "@/components/eer/screens/driver/driver-home-screen";
+    48→import { DriverChauffeurScheduleScreen } from "@/components/eer/screens/driver/driver-chauffeur-schedule-screen";
+    49→import { DriverPackagesScreen } from "@/components/eer/screens/driver/driver-packages-screen";
+    50→import { DriverMapScreen } from "@/components/eer/screens/driver/driver-map-screen";
+    51→import { DriverEarningsScreen } from "@/components/eer/screens/driver/driver-earnings-screen";
+    52→
+    53→import {
+    54→  AddressInput,
+    55→  DateTimePicker,
+    56→  VehicleSelector,
+    57→  PaymentMethodSelector,
+    58→  FareSummary,
+    59→  BookingSummaryCard,
+    60→  TripProgress,
+    61→  PromoCodeInput,
+    62→  RatingStars,
+    63→  FilterChips,
+    64→  type VehicleOption,
+    65→  type PaymentMethod,
+    66→  type FareSummaryItem,
+    67→} from "@/components/eer/forms";
+    68→
+    69→import { Button } from "@/components/ui/button";
+    70→import { Card } from "@/components/ui/card";
+    71→
+    72→import { AdminSidebar } from "@/components/eer/admin/admin-sidebar";
+    73→import { AdminTopbar } from "@/components/eer/admin/admin-topbar";
+    74→import { StatCard } from "@/components/eer/admin/stat-card";
+    75→import { EarningsChart } from "@/components/eer/admin/earnings-chart";
+    76→import { RidesTable, type RideRow } from "@/components/eer/admin/rides-table";
+    77→import {
+    78→  DriversTable,
+    79→  type DriverRow,
+    80→} from "@/components/eer/admin/drivers-table";
+    81→import {
+    82→  FareConfigCard,
+    83→  type FareField,
+    84→} from "@/components/eer/admin/fare-config-card";
+    85→import { ConfigField } from "@/components/eer/admin/config-field";
+    86→import {
+    87→  WithdrawalRow,
+    88→  type WithdrawalRow as WithdrawalRowData,
+    89→} from "@/components/eer/admin/withdrawal-row";
+    90→import { AdCard, type AdRow } from "@/components/eer/admin/ad-card";
+    91→import {
+    92→  FleetVehicleCard,
+    93→  type VehicleRow,
+    94→} from "@/components/eer/admin/fleet-vehicle-card";
+    95→import { PageHeader } from "@/components/eer/admin/page-header";
+    96→import { DispatchConfigCard } from "@/components/eer/admin/dispatch-config-card";
+    97→import { SurgePricingCard } from "@/components/eer/admin/surge-pricing-card";
+    98→import {
+    99→  CouponsTable,
+   100→  type CouponRow,
+   101→} from "@/components/eer/admin/coupons-table";
+   102→import { SosAlertCard, type SosAlert } from "@/components/eer/admin/sos-alert-card";
+   103→import { SafetyOverview } from "@/components/eer/admin/safety-overview";
+   104→import {
+   105→  DocumentVerificationRow,
+   106→  type DocumentDriver,
+   107→} from "@/components/eer/admin/document-verification-row";
+   108→import {
+   109→  ChauffeurBookingsTable,
+   110→  type ChauffeurBooking,
+   111→} from "@/components/eer/admin/chauffeur-bookings-table";
+   112→import { DriverEarningsConfig } from "@/components/eer/admin/driver-earnings-config";
+   113→
+   114→/* ------------------------------------------------------------------ */
+   115→/* Design token data                                                   */
+   116→/* ------------------------------------------------------------------ */
+   117→
+   118→const colorTokens: { name: string; cls: string; label: string }[] = [
+   119→  { name: "Primary", cls: "bg-primary", label: "Royal Blue" },
+   120→  { name: "Cyan", cls: "bg-cyan", label: "Reserve" },
+   121→  { name: "Amber", cls: "bg-amber", label: "Packages" },
+   122→  { name: "Magenta", cls: "bg-magenta", label: "Ads" },
+   123→  { name: "Gold", cls: "bg-gold", label: "Tow Truck" },
+   124→  { name: "Success", cls: "bg-success", label: "Status" },
+   125→];
+   126→
+   127→const neutralTokens = [
+   128→  { name: "Background", cls: "bg-background" },
+   129→  { name: "Card", cls: "bg-card" },
+   130→  { name: "Muted", cls: "bg-muted" },
+   131→  { name: "Border", cls: "bg-border" },
+   132→  { name: "Foreground", cls: "bg-foreground" },
+   133→];
+   134→
+   135→const icons: LucideIcon[] = [
+   136→  Search,
+   137→  Bell,
+   138→  Car,
+   139→  Package,
+   140→  Megaphone,
+   141→  Truck,
+   142→  Crown,
+   143→  MapPin,
+   144→  CalendarDays,
+   145→  Users,
+   146→];
+   147→
+   148→const sections = [
+   149→  { id: "tokens", label: "Tokens" },
+   150→  { id: "foundations", label: "Foundations" },
+   151→  { id: "mobile-components", label: "Mobile" },
+   152→  { id: "forms", label: "Forms" },
+   153→  { id: "screens", label: "User screens" },
+   154→  { id: "driver-screens", label: "Driver" },
+   155→  { id: "admin", label: "Admin" },
+   156→];
+   157→
+   158→/* ------------------------------------------------------------------ */
+   159→/* Sample data                                                         */
+   160→/* ------------------------------------------------------------------ */
+   161→
+   162→const vehicleOptions: VehicleOption[] = [
+   163→  {
+   164→    id: "comfort",
+   165→    name: "Comfort",
+   166→    description: "4 seats · 3 bags",
+   167→    eta: "3 min away",
+   168→    price: "$12.40",
+   169→    icon: Car,
+   170→    accent: "cyan",
+   171→  },
+   172→  {
+   173→    id: "black",
+   174→    name: "Black",
+   175→    description: "4 seats · 2 bags",
+   176→    eta: "5 min away",
+   177→    price: "$19.80",
+   178→    icon: Crown,
+   179→    accent: "brand",
+   180→  },
+   181→  {
+   182→    id: "black-suv",
+   183→    name: "Black SUV",
+   184→    description: "6 seats · 4 bags",
+   185→    eta: "7 min away",
+   186→    price: "$24.00",
+   187→    icon: Truck,
+   188→    accent: "gold",
+   189→  },
+   190→];
+   191→
+   192→const paymentMethods: PaymentMethod[] = [
+   193→  { id: "card", label: "Visa", sublabel: "•••• 4242", icon: CreditCard },
+   194→  { id: "cash", label: "Cash", sublabel: "Pay driver directly", icon: Banknote },
+   195→  {
+   196→    id: "wallet",
+   197→    label: "Eagle Wallet",
+   198→    sublabel: "Balance $128.40",
+   199→    icon: Wallet,
+   200→  },
+   201→];
+   202→
+   203→const fareItems: FareSummaryItem[] = [
+   204→  { label: "Base fare", amount: "$30.00" },
+   205→  { label: "Time", amount: "$5.34" },
+   206→  { label: "Distance", amount: "$13.14" },
+   207→  { label: "Surcharge", amount: "$1.20" },
+   208→];
+   209→
+   210→const fareFields: FareField[] = [
+   211→  { key: "base", label: "Base fare", value: "30", prefix: "$" },
+   212→  { key: "time", label: "Per minute", value: "0.89", prefix: "$" },
+   213→  { key: "distance", label: "Per mile", value: "2.19", prefix: "$" },
+   214→  { key: "min", label: "Minimum fare", value: "10", prefix: "$" },
+   215→  { key: "surcharge", label: "Surcharge", value: "1.2", prefix: "$" },
+   216→  { key: "earning", label: "Driver earning", value: "80", prefix: "%" },
+   217→];
+   218→
+   219→const sampleRides: RideRow[] = [
+   220→  {
+   221→    id: "EER-2491",
+   222→    rider: "Olivia Bennett",
+   223→    driver: "Marcus Reed",
+   224→    pickup: "Logan Airport",
+   225→    destination: "Back Bay",
+   226→    date: "Today · 4:32 PM",
+   227→    fare: "$28.40",
+   228→    status: "Completed",
+   229→  },
+   230→  {
+   231→    id: "EER-2490",
+   232→    rider: "Daniel Cho",
+   233→    driver: "Sofia Alvarez",
+   234→    pickup: "Kendall Sq",
+   235→    destination: "Fenway Park",
+   236→    date: "Today · 3:58 PM",
+   237→    fare: "$15.20",
+   238→    status: "In progress",
+   239→  },
+   240→  {
+   241→    id: "EER-2489",
+   242→    rider: "Priya Shah",
+   243→    driver: "James Okafor",
+   244→    pickup: "Seaport Blvd",
+   245→    destination: "North End",
+   246→    date: "Today · 2:10 PM",
+   247→    fare: "$19.80",
+   248→    status: "Scheduled",
+   249→  },
+   250→  {
+   251→    id: "EER-2488",
+   252→    rider: "Liam Walsh",
+   253→    driver: "—",
+   254→    pickup: "South Station",
+   255→    destination: "Cambridge",
+   256→    date: "Today · 1:24 PM",
+   257→    fare: "$0.00",
+   258→    status: "Cancelled",
+   259→  },
+   260→];
+   261→
+   262→const sampleDrivers: DriverRow[] = [
+   263→  {
+   264→    id: "DRV-01",
+   265→    name: "Marcus Reed",
+   266→    initials: "MR",
+   267→    rating: 4.9,
+   268→    vehicle: "Tesla Model 3",
+   269→    plate: "EAG-4821",
+   270→    online: true,
+   271→    totalRides: 1284,
+   272→    earnings: "$3,940",
+   273→  },
+   274→  {
+   275→    id: "DRV-02",
+   276→    name: "Sofia Alvarez",
+   277→    initials: "SA",
+   278→    rating: 4.8,
+   279→    vehicle: "Mercedes E-Class",
+   280→    plate: "EAG-1190",
+   281→    online: true,
+   282→    totalRides: 982,
+   283→    earnings: "$3,210",
+   284→  },
+   285→  {
+   286→    id: "DRV-03",
+   287→    name: "James Okafor",
+   288→    initials: "JO",
+   289→    rating: 4.7,
+   290→    vehicle: "BMW 5 Series",
+   291→    plate: "EAG-7732",
+   292→    online: false,
+   293→    totalRides: 741,
+   294→    earnings: "$2,480",
+   295→  },
+   296→];
+   297→
+   298→const sampleWithdrawals: WithdrawalRowData[] = [
+   299→  {
+   300→    id: "WD-101",
+   301→    driverName: "Marcus Reed",
+   302→    initials: "MR",
+   303→    amount: "$820.00",
+   304→    method: "Bank",
+   305→    requestedDate: "Today · 4:02 PM",
+   306→    status: "Pending",
+   307→  },
+   308→  {
+   309→    id: "WD-100",
+   310→    driverName: "Sofia Alvarez",
+   311→    initials: "SA",
+   312→    amount: "$540.00",
+   313→    method: "PayPal",
+   314→    requestedDate: "Today · 1:15 PM",
+   315→    status: "Approved",
+   316→  },
+   317→];
+   318→
+   319→const sampleAds: AdRow[] = [
+   320→  {
+   321→    id: "AD-01",
+   322→    title: "Summer Getaway Promo",
+   323→    advertiser: "Boston Harbor Hotel",
+   324→    placement: "Home banner",
+   325→    status: "Active",
+   326→    impressions: 18420,
+   327→    clicks: 612,
+   328→    active: true,
+   329→    gradient: "from-cyan to-[oklch(0.4_0.18_210)]",
+   330→  },
+   331→  {
+   332→    id: "AD-02",
+   333→    title: "Black Friday Rides",
+   334→    advertiser: "Eagle Eye Rides",
+   335→    placement: "Ride list",
+   336→    status: "Scheduled",
+   337→    impressions: 0,
+   338→    clicks: 0,
+   339→    active: false,
+   340→    gradient: "from-magenta to-[oklch(0.4_0.2_330)]",
+   341→  },
+   342→];
+   343→
+   344→const sampleVehicles: VehicleRow[] = [
+   345→  {
+   346→    id: "VHC-01",
+   347→    make: "Tesla",
+   348→    model: "Model 3",
+   349→    plate: "EAG-4821",
+   350→    tier: "Black",
+   351→    status: "In ride",
+   352→    driver: "Marcus Reed",
+   353→    seats: 4,
+   354→    bags: 2,
+   355→  },
+   356→  {
+   357→    id: "VHC-02",
+   358→    make: "Cadillac",
+   359→    model: "Escalade",
+   360→    plate: "EAG-3091",
+   361→    tier: "Chauffeur",
+   362→    status: "Available",
+   363→    driver: "Sofia Alvarez",
+   364→    seats: 6,
+   365→    bags: 4,
+   366→  },
+   367→  {
+   368→    id: "VHC-03",
+   369→    make: "Ford",
+   370→    model: "Transit",
+   371→    plate: "EAG-2204",
+   372→    tier: "Package",
+   373→    status: "Maintenance",
+   374→    seats: 2,
+   375→    bags: 0,
+   376→  },
+   377→];
+   378→
+   379→const sampleCoupons: CouponRow[] = [
+   380→  {
+   381→    id: "CP-1",
+   382→    code: "RIDE20",
+   383→    type: "percentage",
+   384→    value: "20%",
+   385→    used: 142,
+   386→    limit: 500,
+   387→    status: "Active",
+   388→    isActive: true,
+   389→  },
+   390→  {
+   391→    id: "CP-2",
+   392→    code: "EAGLE50",
+   393→    type: "fixed",
+   394→    value: "$10",
+   395→    used: 410,
+   396→    limit: 500,
+   397→    status: "Active",
+   398→    isActive: true,
+   399→  },
+   400→  {
+   401→    id: "CP-3",
+   402→    code: "SPRING15",
+   403→    type: "percentage",
+   404→    value: "15%",
+   405→    used: 320,
+   406→    limit: 320,
+   407→    status: "Used Up",
+   408→    isActive: false,
+   409→  },
+   410→  {
+   411→    id: "CP-4",
+   412→    code: "LOGAN10",
+   413→    type: "fixed",
+   414→    value: "$5",
+   415→    used: 88,
+   416→    limit: 200,
+   417→    status: "Expired",
+   418→    isActive: false,
+   419→  },
+   420→];
+   421→
+   422→const sampleSosAlerts: SosAlert[] = [
+   423→  {
+   424→    id: "SOS-1042",
+   425→    rider: "Olivia Bennett",
+   426→    driver: "Marcus Reed",
+   427→    rideId: "EER-2491",
+   428→    triggeredAt: "2 min ago",
+   429→    location: "Back Bay, Dartmouth St",
+   430→    status: "active",
+   431→  },
+   432→  {
+   433→    id: "SOS-1041",
+   434→    rider: "Daniel Cho",
+   435→    driver: "Sofia Alvarez",
+   436→    rideId: "EER-2487",
+   437→    triggeredAt: "18 min ago",
+   438→    location: "Seaport Blvd",
+   439→    status: "resolved",
+   440→  },
+   441→];
+   442→
+   443→const sampleDocumentDrivers: DocumentDriver[] = [
+   444→  {
+   445→    id: "DRV-04",
+   446→    name: "Liam Chen",
+   447→    initials: "LC",
+   448→    documentVerificationStatus: "pending",
+   449→    fileCount: 3,
+   450→    documents: [
+   451→      { type: "License", status: "valid" },
+   452→      { type: "Insurance", status: "valid" },
+   453→      { type: "Registration", status: "missing" },
+   454→    ],
+   455→  },
+   456→  {
+   457→    id: "DRV-05",
+   458→    name: "Aisha Khan",
+   459→    initials: "AK",
+   460→    documentVerificationStatus: "verified",
+   461→    fileCount: 4,
+   462→    documents: [
+   463→      { type: "License", status: "valid" },
+   464→      { type: "Insurance", status: "valid" },
+   465→      { type: "Registration", status: "valid" },
+   466→      { type: "Background check", status: "valid" },
+   467→    ],
+   468→  },
+   469→  {
+   470→    id: "DRV-06",
+   471→    name: "Noah Patel",
+   472→    initials: "NP",
+   473→    documentVerificationStatus: "rejected",
+   474→    fileCount: 2,
+   475→    documents: [
+   476→      { type: "License", status: "expired" },
+   477→      { type: "Insurance", status: "valid" },
+   478→    ],
+   479→  },
+   480→];
+   481→
+   482→const sampleChauffeurBookings: ChauffeurBooking[] = [
+   483→  {
+   484→    id: "CHF-201",
+   485→    customer: "Olivia Bennett",
+   486→    chauffeur: "Marcus Reed",
+   487→    tier: "Luxury",
+   488→    date: "Today",
+   489→    time: "6:00 PM",
+   490→    durationHours: 4,
+   491→    totalFare: "$320.00",
+   492→    status: "Scheduled",
+   493→  },
+   494→  {
+   495→    id: "CHF-200",
+   496→    customer: "Daniel Cho",
+   497→    chauffeur: null,
+   498→    tier: "Business",
+   499→    date: "Today",
+   500→    time: "8:30 PM",
+   501→    durationHours: 2,
+   502→    totalFare: "$140.00",
+   503→    status: "Scheduled",
+   504→  },
+   505→  {
+   506→    id: "CHF-199",
+   507→    customer: "Priya Shah",
+   508→    chauffeur: "Sofia Alvarez",
+   509→    tier: "First",
+   510→    date: "Today",
+   511→    time: "2:10 PM",
+   512→    durationHours: 6,
+   513→    totalFare: "$510.00",
+   514→    status: "In Progress",
+   515→  },
+   516→  {
+   517→    id: "CHF-198",
+   518→    customer: "Liam Walsh",
+   519→    chauffeur: "James Okafor",
+   520→    tier: "Luxury",
+   521→    date: "Yesterday",
+   522→    time: "9:00 PM",
+   523→    durationHours: 3,
+   524→    totalFare: "$270.00",
+   525→    status: "Completed",
+   526→  },
+   527→];
+   528→
+   529→/* ------------------------------------------------------------------ */
+   530→/* Helpers                                                             */
+   531→/* ------------------------------------------------------------------ */
+   532→
+   533→function Block({
+   534→  id,
+   535→  title,
+   536→  description,
+   537→  children,
+   538→}: {
+   539→  id?: string;
+   540→  title: string;
+   541→  description?: string;
+   542→  children: React.ReactNode;
+   543→}) {
+   544→  return (
+   545→    <section id={id} className="scroll-mt-28 space-y-5">
+   546→      <div className="space-y-1">
+   547→        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+   548→          {title}
+   549→        </h2>
+   550→        {description && (
+   551→          <p className="text-sm text-muted-foreground">{description}</p>
+   552→        )}
+   553→      </div>
+   554→      {children}
+   555→    </section>
+   556→  );
+   557→}
+   558→
+   559→function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
+   560→  return (
+   561→    <div
+   562→      className={`rounded-2xl border border-border bg-card p-6 ${className ?? ""}`}
+   563→    >
+   564→      {children}
+   565→    </div>
+   566→  );
+   567→}
+   568→
+   569→/* ------------------------------------------------------------------ */
+   570→/* Page                                                                */
+   571→/* ------------------------------------------------------------------ */
+   572→
+   573→export default function Page() {
+   574→  return (
+   575→    <div className="flex min-h-screen flex-col bg-background">
+   576→      {/* Top bar */}
+   577→      <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
+   578→        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
+   579→          <Logo subtitle="UI Kit" />
+   580→          <div className="flex items-center gap-2">
+   581→            <span className="hidden sm:block">
+   582→              <StatusBadge tone="brand" dot>
+   583→                v1.0 Design System
+   584→              </StatusBadge>
+   585→            </span>
+   586→            <a
+   587→              href="https://github.com/isanat/eagleeyerides"
+   588→              target="_blank"
+   589→              rel="noreferrer"
+   590→              className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground md:inline"
+   591→            >
+   592→              eagleeyerides
+   593→            </a>
+   594→            <ThemeToggle />
+   595→          </div>
+   596→        </div>
+   597→        {/* Section nav */}
+   598→        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+   599→          {sections.map((s) => (
+   600→            <a
+   601→              key={s.id}
+   602→              href={`#${s.id}`}
+   603→              className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+   604→            >
+   605→              {s.label}
+   606→            </a>
+   607→          ))}
+   608→        </nav>
+   609→      </header>
+   610→
+   611→      <main className="mx-auto w-full max-w-7xl flex-1 space-y-20 px-5 py-12">
+   612→        {/* Hero */}
+   613→        <div className="max-w-2xl space-y-4">
+   614→          <StatusBadge tone="cyan">Urban Mobility Platform</StatusBadge>
+   615→          <h1 className="text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
+   616→            Eagle Eye Rides Design System
+   617→          </h1>
+   618→          <p className="text-lg text-pretty text-muted-foreground">
+   619→            A complete UI kit for the Eagle Eye Rides platform — tokens,
+   620→            mobile components, booking forms, ready-to-use app screens and a
+   621→            full admin dashboard. Built on the mobility design language from
+   622→            the original UI kit, expanded for the whole system.
+   623→          </p>
+   624→          <div className="flex flex-wrap gap-2 pt-2">
+   625→            <Button className="h-10 px-4" asChild>
+   626→              <a href="#screens">Explore screens</a>
+   627→            </Button>
+   628→            <Button variant="outline" className="h-10 px-4" asChild>
+   629→              <a href="#admin">View admin</a>
+   630→            </Button>
+   631→          </div>
+   632→          <div className="flex flex-wrap gap-2 pt-4">
+   633→            <StatusBadge tone="muted">13 base components</StatusBadge>
+   634→            <StatusBadge tone="muted">10 form components</StatusBadge>
+   635→            <StatusBadge tone="muted">14 user screens</StatusBadge>
+   636→            <StatusBadge tone="muted">5 driver screens</StatusBadge>
+   637→            <StatusBadge tone="muted">20 admin components</StatusBadge>
+   638→          </div>
+   639→        </div>
+   640→
+   641→        {/* ============================================================ */}
+   642→        {/* TOKENS                                                       */}
+   643→        {/* ============================================================ */}
+   644→        <Block
+   645→          id="tokens"
+   646→          title="Design tokens"
+   647→          description="A royal-blue primary paired with service-specific accents over deep navy neutrals. OKLCH-based, fully theme-aware (light + dark)."
+   648→        >
+   649→          <Panel>
+   650→            <SectionLabel className="mb-3">Brand accents</SectionLabel>
+   651→            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+   652→              {colorTokens.map((c) => (
+   653→                <div
+   654→                  key={c.name}
+   655→                  className="overflow-hidden rounded-2xl border border-border bg-background"
+   656→                >
+   657→                  <div className={`h-20 ${c.cls}`} />
+   658→                  <div className="p-3">
+   659→                    <p className="text-sm font-medium text-foreground">
+   660→                      {c.name}
+   661→                    </p>
+   662→                    <p className="text-xs text-muted-foreground">{c.label}</p>
+   663→                  </div>
+   664→                </div>
+   665→              ))}
+   666→            </div>
+   667→            <SectionLabel className="mb-3 mt-6">Neutrals</SectionLabel>
+   668→            <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+   669→              {neutralTokens.map((c) => (
+   670→                <div
+   671→                  key={c.name}
+   672→                  className="flex items-center gap-3 rounded-xl border border-border bg-background p-3"
+   673→                >
+   674→                  <span
+   675→                    className={`size-8 rounded-lg border border-border ${c.cls}`}
+   676→                  />
+   677→                  <span className="text-sm text-foreground">{c.name}</span>
+   678→                </div>
+   679→              ))}
+   680→            </div>
+   681→          </Panel>
+   682→
+   683→          <Panel>
+   684→            <SectionLabel className="mb-4">Typography</SectionLabel>
+   685→            <div className="space-y-4">
+   686→              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4">
+   687→                <p className="text-4xl font-semibold tracking-tight text-foreground">
+   688→                  Where to?
+   689→                </p>
+   690→                <span className="text-xs text-muted-foreground">
+   691→                  Display · 36px · Semibold
+   692→                </span>
+   693→              </div>
+   694→              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4">
+   695→                <p className="text-xl font-semibold text-foreground">
+   696→                  Book a ride in seconds
+   697→                </p>
+   698→                <span className="text-xs text-muted-foreground">
+   699→                  Heading · 20px · Semibold
+   700→                </span>
+   701→              </div>
+   702→              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4">
+   703→                <p className="text-base text-foreground">
+   704→                  Your driver is on the way and will arrive shortly.
+   705→                </p>
+   706→                <span className="text-xs text-muted-foreground">
+   707→                  Body · 16px · Regular
+   708→                </span>
+   709→              </div>
+   710→              <div className="flex flex-wrap items-baseline justify-between gap-2">
+   711→                <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+   712→                  Services
+   713→                </p>
+   714→                <span className="text-xs text-muted-foreground">
+   715→                  Label · 12px · Uppercase
+   716→                </span>
+   717→              </div>
+   718→            </div>
+   719→          </Panel>
+   720→
+   721→          <Panel>
+   722→            <SectionLabel className="mb-4">Icons</SectionLabel>
+   723→            <div className="flex flex-wrap gap-3">
+   724→              {icons.map((Icon, i) => (
+   725→                <div
+   726→                  key={i}
+   727→                  className="flex size-14 items-center justify-center rounded-xl border border-border bg-background text-foreground"
+   728→                >
+   729→                  <Icon className="size-5" aria-hidden />
+   730→                </div>
+   731→              ))}
+   732→            </div>
+   733→          </Panel>
+   734→        </Block>
+   735→
+   736→        {/* ============================================================ */}
+   737→        {/* FOUNDATIONS                                                  */}
+   738→        {/* ============================================================ */}
+   739→        <Block
+   740→          id="foundations"
+   741→          title="Foundations"
+   742→          description="Buttons, badges and the building blocks shared across the whole system."
+   743→        >
+   744→          <div className="grid gap-6 lg:grid-cols-2">
+   745→            <Panel>
+   746→              <SectionLabel className="mb-4">Buttons</SectionLabel>
+   747→              <div className="flex flex-wrap items-center gap-3">
+   748→                <Button>Confirm ride</Button>
+   749→                <Button variant="secondary">Secondary</Button>
+   750→                <Button variant="outline">Outline</Button>
+   751→                <Button variant="ghost">Ghost</Button>
+   752→                <Button variant="destructive">Cancel</Button>
+   753→                <Button variant="link">Learn more</Button>
+   754→              </div>
+   755→              <div className="mt-4 flex flex-wrap items-center gap-3">
+   756→                <Button size="sm">Small</Button>
+   757→                <Button size="lg">Large</Button>
+   758→                <Button size="icon" aria-label="icon">
+   759→                  <Search />
+   760→                </Button>
+   761→              </div>
+   762→            </Panel>
+   763→
+   764→            <Panel>
+   765→              <SectionLabel className="mb-4">Status badges</SectionLabel>
+   766→              <div className="flex flex-wrap gap-2">
+   767→                <StatusBadge tone="brand" dot>
+   768→                  On the way
+   769→                </StatusBadge>
+   770→                <StatusBadge tone="success">Completed</StatusBadge>
+   771→                <StatusBadge tone="amber">Pending</StatusBadge>
+   772→                <StatusBadge tone="cyan">Scheduled</StatusBadge>
+   773→                <StatusBadge tone="magenta">Promo</StatusBadge>
+   774→                <StatusBadge tone="gold">Premium</StatusBadge>
+   775→                <StatusBadge tone="muted">Draft</StatusBadge>
+   776→              </div>
+   777→            </Panel>
+   778→
+   779→            <Panel>
+   780→              <SectionLabel className="mb-4">Where to bar</SectionLabel>
+   781→              <div className="rounded-2xl bg-gradient-to-br from-primary to-[oklch(0.4_0.18_268)] p-4">
+   782→                <WhereToBar />
+   783→              </div>
+   784→            </Panel>
+   785→
+   786→            <Panel>
+   787→              <SectionLabel className="mb-4">Empty state</SectionLabel>
+   788→              <EmptyState
+   789→                icon={Megaphone}
+   790→                title="No promotions right now"
+   791→                description="Check back soon for ride discounts and offers."
+   792→              />
+   793→            </Panel>
+   794→          </div>
+   795→        </Block>
+   796→
+   797→        {/* ============================================================ */}
+   798→        {/* MOBILE COMPONENTS                                            */}
+   799→        {/* ============================================================ */}
+   800→        <Block
+   801→          id="mobile-components"
+   802→          title="Mobile components"
+   803→          description="Composable building blocks for the rider-facing app."
+   804→        >
+   805→          <div className="grid gap-6 lg:grid-cols-2">
+   806→            <Panel>
+   807→              <SectionLabel className="mb-3">Service cards</SectionLabel>
+   808→              <div className="grid grid-cols-2 gap-3">
+   809→                <ServiceCard
+   810→                  icon={Car}
+   811→                  title="Reserve"
+   812→                  description="Book a ride"
+   813→                  accent="cyan"
+   814→                />
+   815→                <ServiceCard
+   816→                  icon={Package}
+   817→                  title="Packages"
+   818→                  description="Send items"
+   819→                  accent="amber"
+   820→                />
+   821→                <ServiceCard
+   822→                  icon={Megaphone}
+   823→                  title="Ads"
+   824→                  description="Promote"
+   825→                  accent="magenta"
+   826→                />
+   827→                <ServiceCard
+   828→                  icon={Truck}
+   829→                  title="Tow Truck"
+   830→                  description="Roadside help"
+   831→                  accent="gold"
+   832→                />
+   833→              </div>
+   834→            </Panel>
+   835→
+   836→            <Panel>
+   837→              <SectionLabel className="mb-3">Ride options</SectionLabel>
+   838→              <div className="space-y-2">
+   839→                <RideOption
+   840→                  icon={Car}
+   841→                  name="Eagle X"
+   842→                  eta="3 min away"
+   843→                  price="$12.40"
+   844→                  selected
+   845→                />
+   846→                <RideOption
+   847→                  icon={Crown}
+   848→                  name="Eagle Premium"
+   849→                  eta="5 min away"
+   850→                  price="$19.80"
+   851→                />
+   852→                <RideOption
+   853→                  icon={Truck}
+   854→                  name="Eagle XL"
+   855→                  eta="7 min away"
+   856→                  price="$24.00"
+   857→                />
+   858→              </div>
+   859→            </Panel>
+   860→
+   861→            <Panel>
+   862→              <SectionLabel className="mb-3">Driver card</SectionLabel>
+   863→              <DriverCard
+   864→                name="Marcus Reed"
+   865→                rating={4.9}
+   866→                car="Tesla Model 3"
+   867→                plate="EAG-4821"
+   868→                initials="MR"
+   869→              />
+   870→            </Panel>
+   871→
+   872→            <Panel>
+   873→              <SectionLabel className="mb-3">Bottom navigation</SectionLabel>
+   874→              <div className="overflow-hidden rounded-2xl border border-border">
+   875→                <BottomNav />
+   876→              </div>
+   877→            </Panel>
+   878→          </div>
+   879→        </Block>
+   880→
+   881→        {/* ============================================================ */}
+   882→        {/* FORMS                                                        */}
+   883→        {/* ============================================================ */}
+   884→        <Block
+   885→          id="forms"
+   886→          title="Booking forms"
+   887→          description="Reusable inputs and summaries that power the reservation, chauffeur and package flows."
+   888→        >
+   889→          <div className="grid gap-6 lg:grid-cols-2">
+   890→            <Panel className="space-y-4">
+   891→              <SectionLabel>Address inputs</SectionLabel>
+   892→              <div className="space-y-2">
+   893→                <AddressInput
+   894→                  variant="pickup"
+   895→                  label="Pickup"
+   896→                  value="Current location"
+   897→                />
+   898→                <AddressInput
+   899→                  variant="destination"
+   900→                  label="Destination"
+   901→                  placeholder="Where to?"
+   902→                />
+   903→              </div>
+   904→              <SectionLabel className="pt-2">Date & time</SectionLabel>
+   905→              <DateTimePicker />
+   906→            </Panel>
+   907→
+   908→            <Panel className="space-y-4">
+   909→              <SectionLabel>Vehicle selector</SectionLabel>
+   910→              <VehicleSelector options={vehicleOptions} value="comfort" />
+   911→            </Panel>
+   912→
+   913→            <Panel className="space-y-4">
+   914→              <SectionLabel>Payment method</SectionLabel>
+   915→              <PaymentMethodSelector methods={paymentMethods} value="card" />
+   916→            </Panel>
+   917→
+   918→            <Panel className="space-y-4">
+   919→              <SectionLabel>Fare summary</SectionLabel>
+   920→              <FareSummary items={fareItems} total="$49.68" discount="$3.00" />
+   921→            </Panel>
+   922→
+   923→            <Panel className="space-y-4">
+   924→              <SectionLabel>Booking summary</SectionLabel>
+   925→              <BookingSummaryCard
+   926→                pickup="Logan Airport, Terminal C"
+   927→                destination="Back Bay, 200 Dartmouth St"
+   928→                serviceName="Black"
+   929→                serviceAccent="brand"
+   930→                dateTime="Today · 4:30 PM"
+   931→                passengers={2}
+   932→              />
+   933→            </Panel>
+   934→
+   935→            <Panel className="space-y-4">
+   936→              <SectionLabel>Trip progress</SectionLabel>
+   937→              <TripProgress
+   938→                steps={["Route", "Vehicle", "Payment", "Confirm"]}
+   939→                current={1}
+   940→              />
+   941→              <SectionLabel className="pt-2">Promo code</SectionLabel>
+   942→              <PromoCodeInput
+   943→                applied={{ code: "EAGLE20", discount: "$3.00" }}
+   944→              />
+   945→              <SectionLabel className="pt-2">Rating</SectionLabel>
+   946→              <RatingStars value={4} />
+   947→              <SectionLabel className="pt-2">Filter chips</SectionLabel>
+   948→              <FilterChips
+   949→                options={["All", "Completed", "Cancelled"]}
+   950→                value="All"
+   951→              />
+   952→            </Panel>
+   953→          </div>
+   954→        </Block>
+   955→
+   956→        {/* ============================================================ */}
+   957→        {/* MOBILE SCREENS                                               */}
+   958→        {/* ============================================================ */}
+   959→        <Block
+   960→          id="screens"
+   961→          title="User app screens"
+   962→          description="The components assembled into the real Eagle Eye Rides rider app — the full user journey, including loyalty, referrals and live map."
+   963→        >
+   964→          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+   965→            <PhoneFrame label="Home">
+   966→              <HomeScreen />
+   967→            </PhoneFrame>
+   968→            <PhoneFrame label="Book a ride">
+   969→              <ReserveScreen />
+   970→            </PhoneFrame>
+   971→            <PhoneFrame label="Live tracking">
+   972→              <TrackingScreen />
+   973→            </PhoneFrame>
+   974→            <PhoneFrame label="Live map">
+   975→              <MapViewScreen />
+   976→            </PhoneFrame>
+   977→            <PhoneFrame label="Chauffeur service">
+   978→              <ChauffeurScreen />
+   979→            </PhoneFrame>
+   980→            <PhoneFrame label="Send a package">
+   981→              <PackageScreen />
+   982→            </PhoneFrame>
+   983→            <PhoneFrame label="Directions">
+   984→              <DirectionsScreen />
+   985→            </PhoneFrame>
+   986→            <PhoneFrame label="Sign in / Sign up">
+   987→              <AuthScreen />
+   988→            </PhoneFrame>
+   989→            <PhoneFrame label="Profile">
+   990→              <ProfileScreen />
+   991→            </PhoneFrame>
+   992→            <PhoneFrame label="Wallet">
+   993→              <WalletScreen />
+   994→            </PhoneFrame>
+   995→            <PhoneFrame label="Ride history">
+   996→              <RideHistoryScreen />
+   997→            </PhoneFrame>
+   998→            <PhoneFrame label="Loyalty points">
+   999→              <PointsScreen />
+  1000→            </PhoneFrame>
+  1001→            <PhoneFrame label="Refer & earn">
+  1002→              <ReferralsScreen />
+  1003→            </PhoneFrame>
+  1004→            <PhoneFrame label="Tips history">
+  1005→              <TipsHistoryScreen />
+  1006→            </PhoneFrame>
+  1007→          </div>
+  1008→        </Block>
+  1009→
+  1010→        {/* ============================================================ */}
+  1011→        {/* DRIVER SCREENS                                               */}
+  1012→        {/* ============================================================ */}
+  1013→        <Block
+  1014→          id="driver-screens"
+  1015→          title="Driver app screens"
+  1016→          description="The separate driver-facing app: go online, accept chauffeur & package jobs, navigate, and track earnings."
+  1017→        >
+  1018→          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+  1019→            <PhoneFrame label="Driver home">
+  1020→              <DriverHomeScreen />
+  1021→            </PhoneFrame>
+  1022→            <PhoneFrame label="Chauffeur schedule">
+  1023→              <DriverChauffeurScheduleScreen />
+  1024→            </PhoneFrame>
+  1025→            <PhoneFrame label="Package queue">
+  1026→              <DriverPackagesScreen />
+  1027→            </PhoneFrame>
+  1028→            <PhoneFrame label="Driver navigation">
+  1029→              <DriverMapScreen />
+  1030→            </PhoneFrame>
+  1031→            <PhoneFrame label="Driver earnings">
+  1032→              <DriverEarningsScreen />
+  1033→            </PhoneFrame>
+  1034→          </div>
+  1035→        </Block>
+  1036→
+  1037→        {/* ============================================================ */}
+  1038→        {/* ADMIN                                                        */}
+  1039→        {/* ============================================================ */}
+  1040→        <Block
+  1041→          id="admin"
+  1042→          title="Admin dashboard"
+  1043→          description="The operations console for managing rides, drivers, fleet, fares, earnings, ads and withdrawals."
+  1044→        >
+  1045→          {/* Dashboard shell */}
+  1046→          <div className="overflow-hidden rounded-2xl border border-border bg-background">
+  1047→            <div className="flex">
+  1048→              {/* Sidebar (desktop) */}
+  1049→              <aside className="hidden w-64 shrink-0 lg:block">
+  1050→                <AdminSidebar active="Dashboard" />
+  1051→              </aside>
+  1052→
+  1053→              {/* Main */}
+  1054→              <div className="min-w-0 flex-1">
+  1055→                <AdminTopbar
+  1056→                  title="Dashboard"
+  1057→                  breadcrumb={["Admin", "Overview"]}
+  1058→                  themeToggle={<ThemeToggle />}
+  1059→                  user={{ name: "Alex Morgan", role: "Operator", initials: "AM" }}
+  1060→                />
+  1061→
+  1062→                <div className="space-y-6 p-5 lg:p-6">
+  1063→                  <PageHeader
+  1064→                    title="Overview"
+  1065→                    description="Real-time operations across Boston & New England."
+  1066→                    actions={
+  1067→                      <Button>
+  1068→                        <CalendarDays className="size-4" aria-hidden />
+  1069→                        Last 7 days
+  1070→                      </Button>
+  1071→                    }
+  1072→                  />
+  1073→
+  1074→                  {/* Stat cards */}
+  1075→                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  1076→                    <StatCard
+  1077→                      label="Total rides"
+  1078→                      value="1,284"
+  1079→                      change="+12.4%"
+  1080→                      trend="up"
+  1081→                      icon={Car}
+  1082→                      accent="brand"
+  1083→                    />
+  1084→                    <StatCard
+  1085→                      label="Gross earnings"
+  1086→                      value="$38,420"
+  1087→                      change="+8.1%"
+  1088→                      trend="up"
+  1089→                      icon={Wallet}
+  1090→                      accent="success"
+  1091→                    />
+  1092→                    <StatCard
+  1093→                      label="Active drivers"
+  1094→                      value="47"
+  1095→                      change="+3"
+  1096→                      trend="up"
+  1097→                      icon={Users}
+  1098→                      accent="cyan"
+  1099→                    />
+  1100→                    <StatCard
+  1101→                      label="Cancellations"
+  1102→                      value="2.1%"
+  1103→                      change="-0.4%"
+  1104→                      trend="down"
+  1105→                      icon={Megaphone}
+  1106→                      accent="amber"
+  1107→                    />
+  1108→                  </div>
+  1109→
+  1110→                  {/* Chart + config */}
+  1111→                  <div className="grid gap-6 lg:grid-cols-3">
+  1112→                    <Card className="p-5 lg:col-span-2">
+  1113→                      <EarningsChart />
+  1114→                    </Card>
+  1115→                    <FareConfigCard
+  1116→                      serviceName="Comfort"
+  1117→                      accent="cyan"
+  1118→                      fields={fareFields}
+  1119→                    />
+  1120→                  </div>
+  1121→
+  1122→                  {/* Tables */}
+  1123→                  <div className="grid gap-6 xl:grid-cols-2">
+  1124→                    <RidesTable rides={sampleRides} />
+  1125→                    <DriversTable drivers={sampleDrivers} />
+  1126→                  </div>
+  1127→
+  1128→                  {/* Fleet + Ads */}
+  1129→                  <div className="grid gap-6 lg:grid-cols-3">
+  1130→                    <div className="space-y-3 lg:col-span-1">
+  1131→                      <SectionLabel>Fleet</SectionLabel>
+  1132→                      <div className="space-y-3">
+  1133→                        {sampleVehicles.map((v) => (
+  1134→                          <FleetVehicleCard key={v.id} vehicle={v} />
+  1135→                        ))}
+  1136→                      </div>
+  1137→                    </div>
+  1138→                    <div className="space-y-3 lg:col-span-2">
+  1139→                      <SectionLabel>Advertisements</SectionLabel>
+  1140→                      <div className="grid gap-3 sm:grid-cols-2">
+  1141→                        {sampleAds.map((a) => (
+  1142→                          <AdCard key={a.id} ad={a} />
+  1143→                        ))}
+  1144→                      </div>
+  1145→                    </div>
+  1146→                  </div>
+  1147→
+  1148→                  {/* Withdrawals */}
+  1149→                  <div className="space-y-3">
+  1150→                    <SectionLabel>Withdrawal requests</SectionLabel>
+  1151→                    <div className="space-y-2">
+  1152→                      {sampleWithdrawals.map((w) => (
+  1153→                        <WithdrawalRow key={w.id} withdrawal={w} />
+  1154→                      ))}
+  1155→                    </div>
+  1156→                  </div>
+  1157→
+  1158→                  {/* Operations: dispatch + surge */}
+  1159→                  <div className="grid gap-6 lg:grid-cols-2">
+  1160→                    <DispatchConfigCard />
+  1161→                    <SurgePricingCard />
+  1162→                  </div>
+  1163→
+  1164→                  {/* Coupons + chauffeur bookings */}
+  1165→                  <div className="grid gap-6 xl:grid-cols-2">
+  1166→                    <CouponsTable coupons={sampleCoupons} />
+  1167→                    <ChauffeurBookingsTable bookings={sampleChauffeurBookings} />
+  1168→                  </div>
+  1169→
+  1170→                  {/* Safety overview + SOS alerts */}
+  1171→                  <div className="grid gap-6 lg:grid-cols-3">
+  1172→                    <div className="lg:col-span-1">
+  1173→                      <SafetyOverview recentAlerts={sampleSosAlerts} />
+  1174→                    </div>
+  1175→                    <div className="space-y-3 lg:col-span-2">
+  1176→                      <SectionLabel>SOS alerts</SectionLabel>
+  1177→                      <div className="space-y-3">
+  1178→                        {sampleSosAlerts.map((a) => (
+  1179→                          <SosAlertCard key={a.id} alert={a} />
+  1180→                        ))}
+  1181→                      </div>
+  1182→                    </div>
+  1183→                  </div>
+  1184→
+  1185→                  {/* Document verification */}
+  1186→                  <div className="space-y-3">
+  1187→                    <SectionLabel>Driver document verification</SectionLabel>
+  1188→                    <div className="space-y-2">
+  1189→                      {sampleDocumentDrivers.map((d) => (
+  1190→                        <DocumentVerificationRow key={d.id} driver={d} />
+  1191→                      ))}
+  1192→                    </div>
+  1193→                  </div>
+  1194→
+  1195→                  {/* Driver earnings config */}
+  1196→                  <div className="grid gap-6 lg:grid-cols-2">
+  1197→                    <DriverEarningsConfig />
+  1198→                  </div>
+  1199→
+  1200→                  {/* Config sample */}
+  1201→                  <div className="space-y-3">
+  1202→                    <SectionLabel>Settings sample</SectionLabel>
+  1203→                    <Card className="divide-y divide-border p-0">
+  1204→                      <div className="p-5">
+  1205→                        <ConfigField
+  1206→                          label="Advance booking window"
+  1207→                          description="Minimum hours before a chauffeur reservation can be made."
+  1208→                          htmlFor="adv-book"
+  1209→                        >
+  1210→                          <div className="flex items-center gap-2">
+  1211→                            <input
+  1212→                              id="adv-book"
+  1213→                              defaultValue="5"
+  1214→                              className="h-9 w-20 rounded-lg border border-input bg-background px-3 text-sm"
+  1215→                            />
+  1216→                            <span className="text-sm text-muted-foreground">
+  1217→                              hours
+  1218→                            </span>
+  1219→                          </div>
+  1220→                        </ConfigField>
+  1221→                      </div>
+  1222→                      <div className="p-5">
+  1223→                        <ConfigField
+  1224→                          label="Allow cash payments"
+  1225→                          description="Let riders pay drivers in cash for one-way rides."
+  1226→                        >
+  1227→                          <span className="inline-flex h-6 items-center rounded-full bg-success/20 px-2 text-xs font-medium text-success">
+  1228→                            Enabled
+  1229→                          </span>
+  1230→                        </ConfigField>
+  1231→                      </div>
+  1232→                    </Card>
+  1233→                  </div>
+  1234→                </div>
+  1235→              </div>
+  1236→            </div>
+  1237→          </div>
+  1238→        </Block>
+  1239→      </main>
+  1240→
+  1241→      <footer className="mt-auto border-t border-border">
+  1242→        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-8 sm:flex-row">
+  1243→          <Logo size={32} />
+  1244→          <p className="text-sm text-muted-foreground">
+  1245→            Eagle Eye Rides UI Kit — built for the full mobility platform.
+  1246→          </p>
+  1247→        </div>
+  1248→      </footer>
+  1249→    </div>
+  1250→  );
+  1251→}
+  1252→
