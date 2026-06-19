@@ -24,7 +24,7 @@ import { ThemeToggle } from "@/components/eer/theme-toggle";
 import { StatusBadge } from "@/components/eer/status-badge";
 import { SectionLabel } from "@/components/eer/section-label";
 import { EmptyState } from "@/components/eer/empty-state";
-import { PhoneFrame } from "@/components/eer/phone-frame";
+import { PhoneFrame, PhoneGallery } from "@/components/eer/phone-frame";
 import { ServiceCard } from "@/components/eer/service-card";
 import { RideOption } from "@/components/eer/ride-option";
 import { DriverCard } from "@/components/eer/driver-card";
@@ -1209,7 +1209,7 @@ export default function Page() {
           title="User app screens"
           description="The components assembled into the real Eagle Eye Rides rider app — the full user journey, including loyalty, referrals and live map."
         >
-          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+          <PhoneGallery>
             <PhoneFrame label="Home">
               <HomeScreen />
             </PhoneFrame>
@@ -1267,7 +1267,7 @@ export default function Page() {
             <PhoneFrame label="Profile lock">
               <ProfileLockScreen />
             </PhoneFrame>
-          </div>
+          </PhoneGallery>
         </Block>
 
         {/* ============================================================ */}
@@ -1278,7 +1278,7 @@ export default function Page() {
           title="Driver app screens"
           description="The separate driver-facing app: go online, accept chauffeur & package jobs, navigate, and track earnings."
         >
-          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+          <PhoneGallery>
             <PhoneFrame label="Driver home">
               <DriverHomeScreen />
             </PhoneFrame>
@@ -1303,7 +1303,7 @@ export default function Page() {
             <PhoneFrame label="Driver tips">
               <DriverTipsReportScreen />
             </PhoneFrame>
-          </div>
+          </PhoneGallery>
         </Block>
 
         {/* ============================================================ */}
@@ -1314,7 +1314,7 @@ export default function Page() {
           title="System pages"
           description="Error pages, maintenance and pricing — for when things go wrong or onboarding."
         >
-          <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+          <PhoneGallery>
             <PhoneFrame label="404">
               <ErrorScreen code={404} inFrame />
             </PhoneFrame>
@@ -1330,7 +1330,7 @@ export default function Page() {
             <PhoneFrame label="Pricing">
               <PricingScreen />
             </PhoneFrame>
-          </div>
+          </PhoneGallery>
         </Block>
 
         {/* ============================================================ */}
