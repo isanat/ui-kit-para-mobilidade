@@ -543,3 +543,22 @@ Work Log:
 Stage Summary:
 - UI kit is now fully mobile-friendly: no horizontal overflow at 320px/375px, tables scroll horizontally, phone frames shrink via max-w-full, section nav scrolls, cards stack vertically.
 - All number formatting is locale-deterministic (en-US) preventing hydration issues in any browser locale.
+
+---
+Task ID: E1 (final)
+Agent: main (orchestrator)
+Task: Improve PhoneFrame mobile UX + commit & push to official repo.
+
+Work Log:
+- Rewrote phone-frame.tsx: PhoneFrame now keeps natural 380px width (removed max-w-full that compressed content). Added PhoneGallery wrapper: horizontal snap-scroll on mobile (<sm), flex-wrap on desktop (>=sm). Replaced 3 frame containers in showcase with PhoneGallery.
+- Result: phone mockups render crisp at 380px on ALL viewports; on mobile the gallery swipes horizontally with snap (standard mockup-gallery UX); 0px page overflow at 320px and 375px.
+- Committed all work on branch main, then created branch v2/complete-ui-kit.
+- Added remote origin → github.com/isanat/ui-kit-para-mobilidade.git (using user's token).
+- Pushed v2/complete-ui-kit to origin. Existing branches (main, v0/isanat-cd9bd9c5) untouched.
+- Removed token from local remote URL after push (security).
+- PR link: https://github.com/isanat/ui-kit-para-mobilidade/pull/new/v2/complete-ui-kit
+
+Stage Summary:
+- 112 UI kit files pushed (109 components + THEME.md + COMPONENTS.md + worklog.md).
+- UI kit is now fully mobile-friendly AND in the official repository.
+- The original v0 work is preserved on its own branch; this is an additive v2.
