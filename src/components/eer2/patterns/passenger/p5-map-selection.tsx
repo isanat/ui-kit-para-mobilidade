@@ -15,11 +15,17 @@ import {
 import type { PatternProps } from '../types'
 
 // Vehicle classes available for selection on the bottom sheet
-const vehicleClasses = [
+interface VehicleClass {
+  id: string
+  name: string
+  price: number
+  eta: number
+}
+const vehicleClasses: VehicleClass[] = [
   { id: 'sedan', name: 'Black Sedan', price: 32, eta: 4 },
   { id: 'suv', name: 'Black SUV', price: 45, eta: 6 },
   { id: 'luxury', name: 'Luxury', price: 65, eta: 8 },
-] as const
+]
 
 // ── Map background (stylized dot-grid placeholder) ──
 function MapBackground() {
@@ -158,7 +164,7 @@ function VehicleClassCard({
   selected,
   onSelect,
 }: {
-  vehicle: (typeof vehicleClasses)[0]
+  vehicle: VehicleClass
   selected: boolean
   onSelect?: () => void
 }) {

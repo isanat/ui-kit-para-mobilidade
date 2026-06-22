@@ -30,10 +30,17 @@ import { P6Payment } from './patterns/passenger/p6-payment'
 import { P7ListDetail } from './patterns/passenger/p7-list-detail'
 import { P8Chat } from './patterns/passenger/p8-chat'
 import { P9Account } from './patterns/passenger/p9-account'
+import { D1Dashboard } from './patterns/driver/d1-dashboard'
+import { D2RidesList } from './patterns/driver/d2-rides-list'
+import { D3Earnings } from './patterns/driver/d3-earnings'
+import { D4Settings } from './patterns/driver/d4-settings'
+import { A1Dashboard } from './patterns/admin/a1-dashboard'
+import { A2DataTable } from './patterns/admin/a2-data-table'
+import { A3Config } from './patterns/admin/a3-config'
+import { A4AlertTriage } from './patterns/admin/a4-alert-triage'
+import { A5DetailEdit } from './patterns/admin/a5-detail-edit'
 
 // ── Pattern registry ──
-// Maps pattern IDs to their components. As patterns are built in Marcos 2-4,
-// add them here. Patterns not yet built fall through to the placeholder.
 const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onStateChange?: (s: AppState) => void }>> = {
   p1: P1Landing,
   p2: P2Auth,
@@ -44,6 +51,15 @@ const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onS
   p7: P7ListDetail,
   p8: P8Chat,
   p9: P9Account,
+  d1: D1Dashboard,
+  d2: D2RidesList,
+  d3: D3Earnings,
+  d4: D4Settings,
+  a1: A1Dashboard,
+  a2: A2DataTable,
+  a3: A3Config,
+  a4: A4AlertTriage,
+  a5: A5DetailEdit,
 }
 
 type Category = 'foundation' | 'passenger' | 'driver' | 'admin'
