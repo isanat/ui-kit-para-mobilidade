@@ -21,13 +21,29 @@ import { FoundationView } from './foundation'
 import { PhoneFrame } from '@/components/eer/phone-frame'
 import type { AppState } from './patterns/types'
 import { appStates } from './patterns/types'
+import { P1Landing } from './patterns/passenger/p1-landing'
+import { P2Auth } from './patterns/passenger/p2-auth'
 import { P3HomeDashboard } from './patterns/passenger/p3-home-dashboard'
+import { P4BookingWizard } from './patterns/passenger/p4-booking-wizard'
+import { P5MapSelection } from './patterns/passenger/p5-map-selection'
+import { P6Payment } from './patterns/passenger/p6-payment'
+import { P7ListDetail } from './patterns/passenger/p7-list-detail'
+import { P8Chat } from './patterns/passenger/p8-chat'
+import { P9Account } from './patterns/passenger/p9-account'
 
 // ── Pattern registry ──
 // Maps pattern IDs to their components. As patterns are built in Marcos 2-4,
 // add them here. Patterns not yet built fall through to the placeholder.
 const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onStateChange?: (s: AppState) => void }>> = {
+  p1: P1Landing,
+  p2: P2Auth,
   p3: P3HomeDashboard,
+  p4: P4BookingWizard,
+  p5: P5MapSelection,
+  p6: P6Payment,
+  p7: P7ListDetail,
+  p8: P8Chat,
+  p9: P9Account,
 }
 
 type Category = 'foundation' | 'passenger' | 'driver' | 'admin'
