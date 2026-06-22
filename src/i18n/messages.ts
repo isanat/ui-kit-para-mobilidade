@@ -30,6 +30,13 @@ export const messages = {
     'shell.state.success': 'Success',
     'shell.state.populated': 'Populated',
 
+    // ── Docs section ──
+    'docs.overview': 'Overview',
+    'docs.principles': 'UX Principles',
+    'docs.patterns': 'Pattern Catalog',
+    'docs.migration': 'Migration Guide',
+    'docs.checklist': 'Quality Checklist',
+
     // ── Foundation section ──
     'foundation.colors.title': 'Color System',
     'foundation.colors.desc': 'Semantic tokens with full light/dark ramps. Service colors map 1:1 to journey types.',
@@ -128,6 +135,13 @@ export const messages = {
     'shell.state.error': 'Erro',
     'shell.state.success': 'Sucesso',
     'shell.state.populated': 'Preenchido',
+
+    // ── Docs section ──
+    'docs.overview': 'Visão Geral',
+    'docs.principles': 'Princípios de UX',
+    'docs.patterns': 'Catálogo de Padrões',
+    'docs.migration': 'Guia de Migração',
+    'docs.checklist': 'Checklist de Qualidade',
 
     // ── Foundation section ──
     'foundation.colors.title': 'Sistema de Cores',

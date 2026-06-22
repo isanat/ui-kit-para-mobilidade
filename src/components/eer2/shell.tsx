@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import {
+  BookOpen,
   Car,
   LayoutDashboard,
   Layers,
@@ -18,6 +19,7 @@ import type { Locale } from '@/i18n/messages'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { FoundationView } from './foundation'
+import { DocsView } from './docs'
 import { PhoneFrame } from '@/components/eer/phone-frame'
 import type { AppState } from './patterns/types'
 import { appStates } from './patterns/types'
@@ -62,7 +64,7 @@ const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onS
   a5: A5DetailEdit,
 }
 
-type Category = 'foundation' | 'passenger' | 'driver' | 'admin'
+type Category = 'foundation' | 'passenger' | 'driver' | 'admin' | 'docs'
 
 interface NavItem {
   id: string
@@ -70,8 +72,9 @@ interface NavItem {
   labelKey: string
   descKey?: string
   badge?: string
-  renderType: 'foundation' | 'mobile' | 'desktop'
+  renderType: 'foundation' | 'mobile' | 'desktop' | 'docs'
   foundationSection?: 'overview' | 'colors' | 'typography' | 'motion' | 'states'
+  docsSection?: 'overview' | 'principles' | 'patterns' | 'migration' | 'checklist'
   patternId?: string
   ready?: boolean
 }
@@ -107,6 +110,13 @@ const navItems: NavItem[] = [
   { id: 'a3', category: 'admin', labelKey: 'pattern.a3.title', descKey: 'pattern.a3.desc', renderType: 'desktop', patternId: 'a3', badge: 'A3' },
   { id: 'a4', category: 'admin', labelKey: 'pattern.a4.title', descKey: 'pattern.a4.desc', renderType: 'desktop', patternId: 'a4', badge: 'A4' },
   { id: 'a5', category: 'admin', labelKey: 'pattern.a5.title', descKey: 'pattern.a5.desc', renderType: 'desktop', patternId: 'a5', badge: 'A5' },
+
+  // Docs
+  { id: 'docs-overview', category: 'docs', labelKey: 'docs.overview', renderType: 'docs', docsSection: 'overview' },
+  { id: 'docs-principles', category: 'docs', labelKey: 'docs.principles', renderType: 'docs', docsSection: 'principles' },
+  { id: 'docs-patterns', category: 'docs', labelKey: 'docs.patterns', renderType: 'docs', docsSection: 'patterns' },
+  { id: 'docs-migration', category: 'docs', labelKey: 'docs.migration', renderType: 'docs', docsSection: 'migration' },
+  { id: 'docs-checklist', category: 'docs', labelKey: 'docs.checklist', renderType: 'docs', docsSection: 'checklist' },
 ]
 
 const categoryConfig: Record<Category, { labelKey: string; icon: typeof Layers; introKey?: string }> = {
@@ -114,6 +124,7 @@ const categoryConfig: Record<Category, { labelKey: string; icon: typeof Layers; 
   passenger: { labelKey: 'shell.passenger', icon: User, introKey: 'passenger.intro' },
   driver: { labelKey: 'shell.driver', icon: Car, introKey: 'driver.intro' },
   admin: { labelKey: 'shell.admin', icon: LayoutDashboard, introKey: 'admin.intro' },
+  docs: { labelKey: 'shell.docs', icon: BookOpen },
 }
 
 function LocaleSwitcher() {
@@ -382,6 +393,11 @@ export function EerShell() {
               ) : (
                 <PatternPlaceholder patternId={activeItem.id} />
               )}
+            </div>
+          )}
+          {activeItem.renderType === 'docs' && (
+            <div className="mx-auto max-w-5xl p-6">
+              <DocsView section={activeItem.docsSection!} />
             </div>
           )}
         </main>
