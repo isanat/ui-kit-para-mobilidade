@@ -203,7 +203,7 @@ function Sidebar({
   onClose?: () => void
 }) {
   const { t } = useI18n()
-  const categories: Category[] = ['foundation', 'passenger', 'driver', 'admin']
+  const categories: Category[] = ['foundation', 'passenger', 'driver', 'admin', 'docs']
 
   return (
     <nav className="flex h-full w-64 flex-col border-r border-border bg-card">
