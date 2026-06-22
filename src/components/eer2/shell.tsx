@@ -19,6 +19,16 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { FoundationView } from './foundation'
 import { PhoneFrame } from '@/components/eer/phone-frame'
+import type { AppState } from './patterns/types'
+import { appStates } from './patterns/types'
+import { P3HomeDashboard } from './patterns/passenger/p3-home-dashboard'
+
+// ── Pattern registry ──
+// Maps pattern IDs to their components. As patterns are built in Marcos 2-4,
+// add them here. Patterns not yet built fall through to the placeholder.
+const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onStateChange?: (s: AppState) => void }>> = {
+  p3: P3HomeDashboard,
+}
 
 type Category = 'foundation' | 'passenger' | 'driver' | 'admin'
 
@@ -223,16 +233,47 @@ function Sidebar({
   )
 }
 
+function StateSelector({ value, onChange }: { value: AppState; onChange: (s: AppState) => void }) {
+  const { t } = useI18n()
+  const stateLabels: Record<AppState, string> = {
+    loading: t('shell.state.loading'),
+    empty: t('shell.state.empty'),
+    error: t('shell.state.error'),
+    success: t('shell.state.success'),
+    populated: t('shell.state.populated'),
+  }
+  return (
+    <div className="inline-flex rounded-lg border border-border bg-card p-0.5">
+      {appStates.map((s) => (
+        <button
+          key={s}
+          onClick={() => onChange(s)}
+          className={cn(
+            'rounded-md px-2 py-1 text-xs font-medium transition-base',
+            value === s ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          {stateLabels[s]}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function EerShell() {
   const { t } = useI18n()
   const [activeId, setActiveId] = useState('overview')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [patternState, setPatternState] = useState<AppState>('populated')
 
   const activeItem = useMemo(() => navItems.find((n) => n.id === activeId)!, [activeId])
+  const PatternComponent = activeItem.patternId ? patternRegistry[activeItem.patternId] : null
+  const hasStateSelector = PatternComponent !== null
 
   const handleSelect = (id: string) => {
     setActiveId(id)
     setMobileNavOpen(false)
+    setPatternState('populated')
   }
 
   return (
@@ -276,6 +317,9 @@ export function EerShell() {
             <h1 className="text-sm font-semibold">{t(activeItem.labelKey as never)}</h1>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            {hasStateSelector && (
+              <StateSelector value={patternState} onChange={setPatternState} />
+            )}
             <LocaleSwitcher />
             <ThemeToggle />
           </div>
@@ -291,13 +335,21 @@ export function EerShell() {
           {activeItem.renderType === 'mobile' && (
             <div className="flex min-h-full items-start justify-center p-6">
               <PhoneFrame>
-                <PatternPlaceholder patternId={activeItem.id} />
+                {PatternComponent ? (
+                  <PatternComponent state={patternState} onStateChange={setPatternState} />
+                ) : (
+                  <PatternPlaceholder patternId={activeItem.id} />
+                )}
               </PhoneFrame>
             </div>
           )}
           {activeItem.renderType === 'desktop' && (
             <div className="mx-auto max-w-6xl p-6">
-              <PatternPlaceholder patternId={activeItem.id} />
+              {PatternComponent ? (
+                <PatternComponent state={patternState} onStateChange={setPatternState} />
+              ) : (
+                <PatternPlaceholder patternId={activeItem.id} />
+              )}
             </div>
           )}
         </main>
