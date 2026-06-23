@@ -30,6 +30,13 @@ export const messages = {
     'shell.state.success': 'Success',
     'shell.state.populated': 'Populated',
 
+    // ── Brand section ──
+    'brand.section': 'Brand',
+    'brand.overview': 'Overview',
+    'brand.essence': 'Brand Essence',
+    'brand.colors': 'Colors',
+    'brand.logo': 'Logo & Wordmark',
+
     // ── Docs section ──
     'docs.overview': 'Overview',
     'docs.principles': 'UX Principles',
@@ -143,6 +150,13 @@ export const messages = {
     'shell.state.error': 'Erro',
     'shell.state.success': 'Sucesso',
     'shell.state.populated': 'Preenchido',
+
+    // ── Brand section ──
+    'brand.section': 'Marca',
+    'brand.overview': 'Visão Geral',
+    'brand.essence': 'Essência da Marca',
+    'brand.colors': 'Cores',
+    'brand.logo': 'Logo & Wordmark',
 
     // ── Docs section ──
     'docs.overview': 'Visão Geral',

@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display), var(--font-geist-sans), 'Geist Fallback';
+  --font-display: var(--font-display), 'Poppins', var(--font-geist-sans), 'Geist Fallback';
   --font-sans: var(--font-geist-sans), 'Geist Fallback';
   --font-mono: var(--font-geist-mono), 'Geist Mono Fallback';
 
@@ -96,7 +97,7 @@
   --magenta-foreground: oklch(0.99 0 0);
   --gold: oklch(0.82 0.15 90);
   --gold-foreground: oklch(0.25 0.04 262);
-  --success: oklch(0.7 0.16 155);
+  --success: oklch(0.68 0.13 160);
   --success-foreground: oklch(0.99 0 0);
 
   --chart-1: oklch(0.55 0.2 262);
@@ -187,10 +188,10 @@
    ============================================= */
 
 :root {
-  /* ── Status colors (extend existing) ── */
-  --warning: oklch(0.76 0.16 65);
+  /* ── Status colors (softened, organic) ── */
+  --warning: oklch(0.74 0.14 70);
   --warning-foreground: oklch(0.18 0.02 65);
-  --info: oklch(0.7 0.13 210);
+  --info: oklch(0.68 0.11 215);
   --info-foreground: oklch(0.15 0.02 262);
 
   /* ── Surface stack (semantic layering) ── */
@@ -279,9 +280,9 @@
 }
 
 .dark {
-  --warning: oklch(0.78 0.16 65);
+  --warning: oklch(0.76 0.14 70);
   --warning-foreground: oklch(0.18 0.02 65);
-  --info: oklch(0.72 0.13 210);
+  --info: oklch(0.72 0.11 215);
   --info-foreground: oklch(0.99 0 0);
   --surface-elevated: oklch(0.3 0.035 262);
 }
@@ -463,5 +464,99 @@
     border-radius: 9999px;
   }
 }
+
+/* =============================================
+   EER DESIGN SYSTEM v3.2 — Organic Modernism
+   Subtle elevation, expressive display type,
+   warmer status colors. Adds warmth without
+   losing the v3 cleanliness.
+   ============================================= */
+
+:root {
+  /* ── Elevation shadows (subtle, organic) ── */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-glow: 0 0 0 3px var(--primary / 0.12);
+}
+
+.dark {
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.45), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.35);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.55), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+}
+
+@layer utilities {
+  /* ── Display heading (Poppins, expressive) ── */
+  .eer-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Elevated card (subtle shadow + border) ── */
+  .eer-card-elevated {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--duration-fast) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out);
+  }
+  .eer-card-elevated:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── Raised card (more elevation, for interactive) ── */
+  .eer-card-raised {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--duration-normal) var(--ease-out),
+                transform var(--duration-normal) var(--ease-out);
+  }
+  .eer-card-raised:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  /* ── Hero number with display font ── */
+  .eer-hero-number {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Organic motion (spring with restraint) ── */
+  .eer-motion-card {
+    animation: eer-card-enter var(--duration-slow) var(--ease-out);
+  }
+  @keyframes eer-card-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Hover lift (for interactive cards) ── */
+  .eer-hover-lift {
+    transition: transform var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .eer-hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .eer-hover-lift:active {
+    transform: translateY(0);
+  }
+}
+
 
 

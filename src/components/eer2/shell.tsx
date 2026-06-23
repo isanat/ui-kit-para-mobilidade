@@ -8,6 +8,7 @@ import {
   Layers,
   Menu,
   Moon,
+  Sparkles,
   Sun,
   Truck,
   User,
@@ -20,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { FoundationView } from './foundation'
 import { DocsView } from './docs'
+import { BrandView } from './brand'
 import { PhoneFrame } from '@/components/eer/phone-frame'
 import type { AppState } from './patterns/types'
 import { appStates } from './patterns/types'
@@ -70,7 +72,7 @@ const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onS
   a5: A5DetailEdit,
 }
 
-type Category = 'foundation' | 'passenger' | 'driver' | 'admin' | 'docs'
+type Category = 'brand' | 'foundation' | 'passenger' | 'driver' | 'admin' | 'docs'
 
 interface NavItem {
   id: string
@@ -78,14 +80,21 @@ interface NavItem {
   labelKey: string
   descKey?: string
   badge?: string
-  renderType: 'foundation' | 'mobile' | 'desktop' | 'docs'
+  renderType: 'brand' | 'foundation' | 'mobile' | 'desktop' | 'docs'
   foundationSection?: 'overview' | 'colors' | 'typography' | 'motion' | 'states'
+  brandSection?: 'overview' | 'essence' | 'colors' | 'logo'
   docsSection?: 'overview' | 'principles' | 'patterns' | 'migration' | 'checklist'
   patternId?: string
   ready?: boolean
 }
 
 const navItems: NavItem[] = [
+  // Brand
+  { id: 'brand-overview', category: 'brand', labelKey: 'brand.overview', renderType: 'brand', brandSection: 'overview' },
+  { id: 'brand-essence', category: 'brand', labelKey: 'brand.essence', renderType: 'brand', brandSection: 'essence' },
+  { id: 'brand-colors', category: 'brand', labelKey: 'brand.colors', renderType: 'brand', brandSection: 'colors' },
+  { id: 'brand-logo', category: 'brand', labelKey: 'brand.logo', renderType: 'brand', brandSection: 'logo' },
+
   // Foundation
   { id: 'overview', category: 'foundation', labelKey: 'shell.foundation', renderType: 'foundation', foundationSection: 'overview' },
   { id: 'colors', category: 'foundation', labelKey: 'foundation.colors.title', renderType: 'foundation', foundationSection: 'colors' },
@@ -129,6 +138,7 @@ const navItems: NavItem[] = [
 ]
 
 const categoryConfig: Record<Category, { labelKey: string; icon: typeof Layers; introKey?: string }> = {
+  brand: { labelKey: 'brand.section', icon: Sparkles },
   foundation: { labelKey: 'shell.foundation', icon: Layers },
   passenger: { labelKey: 'shell.passenger', icon: User, introKey: 'passenger.intro' },
   driver: { labelKey: 'shell.driver', icon: Car, introKey: 'driver.intro' },
@@ -212,7 +222,7 @@ function Sidebar({
   onClose?: () => void
 }) {
   const { t } = useI18n()
-  const categories: Category[] = ['foundation', 'passenger', 'driver', 'admin', 'docs']
+  const categories: Category[] = ['brand', 'foundation', 'passenger', 'driver', 'admin', 'docs']
 
   return (
     <nav className="flex h-full w-64 flex-col border-r border-border bg-card">
@@ -314,7 +324,7 @@ function StateSelector({ value, onChange }: { value: AppState; onChange: (s: App
 
 export function EerShell() {
   const { t } = useI18n()
-  const [activeId, setActiveId] = useState('overview')
+  const [activeId, setActiveId] = useState('brand-overview')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [patternState, setPatternState] = useState<AppState>('populated')
 
@@ -407,6 +417,11 @@ export function EerShell() {
           {activeItem.renderType === 'docs' && (
             <div className="mx-auto max-w-5xl p-6">
               <DocsView section={activeItem.docsSection!} />
+            </div>
+          )}
+          {activeItem.renderType === 'brand' && (
+            <div className="mx-auto max-w-5xl p-6">
+              <BrandView section={activeItem.brandSection!} />
             </div>
           )}
         </main>
