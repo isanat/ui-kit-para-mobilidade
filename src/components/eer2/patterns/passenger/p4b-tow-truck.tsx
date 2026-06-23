@@ -28,7 +28,7 @@ function StepIndicator({ step }: { step: number }) {
         </div>
         <span className="text-xs font-medium text-muted-foreground">{step + 1}/3</span>
       </div>
-      <h1 className="mt-3 text-lg font-bold tracking-tight">{steps[step]}</h1>
+      <h1 className="mt-3 eer-display text-lg">{steps[step]}</h1>
       <p className="text-xs text-muted-foreground">Vehicle breakdown assistance</p>
     </div>
   )
@@ -39,7 +39,7 @@ function BreakdownTypeCard({ type, selected, onSelect }: { type: typeof towBreak
     <button
       onClick={onSelect}
       className={cn(
-        'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-base',
+        'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-base shadow-sm eer-hover-lift',
         selected ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
@@ -69,7 +69,7 @@ function TowTruckCard({ truck, selected, onSelect }: { truck: typeof towTruckOpt
     <button
       onClick={onSelect}
       className={cn(
-        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base',
+        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base shadow-sm eer-hover-lift',
         selected ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
@@ -202,7 +202,7 @@ export function P4bTowTruck({ state, onStateChange }: PatternProps) {
                 <VehicleTypePill key={t.id} type={t} selected={vehicleType === t.id} onSelect={() => setVehicleType(t.id)} />
               ))}
             </div>
-            <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
+            <div className="mt-6 eer-card-elevated p-5">
               <p className="text-xs font-medium text-muted-foreground">Tow destination</p>
               <p className="mt-1 text-sm font-medium text-foreground">Your home address</p>
               <p className="text-xs text-muted-foreground">123 W 21st St, New York</p>

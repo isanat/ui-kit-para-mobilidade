@@ -81,7 +81,7 @@ function ProfileHeader({ user }: { user: UserType }) {
       <div className="mt-5 flex items-center gap-4">
         <Avatar name={user.name} />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-xl font-bold text-foreground">{user.name}</h1>
+          <h1 className="eer-display truncate text-xl text-foreground">{user.name}</h1>
           <p className="truncate text-sm text-muted-foreground">{user.email}</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">
             Member since {new Date(user.memberSince).getFullYear()}
@@ -95,7 +95,7 @@ function ProfileHeader({ user }: { user: UserType }) {
 // ── Stats row (monochrome numbers, semantic star color) ──
 function StatsRow({ rides, points }: { rides: number; points: number }) {
   return (
-    <div className="mx-4 -mt-6 rounded-2xl border border-border bg-card p-5 shadow-lg">
+    <div className="eer-card-elevated mx-4 -mt-6 p-5">
       <div className="grid grid-cols-3 divide-x divide-border">
         <div className="px-2 text-center">
           <div className="flex items-center justify-center gap-1 text-lg font-bold tabular-nums text-foreground">
@@ -143,7 +143,7 @@ function MenuItem({
     <button
       onClick={onClick}
       className={cn(
-        'flex w-full items-center gap-3 px-5 py-3.5 text-left transition-base',
+        'eer-hover-lift flex w-full items-center gap-3 px-5 py-3.5 text-left transition-base',
         danger ? 'hover:bg-destructive/5' : 'hover:bg-muted/50',
       )}
     >
@@ -176,7 +176,7 @@ function MenuList({
       <p className="px-5 pb-2 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Account
       </p>
-      <div className="border-y border-border bg-card">
+      <div className="shadow-sm border-y border-border bg-card">
         <MenuItem
           icon={Pencil}
           iconColor="bg-muted text-foreground"
@@ -196,7 +196,7 @@ function MenuList({
       <p className="px-5 pb-2 pt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Activity
       </p>
-      <div className="border-y border-border bg-card">
+      <div className="shadow-sm border-y border-border bg-card">
         <MenuItem
           icon={Calendar}
           iconColor="bg-muted text-foreground"
@@ -229,7 +229,7 @@ function MenuList({
       <p className="px-5 pb-2 pt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         General
       </p>
-      <div className="border-y border-border bg-card">
+      <div className="shadow-sm border-y border-border bg-card">
         <MenuItem icon={Settings} iconColor="bg-muted text-foreground" label="Settings" />
         <div className="mx-5 border-t border-border" />
         <MenuItem
@@ -247,7 +247,7 @@ function MenuList({
 function RecentPoints() {
   return (
     <div className="mt-8 px-5 pb-10">
-      <div className="rounded-2xl border border-border bg-card p-5">
+      <div className="eer-card-elevated p-5">
         <div className="flex items-center justify-between">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
             <Award className="size-4 text-muted-foreground" /> Recent Points
@@ -454,7 +454,7 @@ function AccountLoading() {
         </div>
       </div>
       {/* Stats skeleton */}
-      <div className="mx-4 -mt-6 rounded-2xl border border-border bg-card p-4">
+      <div className="eer-card-elevated mx-4 -mt-6 p-4">
         <div className="grid grid-cols-3 divide-x divide-border">
           {Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="px-2 text-center">
@@ -554,7 +554,7 @@ export function P9Account({ state, onStateChange }: PatternProps) {
             <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-muted text-foreground">
               <Car className="size-6" />
             </div>
-            <h3 className="mt-3 text-sm font-semibold text-foreground">
+            <h3 className="eer-display mt-3 text-sm text-foreground">
               Welcome to Eagle Eye Rides!
             </h3>
             <p className="mx-auto mt-1 max-w-[260px] text-xs text-muted-foreground">

@@ -103,7 +103,7 @@ function PageHeader({
           <ShieldAlert className="size-5" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="eer-display text-2xl text-foreground">
             SOS Alert Triage
           </h1>
           <p className="mt-0.5 text-xs text-muted-foreground">
@@ -155,14 +155,14 @@ function AlertStatCard({
   dotClass: string
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="eer-card-elevated p-5">
       <div className="flex items-center justify-between">
         <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
         <span className={cn('eer-status-dot', dotClass)} />
       </div>
-      <p className="mt-2 font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{value}</p>
+      <p className="eer-display mt-2 font-variant-numeric-tabular text-2xl text-foreground">{value}</p>
     </div>
   )
 }
@@ -212,7 +212,7 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-2xl border border-border bg-card',
+        'eer-card-elevated eer-hover-lift overflow-hidden',
         isResolved && 'opacity-90',
         typeCfg.headerClass,
       )}
@@ -360,7 +360,7 @@ function AlertLoading() {
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card">
+          <div key={i} className="eer-card-elevated overflow-hidden">
             <EerSkeleton className="h-10 w-full rounded-none" />
             <div className="space-y-3 p-5">
               <EerSkeleton className="h-3 w-24" />
@@ -428,7 +428,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
       <div className="space-y-8">
         <PageHeader filter={filter} onFilterChange={setFilter} />
         <AlertStats alerts={mockAdminAlerts} />
-        <div className="rounded-2xl border border-border bg-card">
+        <div className="eer-card-elevated">
           <EerState
             state="error"
             title="Couldn't load alerts"
@@ -465,7 +465,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
       <div className="space-y-8">
         <PageHeader filter={filter} onFilterChange={setFilter} />
         <AlertStats alerts={[]} />
-        <div className="rounded-2xl border border-border bg-card">
+        <div className="eer-card-elevated">
           <EerState
             state="empty"
             title="No active alerts — all clear"
@@ -488,7 +488,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
       />
       <AlertStats alerts={mockAdminAlerts} />
       {filteredAlerts.length === 0 ? (
-        <div className="rounded-2xl border border-border bg-card">
+        <div className="eer-card-elevated">
           <EerState
             state="empty"
             title={`No ${filter === 'all' ? '' : filter + ' '}alerts`}

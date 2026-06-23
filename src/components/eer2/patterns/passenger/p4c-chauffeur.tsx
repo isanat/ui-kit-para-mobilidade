@@ -29,7 +29,7 @@ function StepIndicator({ step }: { step: number }) {
         </div>
         <span className="text-xs font-medium text-muted-foreground">{step + 1}/3</span>
       </div>
-      <h1 className="mt-3 text-lg font-bold tracking-tight">{steps[step]}</h1>
+      <h1 className="mt-3 eer-display text-lg">{steps[step]}</h1>
       <p className="text-xs text-muted-foreground">Chauffeur by the hour</p>
     </div>
   )
@@ -60,7 +60,7 @@ function VehicleCard({ vehicle, selected, onSelect, hours }: { vehicle: typeof c
     <button
       onClick={onSelect}
       className={cn(
-        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base',
+        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base shadow-sm eer-hover-lift',
         selected ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
@@ -214,7 +214,7 @@ export function P4cChauffeur({ state, onStateChange }: PatternProps) {
         )}
         {step === 2 && selectedVehicle && (
           <div className="mt-4 space-y-4 px-5">
-            <div className="rounded-xl border border-border bg-card p-5">
+            <div className="eer-card-elevated p-5">
               <h2 className="mb-3 text-sm font-semibold text-foreground">Booking summary</h2>
               <div className="divide-y divide-border">
                 <SummaryRow label="Pickup" value={pickup?.label || '—'} />
@@ -225,7 +225,7 @@ export function P4cChauffeur({ state, onStateChange }: PatternProps) {
               </div>
               <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
                 <span className="text-sm font-semibold text-foreground">Total</span>
-                <span className="font-variant-numeric-tabular text-2xl font-bold text-foreground">{formatUSD(total, { showCents: false })}</span>
+                <span className="eer-hero-number text-foreground">{formatUSD(total, { showCents: false })}</span>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-xl bg-muted/30 p-4">

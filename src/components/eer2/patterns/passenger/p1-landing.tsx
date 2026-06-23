@@ -41,7 +41,7 @@ function LandingHero({ onCta, onLearn }: { onCta?: () => void; onLearn?: () => v
 
       {/* Tagline */}
       <div className="space-y-4 slide-up">
-        <h1 className="text-[2.25rem] font-bold leading-[1.1] tracking-tight text-foreground">
+        <h1 className="eer-display text-[2.25rem] leading-[1.1] text-foreground">
           Premium urban mobility,
           <br />
           <span className="text-muted-foreground">redefined.</span>
@@ -86,12 +86,12 @@ function HowItWorks() {
   return (
     <section className="px-5 py-10">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">How it works</p>
-      <h2 className="mt-1 text-xl font-bold text-foreground">Three steps to your ride</h2>
+      <h2 className="mt-1 eer-display text-xl text-foreground">Three steps to your ride</h2>
       <div className="mt-8 space-y-4">
         {howItWorks.map((step, i) => (
           <div
             key={step.title}
-            className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5 slide-up"
+            className="eer-card-elevated eer-hover-lift flex items-start gap-4 p-5 slide-up"
             style={{ animationDelay: `${i * 60}ms` }}
           >
             <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground">
@@ -130,12 +130,12 @@ function ServiceHighlights() {
   return (
     <section className="border-t border-border bg-background px-5 py-10">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Our services</p>
-      <h2 className="mt-1 text-xl font-bold text-foreground">One app, every ride you need</h2>
-      <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-card">
+      <h2 className="mt-1 eer-display text-xl text-foreground">One app, every ride you need</h2>
+      <div className="mt-8 eer-card-elevated divide-y divide-border overflow-hidden">
         {serviceHighlights.map((s) => (
           <div
             key={s.service}
-            className="flex items-center gap-4 p-5 transition-base hover:bg-muted/50"
+            className="eer-hover-lift flex items-center gap-4 p-5"
           >
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ function SocialProof() {
   ]
   return (
     <section className="px-5 py-10">
-      <div className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card p-6">
+      <div className="eer-card-elevated grid grid-cols-3 gap-2 p-6">
         {stats.map((s) => (
           <div key={s.label} className="text-center">
             <div className="text-lg font-bold tabular-nums text-foreground">{s.value}</div>
@@ -179,9 +179,9 @@ function SocialProof() {
 function FinalCta({ onCta }: { onCta?: () => void }) {
   return (
     <section className="px-5 pb-12">
-      <div className="overflow-hidden rounded-3xl border border-border bg-card p-6">
+      <div className="eer-card-elevated overflow-hidden p-6">
         <Footprints className="size-6 text-muted-foreground" />
-        <h2 className="mt-3 text-xl font-bold leading-tight text-foreground">Ready to ride in style?</h2>
+        <h2 className="mt-3 eer-display text-xl leading-tight text-foreground">Ready to ride in style?</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Join {mockPassengers.length * 8000}+ riders who trust Eagle Eye Rides for premium urban mobility.
         </p>

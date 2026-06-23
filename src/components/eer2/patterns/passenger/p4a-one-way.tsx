@@ -35,7 +35,7 @@ function StepIndicator({ step }: { step: number }) {
         </div>
         <span className="text-xs font-medium text-muted-foreground">{step + 1}/3</span>
       </div>
-      <h1 className="mt-3 text-lg font-bold tracking-tight">{steps[step]}</h1>
+      <h1 className="mt-3 eer-display text-lg">{steps[step]}</h1>
     </div>
   )
 }
@@ -75,7 +75,7 @@ function RecentAddresses({ onSelect }: { onSelect: (addr: typeof mockAddresses[0
   return (
     <div className="px-5">
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Recent</h2>
-      <div className="divide-y divide-border rounded-xl border border-border bg-card">
+      <div className="divide-y divide-border rounded-xl border border-border bg-card shadow-sm">
         {mockAddresses.slice(0, 3).map((addr) => (
           <button
             key={addr.label}
@@ -107,7 +107,7 @@ function VehicleClassCard({
     <button
       onClick={onSelect}
       className={cn(
-        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base',
+        'flex w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-base shadow-sm eer-hover-lift',
         selected ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
@@ -233,7 +233,7 @@ export function P4aOneWay({ state, onStateChange }: PatternProps) {
       <div className="flex-1 overflow-y-auto scrollbar-thin pb-8">
         {step === 0 && (
           <div className="mt-4 space-y-4">
-            <div className="divide-y divide-border border-y border-border bg-card">
+            <div className="divide-y divide-border border-y border-border bg-card shadow-sm">
               <AddressRow icon="pickup" label="PICKUP" address={pickup?.label} placeholder="Enter pickup location" />
             </div>
             <RecentAddresses onSelect={setPickup} />
@@ -241,7 +241,7 @@ export function P4aOneWay({ state, onStateChange }: PatternProps) {
         )}
         {step === 1 && (
           <div className="mt-4 space-y-4">
-            <div className="divide-y divide-border border-y border-border bg-card">
+            <div className="divide-y divide-border border-y border-border bg-card shadow-sm">
               <AddressRow icon="pickup" label="PICKUP" address={pickup?.label} placeholder="Enter pickup location" />
               <AddressRow icon="dropoff" label="DROP-OFF" address={dropoff?.label} placeholder="Where to?" />
             </div>

@@ -79,10 +79,10 @@ function ActivityHeader({ onBack }: { onBack?: () => void }) {
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold text-foreground">My Activity</span>
+        <span className="eer-display text-sm text-foreground">My Activity</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold text-foreground">History &amp; details</h1>
+      <h1 className="eer-display mt-4 text-xl text-foreground">History &amp; details</h1>
       <p className="mt-0.5 text-xs text-muted-foreground">
         Track bookings, payments, points, referrals, and tips.
       </p>
@@ -99,7 +99,7 @@ function TabBar({
   onSelect: (id: TabId) => void
 }) {
   return (
-    <div className="flex gap-1 overflow-x-auto no-scrollbar border-b border-border bg-card px-3 py-2">
+    <div className="flex gap-1 overflow-x-auto no-scrollbar border-b border-border bg-card px-3 py-2 shadow-sm">
       {tabs.map((t) => {
         const isActive = t.id === active
         return (
@@ -182,7 +182,7 @@ function ListCard({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-base hover:border-muted-foreground active:scale-[0.99]"
+      className="eer-card-elevated eer-hover-lift flex w-full items-center gap-3 p-4 text-left transition-base hover:border-muted-foreground"
     >
       <div
         className={cn(
@@ -279,7 +279,7 @@ function BookingDetailSheet({
           </div>
 
           {/* Route info */}
-          <div className="mt-4 flex items-stretch gap-3 rounded-xl border border-border bg-card p-3">
+          <div className="eer-card-elevated mt-4 flex items-stretch gap-3 p-3">
             <div className="flex flex-col items-center pt-1">
               <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/10" />
               <div className="my-1 w-0.5 grow bg-border" />
@@ -306,7 +306,7 @@ function BookingDetailSheet({
           </div>
 
           {/* Amounts */}
-          <div className="mt-4 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated mt-4 space-y-2 p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Fare</span>
               <span className="text-foreground tabular-nums">{formatUSD(booking.fare)}</span>
@@ -390,7 +390,7 @@ function PaymentDetailSheet({
           </div>
 
           {/* Amounts */}
-          <div className="mt-4 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated mt-4 space-y-2 p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Fare</span>
               <span className="text-foreground tabular-nums">{formatUSD(payment.amount)}</span>
@@ -444,7 +444,7 @@ function GenericDetailSheet({
           <SheetDescription className="sr-only">Details</SheetDescription>
         </SheetHeader>
         <div className="px-5 pb-6">
-          <div className="mt-4 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated mt-4 space-y-2 p-3 text-sm">
             {rows.map((r) => (
               <div key={r.label} className="flex items-center justify-between">
                 <span className="text-muted-foreground">{r.label}</span>
@@ -476,7 +476,7 @@ function DetailCell({
   value: string
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-3">
+    <div className="eer-card-elevated p-3">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted-foreground">
         <Icon className="size-3" />
         {label}

@@ -29,7 +29,7 @@ function StepIndicator({ step }: { step: number }) {
         </div>
         <span className="text-xs font-medium text-muted-foreground">{step + 1}/3</span>
       </div>
-      <h1 className="mt-3 text-lg font-bold tracking-tight">{steps[step]}</h1>
+      <h1 className="mt-3 eer-display text-lg">{steps[step]}</h1>
       <p className="text-xs text-muted-foreground">Door-to-door package delivery</p>
     </div>
   )
@@ -61,7 +61,7 @@ function ContactFields({ prefix }: { prefix: 'pickup' | 'dropoff' }) {
             <button
               key={t.id}
               className={cn(
-                'flex w-full items-center gap-3 rounded-lg border-2 p-3 text-left transition-base',
+                'flex w-full items-center gap-3 rounded-lg border-2 p-3 text-left transition-base eer-hover-lift',
                 i === 0 ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
               )}
             >
@@ -83,7 +83,7 @@ function PackageSizeCard({ size, selected, onSelect }: { size: typeof packageSiz
     <button
       onClick={onSelect}
       className={cn(
-        'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-base',
+        'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-base shadow-sm eer-hover-lift',
         selected ? 'border-foreground bg-muted/40' : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
@@ -185,7 +185,7 @@ export function P4dPackage({ state, onStateChange }: PatternProps) {
           <div className="mt-4 space-y-5 px-5">
             <div>
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Pickup address</h2>
-              <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-base hover:bg-muted">
+              <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-base hover:bg-muted shadow-sm">
                 <MapPin className="size-4 text-muted-foreground" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-foreground">{pickup?.label || 'Enter pickup address'}</p>
@@ -200,7 +200,7 @@ export function P4dPackage({ state, onStateChange }: PatternProps) {
           <div className="mt-4 space-y-5 px-5">
             <div>
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Drop-off address</h2>
-              <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-base hover:bg-muted">
+              <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-base hover:bg-muted shadow-sm">
                 <MapPin className="size-4 text-muted-foreground" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-foreground">{dropoff?.label || 'Enter drop-off address'}</p>
@@ -230,7 +230,7 @@ export function P4dPackage({ state, onStateChange }: PatternProps) {
               />
             </div>
             {selectedSize && (
-              <div className="rounded-xl border border-border bg-muted/30 p-4">
+              <div className="eer-card-elevated p-5">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Delivery fee</span>
                   <span className="font-variant-numeric-tabular text-lg font-bold text-foreground">{formatUSD(selectedSize.price, { showCents: false })}</span>

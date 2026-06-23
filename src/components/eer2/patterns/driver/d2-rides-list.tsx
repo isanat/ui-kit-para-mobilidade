@@ -98,7 +98,7 @@ function FilterPills({
     { id: 'all', label: 'All' },
   ]
   return (
-    <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 py-3">
+    <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 py-3 shadow-sm">
       {pills.map((p) => {
         const isActive = p.id === active
         return (
@@ -140,10 +140,10 @@ function RidesHeader({ onBack }: { onBack?: () => void }) {
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold text-foreground">My Rides</span>
+        <span className="eer-display text-sm font-semibold text-foreground">My Rides</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground">Ride history</h1>
+      <h1 className="eer-display mt-4 text-xl text-foreground">Ride history</h1>
       <p className="mt-0.5 text-xs text-muted-foreground">
         Active rides, completed trips, and cancellations.
       </p>
@@ -162,7 +162,7 @@ function RideCard({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.99]"
+      className="eer-card-elevated eer-hover-lift flex w-full items-center gap-3 p-4 text-left active:scale-[0.99]"
     >
       <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <Car className="size-5" />
@@ -213,7 +213,7 @@ function DetailCell({
   value: string
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-3">
+    <div className="eer-card-elevated p-3">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-muted-foreground">
         <Icon className="size-3" />
         {label}
@@ -258,7 +258,7 @@ function RideDetailSheet({
           </div>
 
           {/* Passenger info + call button */}
-          <div className="mt-4 flex items-center gap-3 rounded-xl border border-border bg-card p-3">
+          <div className="eer-card-elevated mt-4 flex items-center gap-3 p-3">
             <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
               {ride.passenger.name
                 .split(' ')
@@ -302,7 +302,7 @@ function RideDetailSheet({
           </div>
 
           {/* Route info */}
-          <div className="mt-4 flex items-stretch gap-3 rounded-xl border border-border bg-card p-3">
+          <div className="eer-card-elevated mt-4 flex items-stretch gap-3 p-3">
             <div className="flex flex-col items-center pt-1">
               <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/15" />
               <div className="my-1 w-0.5 grow bg-border" />
@@ -335,7 +335,7 @@ function RideDetailSheet({
           </div>
 
           {/* Distance */}
-          <div className="mt-3 flex items-center justify-between rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated mt-3 flex items-center justify-between p-3 text-sm">
             <span className="flex items-center gap-1.5 text-muted-foreground">
               <MapPin className="size-4" />
               Distance
@@ -346,7 +346,7 @@ function RideDetailSheet({
           </div>
 
           {/* Total */}
-          <div className="mt-3 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated mt-3 space-y-2 p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Fare</span>
               <span className="text-foreground">{formatUSD(ride.fare)}</span>

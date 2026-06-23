@@ -64,7 +64,7 @@ function UserTypeSelector({ onSelect }: { onSelect: (type: UserType) => void }) 
   return (
     <div className="space-y-6 slide-up">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold text-foreground">Welcome</h2>
+        <h2 className="eer-display text-xl text-foreground">Welcome</h2>
         <p className="text-sm text-muted-foreground">Choose how you'll ride with us today.</p>
       </div>
       <div className="space-y-3">
@@ -72,7 +72,7 @@ function UserTypeSelector({ onSelect }: { onSelect: (type: UserType) => void }) 
           <button
             key={c.type}
             onClick={() => onSelect(c.type)}
-            className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-5 text-left transition-base hover:border-muted-foreground active:scale-[0.99]"
+            className="eer-card-elevated eer-hover-lift flex w-full items-center gap-4 p-5 text-left active:scale-[0.99]"
           >
             <div className="flex size-12 items-center justify-center rounded-xl bg-muted text-foreground">
               <c.icon className="size-6" />
@@ -140,7 +140,7 @@ function LoginForm({
   return (
     <div className="space-y-4 slide-up">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold text-foreground">Sign in</h2>
+        <h2 className="eer-display text-xl text-foreground">Sign in</h2>
         <p className="text-sm text-muted-foreground">
           {userType === 'passenger' ? 'Welcome back, rider.' : 'Welcome back, driver.'}
         </p>
@@ -232,7 +232,7 @@ function SignupForm({
   return (
     <div className="space-y-4 slide-up">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold text-foreground">Create account</h2>
+        <h2 className="eer-display text-xl text-foreground">Create account</h2>
         <p className="text-sm text-muted-foreground">
           {userType === 'passenger' ? 'Start riding in minutes.' : 'Join our premium driver fleet.'}
         </p>
@@ -277,7 +277,7 @@ function SignupForm({
 
       {/* Driver-only vehicle fields */}
       {userType === 'driver' && (
-        <div className="space-y-3 rounded-xl border border-border bg-card p-4">
+        <div className="space-y-3 eer-card-elevated p-5">
           <p className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
             <Car className="size-3.5" /> Vehicle details
           </p>
@@ -344,7 +344,7 @@ function ForgotForm({
   return (
     <div className="space-y-4 slide-up">
       <div className="space-y-1">
-        <h2 className="text-xl font-bold text-foreground">Reset password</h2>
+        <h2 className="eer-display text-xl text-foreground">Reset password</h2>
         <p className="text-sm text-muted-foreground">
           Enter your email and we&apos;ll send you a reset link.
         </p>
@@ -403,7 +403,7 @@ function AuthSuccess({ step }: { step: Step }) {
         <Icon className="size-8" />
       </div>
       <div className="space-y-1.5">
-        <h2 className="text-xl font-bold text-foreground">{title}</h2>
+        <h2 className="eer-display text-xl text-foreground">{title}</h2>
         <p className="max-w-xs text-sm text-muted-foreground">{desc}</p>
       </div>
       <div className="mt-2 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground">

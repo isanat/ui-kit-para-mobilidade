@@ -73,7 +73,7 @@ function PageHeader({
           <ArrowLeft className="size-4" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Edit Driver</h1>
+          <h1 className="eer-display text-2xl text-foreground">Edit Driver</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Manage driver profile, vehicle, documents, and finances
           </p>
@@ -107,7 +107,7 @@ function ProfileHeader({ driver }: { driver: Driver }) {
     .join('')
     .toUpperCase()
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+    <div className="eer-card-elevated overflow-hidden">
       <div className="px-5 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-2xl font-bold text-foreground">
@@ -190,7 +190,7 @@ function QuickStat({
       </div>
       <div className="min-w-0">
         <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
-        <p className="truncate font-variant-numeric-tabular text-xl font-bold tracking-tight text-foreground">{value}</p>
+        <p className="eer-display truncate font-variant-numeric-tabular text-xl text-foreground">{value}</p>
       </div>
     </div>
   )
@@ -211,7 +211,7 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="eer-card-v3">
+    <div className="eer-card-elevated p-6">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
           <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
@@ -362,7 +362,7 @@ const driverDocs: DocItem[] = [
 function DocumentRow({ doc }: { doc: DocItem }) {
   const cfg = docStatusConfig[doc.status]
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3 transition-base hover:bg-muted/50">
+    <div className="eer-hover-lift flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3 transition-base hover:bg-muted/50">
       <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <FileText className="size-4" />
       </div>
@@ -479,7 +479,7 @@ function DetailLoading() {
           <EerSkeleton className="h-9 w-32" />
         </div>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="eer-card-elevated overflow-hidden">
         <EerSkeleton className="h-32 w-full rounded-none" />
         <div className="grid grid-cols-2 sm:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -488,7 +488,7 @@ function DetailLoading() {
         </div>
       </div>
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="rounded-2xl border border-border bg-card p-5">
+        <div key={i} className="eer-card-elevated p-5">
           <div className="flex items-center gap-3">
             <EerSkeleton className="size-9 rounded-lg" />
             <div className="space-y-1.5">

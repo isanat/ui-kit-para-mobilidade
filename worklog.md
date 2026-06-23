@@ -661,3 +661,34 @@ Stage Summary:
 - Semantic status colors preserved ONLY in SMALL indicators: bg-success (online dot, success toast icon, resolved status badge, document verified badge), bg-warning (rating star, document pending badge, LIVE badge, weights warning), bg-destructive (active alert dot, error toast icon, delete button, document rejected badge, reject pending button), border-l-destructive/warning/amber/info (alert type left-border strip), bg-info (breakdown alert type)
 - All 5 states (loading/empty/error/success/populated) preserved per pattern — only className changes, no structural/props/state-logic changes
 - Build passes clean
+
+---
+Task ID: V32-A
+Agent: general-purpose (v3.2 passenger P1,P2,P4a-d)
+Task: Apply elevated cards + display typography to 6 passenger patterns
+
+Work Log:
+- read worklog.md and P3 reference (p3-home-dashboard.tsx) + globals.css for v3.2 utility classes (.eer-display, .eer-card-elevated, .eer-card-raised, .eer-hover-lift, .eer-hero-number, .eer-motion-card, --shadow-xs/sm/md/lg/xl)
+- updated p1-landing.tsx — hero h1 "Premium urban mobility, redefined" → eer-display text-[2.25rem] (kept leading-[1.1], removed tracking-tight since eer-display has -0.02em); HowItWorks section h2 "Three steps to your ride" → eer-display text-xl; HowItWorks step cards rounded-2xl border border-border bg-card p-5 → eer-card-elevated eer-hover-lift p-5 (kept slide-up animation); ServiceHighlights h2 "One app, every ride you need" → eer-display text-xl; ServiceHighlights container divide-y rounded-2xl border bg-card → eer-card-elevated divide-y divide-border overflow-hidden; ServiceHighlights rows transition-base hover:bg-muted/50 → eer-hover-lift (replaced bg-hover with elevation lift per P3 reference pattern); SocialProof card rounded-2xl border bg-card p-6 → eer-card-elevated p-6; FinalCta card overflow-hidden rounded-3xl border bg-card p-6 → eer-card-elevated overflow-hidden p-6; FinalCta h2 "Ready to ride in style?" → eer-display text-xl leading-tight
+- updated p2-auth.tsx — Welcome/Sign in/Create account/Reset password/AuthSuccess titles (5 instances of text-xl font-bold text-foreground) → eer-display text-xl text-foreground; UserTypeSelector cards rounded-2xl border border-border bg-card p-5 transition-base hover:border-muted-foreground active:scale-[0.99] → eer-card-elevated eer-hover-lift p-5 active:scale-[0.99] (removed transition-base + border-hover, elevation provides the interactive feedback); Driver-only vehicle details sub-card rounded-xl border border-border bg-card p-4 → eer-card-elevated p-5 (p-4 → p-5 for breathing room per spec)
+- updated p4a-one-way.tsx — StepIndicator h1 "Pickup/Destination/Vehicle" mt-3 text-lg font-bold tracking-tight → mt-3 eer-display text-lg (removed tracking-tight, eer-display has -0.02em); address rows container (steps 0 & 1) divide-y divide-border border-y border-border bg-card → added shadow-sm; RecentAddresses list divide-y rounded-xl border border-border bg-card → added shadow-sm; VehicleClassCard base added shadow-sm eer-hover-lift (kept border-2 selection pattern + selected border-foreground state per spec)
+- updated p4b-tow-truck.tsx — StepIndicator h1 mt-3 text-lg font-bold tracking-tight → mt-3 eer-display text-lg; BreakdownTypeCard base added shadow-sm eer-hover-lift (kept border-2 selection pattern); TowTruckCard base added shadow-sm eer-hover-lift (kept border-2 selection pattern); Tow destination info card (step 1) mt-6 rounded-xl border border-border bg-muted/30 p-4 → mt-6 eer-card-elevated p-5
+- updated p4c-chauffeur.tsx — StepIndicator h1 mt-3 text-lg font-bold tracking-tight → mt-3 eer-display text-lg; DurationChip kept border-2 selected pattern (per spec: "keep border-2 pattern for selection state"); VehicleCard base added shadow-sm eer-hover-lift (kept border-2 selection pattern); Booking summary card rounded-xl border border-border bg-card p-5 → eer-card-elevated p-5; Total price font-variant-numeric-tabular text-2xl font-bold → eer-hero-number text-foreground (40px display-size hero number per spec)
+- updated p4d-package.tsx — StepIndicator h1 mt-3 text-lg font-bold tracking-tight → mt-3 eer-display text-lg; ContactFields hand-off preference buttons (rounded-lg border-2 p-3) added eer-hover-lift (kept border-2 selection pattern); PackageSizeCard base added shadow-sm eer-hover-lift (kept border-2 selection pattern); Pickup address selector button (step 0) + Drop-off address selector button (step 1) added shadow-sm; Delivery fee card (step 2) rounded-xl border border-border bg-muted/30 p-4 → eer-card-elevated p-5
+- ran pnpm build — passed clean (Next.js 16.2.6 Turbopack, ✓ Compiled successfully in 3.2s, ✓ Generating static pages 3/3 in 193ms)
+- verified only className changes — no imports/structure/state logic touched in any of the 6 files
+- kept all 5 states (loading/empty/error/success/populated) working — no state branches modified
+- kept border-2 selected state pattern on all vehicle/package/breakdown selection cards per spec (just ADDED shadow-sm + eer-hover-lift, did NOT remove the selection border)
+- did NOT touch .eer-header-solid (already applied in v3) or .eer-btn-primary (already applied in v3)
+- 1 pre-existing CSS warning about var(--primary / 0.12) in --shadow-glow token (unrelated to my changes, was already in globals.css)
+
+Stage Summary:
+- 6 passenger patterns (P1 Landing, P2 Auth, P4a One-Way, P4b Tow Truck, P4c Chauffeur, P4d Package) updated to v3.2 organic modernism
+- All page/section titles now use .eer-display (Poppins bold, -0.02em tracking): hero tagline, section headings, step indicator titles, auth screen titles, success screen title
+- Flat card surfaces converted to .eer-card-elevated (bg-card + border + shadow-sm, hover lifts to shadow-md): HowItWorks step cards, ServiceHighlights container, SocialProof stats card, FinalCta card, UserTypeSelector cards, vehicle details sub-card, tow destination info card, chauffeur booking summary card, package delivery fee card
+- Interactive list items / rows / cards got .eer-hover-lift (translateY(-2px) + shadow-md on hover): HowItWorks step cards, ServiceHighlight rows, UserTypeSelector cards, VehicleClassCard (P4a), BreakdownTypeCard (P4b), TowTruckCard (P4b), VehicleCard (P4c), PackageSizeCard (P4d), ContactFields hand-off buttons (P4d)
+- Address rows containers and recent-addresses lists in P4a got shadow-sm (subtle elevation per spec)
+- Pickup/drop-off address selector buttons in P4d got shadow-sm
+- Chauffeur booking total promoted to .eer-hero-number (40px Poppins display-size, was text-2xl/24px) — makes the final price the visual focal point of the summary
+- All border-2 selection patterns preserved (vehicle class, breakdown type, tow truck option, chauffeur vehicle, package size, contact type) — selection state still uses border-foreground + bg-muted/40
+- Build passes clean

@@ -114,7 +114,7 @@ function VehicleSheet({
   children?: React.ReactNode
 }) {
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-10 max-h-[68%] overflow-hidden rounded-t-3xl border-t border-border bg-card shadow-2xl slide-up">
+    <div className="eer-card-elevated absolute bottom-0 left-0 right-0 z-10 max-h-[68%] overflow-hidden rounded-t-3xl slide-up">
       {/* Drag handle */}
       <div className="flex justify-center pt-3">
         <div className="h-1.5 w-10 rounded-full bg-border" />
@@ -173,7 +173,7 @@ function VehicleClassCard({
       onClick={onSelect}
       aria-pressed={selected}
       className={cn(
-        'flex min-w-[150px] flex-col gap-1.5 rounded-2xl border-2 p-3 text-left transition-base active:scale-[0.98]',
+        'eer-hover-lift flex min-w-[150px] flex-col gap-1.5 rounded-2xl border-2 p-3 text-left transition-base',
         selected
           ? 'border-foreground bg-card ring-1 ring-foreground/15'
           : 'border-border bg-card hover:border-muted-foreground',
@@ -280,7 +280,7 @@ export function P5MapSelection({ state, onStateChange }: PatternProps) {
       <div className="relative flex h-full flex-col">
         <MapSkeleton />
         <MapTopBar />
-        <div className="absolute bottom-0 left-0 right-0 z-10 rounded-t-3xl border-t border-border bg-card shadow-2xl">
+        <div className="eer-card-elevated absolute bottom-0 left-0 right-0 z-10 rounded-t-3xl">
           <div className="flex justify-center pt-3">
             <div className="h-1.5 w-10 rounded-full bg-border" />
           </div>

@@ -139,7 +139,7 @@ function ChatHeader({ onBack }: { onBack?: () => void }) {
 
         {/* Name + vehicle info */}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-foreground">{driver.name}</p>
+          <p className="eer-display truncate text-sm text-foreground">{driver.name}</p>
           <p className="truncate text-xs text-muted-foreground">
             {driver.vehicle} · {driver.plate}
           </p>
@@ -292,7 +292,7 @@ function ChatInputBar({
   onShareLocation?: () => void
 }) {
   return (
-    <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
+    <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe shadow-sm">
       <button
         onClick={onShareLocation}
         aria-label="Share location"
@@ -380,7 +380,7 @@ function ChatEmpty({
         <MessageSquare className="size-8" />
       </div>
       <div className="space-y-1">
-        <h2 className="text-lg font-bold text-foreground">No messages yet</h2>
+        <h2 className="eer-display text-lg text-foreground">No messages yet</h2>
         <p className="max-w-xs text-sm text-muted-foreground">
           Say hello — your driver is ready to chat.
         </p>
@@ -489,7 +489,7 @@ export function P8Chat({ state, onStateChange }: PatternProps) {
         <div className="flex-1 overflow-y-auto scrollbar-thin">
           <ChatLoading />
         </div>
-        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
+        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe shadow-sm">
           <EerSkeleton className="size-10 rounded-full" />
           <EerSkeleton className="h-11 flex-1 rounded-full" />
           <EerSkeleton className="size-10 rounded-full" />
@@ -508,13 +508,13 @@ export function P8Chat({ state, onStateChange }: PatternProps) {
             <AlertCircle className="size-8" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-foreground">Connection lost</h2>
+            <h2 className="eer-display text-lg text-foreground">Connection lost</h2>
             <p className="max-w-xs text-sm text-muted-foreground">
               We can't reach the chat server. Check your internet and try again.
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
+        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe shadow-sm">
           <Button
             className="eer-btn-primary w-full rounded-full"
             onClick={() => {

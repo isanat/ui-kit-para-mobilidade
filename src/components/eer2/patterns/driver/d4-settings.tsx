@@ -77,11 +77,11 @@ function SettingsHeader({ driver }: { driver: typeof mockDrivers[0] }) {
           <div className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground">
             <Truck className="size-4" />
           </div>
-          <span className="text-sm font-semibold text-foreground">Settings</span>
+          <span className="eer-display text-sm font-semibold text-foreground">Settings</span>
         </div>
       </div>
 
-      <div className="mt-5 flex items-center gap-4">
+      <div className="eer-card-elevated mt-5 flex items-center gap-4 p-4">
         <div className="relative">
           <div className="flex size-20 items-center justify-center rounded-full bg-muted text-2xl font-bold text-foreground">
             {initials}
@@ -94,7 +94,7 @@ function SettingsHeader({ driver }: { driver: typeof mockDrivers[0] }) {
           </button>
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-xl font-bold tracking-tight text-foreground">{driver.name}</h1>
+          <h1 className="eer-display truncate text-xl text-foreground">{driver.name}</h1>
           <p className="truncate text-sm text-muted-foreground">{driver.email}</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">
             Driver since 2023 · {driver.totalRides} rides
@@ -123,7 +123,7 @@ function TabPills({
   onSelect: (id: TabId) => void
 }) {
   return (
-    <div className="flex gap-4 overflow-x-auto no-scrollbar border-b border-border bg-background px-5">
+    <div className="flex gap-4 overflow-x-auto no-scrollbar border-b border-border bg-background px-5 shadow-sm">
       {tabsList.map((t) => {
         const isActive = t.id === active
         return (
@@ -174,7 +174,7 @@ function GeneralTab({
   onSave: () => void
 }) {
   return (
-    <div className="space-y-4 px-4 py-4">
+    <div className="eer-card-elevated mx-5 mt-5 space-y-4 p-4">
       <Field id="g-name" label="Full name">
         <Input id="g-name" type="text" defaultValue={driver.name} className="h-11" />
       </Field>
@@ -213,7 +213,7 @@ function VehicleTab({
   const [plate, setPlate] = useState(driver.vehicle.plate)
 
   return (
-    <div className="space-y-4 px-4 py-4">
+    <div className="eer-card-elevated mx-5 mt-5 space-y-4 p-4">
       <div className="grid grid-cols-2 gap-3">
         <Field id="v-manu" label="Manufacturer">
           <Input
@@ -292,7 +292,7 @@ function VehicleTab({
 function PaymentTab({ onSave }: { onSave: () => void }) {
   const [preferred, setPreferred] = useState('Zelle')
   return (
-    <div className="space-y-4 px-4 py-4">
+    <div className="eer-card-elevated mx-5 mt-5 space-y-4 p-4">
       <Field id="p-zelle" label="Zelle (email or phone)">
         <Input id="p-zelle" type="text" defaultValue="m.thompson@eer.com" className="h-11" />
       </Field>
@@ -353,7 +353,7 @@ function PasswordTab({ onUpdate }: { onUpdate: () => void }) {
     current.length > 0 && next.length >= 8 && confirm.length > 0 && next === confirm
 
   return (
-    <div className="space-y-4 px-4 py-4">
+    <div className="eer-card-elevated mx-5 mt-5 space-y-4 p-4">
       <Field id="pw-current" label="Current password">
         <Input
           id="pw-current"

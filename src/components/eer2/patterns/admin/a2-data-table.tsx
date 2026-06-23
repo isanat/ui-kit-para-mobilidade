@@ -50,7 +50,7 @@ function PageHeader() {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+        <h1 className="eer-display text-2xl text-foreground">
           Bookings Management
         </h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
@@ -74,7 +74,7 @@ function PageHeader() {
 // ── Filter bar ──
 function FilterBar() {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="eer-card-elevated p-4">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -140,14 +140,14 @@ function FilterStatCard({
   accent: string
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="eer-card-elevated p-5">
       <div className="flex items-center justify-between">
         <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
         <span className={cn('eer-status-dot', accent)} />
       </div>
-      <p className="mt-2 font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{value}</p>
+      <p className="eer-display mt-2 font-variant-numeric-tabular text-2xl text-foreground">{value}</p>
     </div>
   )
 }
@@ -219,7 +219,7 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
     mockAdminStats.bookings.completed +
     mockAdminStats.bookings.cancelled
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+    <div className="eer-card-elevated overflow-hidden">
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full text-sm">
           <thead className="sticky top-0 z-[1]">
@@ -259,7 +259,7 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
                   onSelect(b)
                 }}
                 className={cn(
-                  'cursor-pointer transition-base',
+                  'cursor-pointer transition-base eer-hover-lift',
                   selectedId === b.id ? 'bg-muted/60' : 'hover:bg-muted/40',
                 )}
               >
@@ -362,7 +362,7 @@ function BookingDetailSheet({
             </div>
 
             {/* Route */}
-            <div className="eer-card-v3 !p-4">
+            <div className="eer-card-elevated !p-4">
               <div className="flex items-stretch gap-3">
                 <div className="flex flex-col items-center pt-1">
                   <span className="size-2 rounded-full bg-foreground" />
@@ -387,7 +387,7 @@ function BookingDetailSheet({
             </div>
 
             {/* Customer info */}
-            <div className="eer-card-v3 !p-4">
+            <div className="eer-card-elevated !p-4">
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Customer
               </p>
@@ -398,7 +398,7 @@ function BookingDetailSheet({
             </div>
 
             {/* Driver info */}
-            <div className="eer-card-v3 !p-4">
+            <div className="eer-card-elevated !p-4">
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Driver
               </p>
@@ -415,7 +415,7 @@ function BookingDetailSheet({
             </div>
 
             {/* Fare breakdown */}
-            <div className="eer-card-v3 !p-4">
+            <div className="eer-card-elevated !p-4">
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Fare Breakdown
               </p>
@@ -454,7 +454,7 @@ function TableLoading() {
   return (
     <div className="space-y-8">
       <PageHeader />
-      <div className="rounded-2xl border border-border bg-card p-4">
+      <div className="eer-card-elevated p-4">
         <div className="flex gap-2">
           <EerSkeleton className="h-9 flex-1" />
           <EerSkeleton className="h-9 w-36" />
@@ -466,7 +466,7 @@ function TableLoading() {
           <EerSkeleton key={i} className="h-24 rounded-2xl" />
         ))}
       </div>
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="eer-card-elevated overflow-hidden">
         <EerSkeleton className="h-10 w-full rounded-none" />
         {Array.from({ length: 7 }).map((_, i) => (
           <div
@@ -536,7 +536,7 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
     return (
       <div className="space-y-8">
         <PageHeader />
-        <div className="rounded-2xl border border-border bg-card">
+        <div className="eer-card-elevated">
           <EerState
             state="error"
             title="Couldn't load bookings"
@@ -575,7 +575,7 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
       <div className="space-y-8">
         <PageHeader />
         <FilterBar />
-        <div className="rounded-2xl border border-border bg-card">
+        <div className="eer-card-elevated">
           <EerState
             state="empty"
             title="No bookings found"

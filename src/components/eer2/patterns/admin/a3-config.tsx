@@ -59,7 +59,7 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="eer-card-v3">
+    <div className="eer-card-elevated p-6">
       <div className="flex items-start gap-3">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
           <Icon className="size-4" />
@@ -183,7 +183,7 @@ function LivePreview({ config }: { config: DispatchConfig }) {
   }, [config])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+    <div className="eer-card-elevated !bg-muted/30 overflow-hidden">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <Radar className="size-4 text-foreground" />
         <h3 className="text-sm font-semibold text-foreground">Live Preview</h3>
@@ -204,7 +204,7 @@ function LivePreview({ config }: { config: DispatchConfig }) {
             </p>
           </div>
           <div className="text-right">
-            <p className="font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{preview.score}</p>
+            <p className="eer-display font-variant-numeric-tabular text-2xl text-foreground">{preview.score}</p>
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
               Score
             </p>
@@ -307,7 +307,7 @@ const activeDispatches: ActiveDispatch[] = [
 
 function ActiveDispatchesFeed() {
   return (
-    <div className="eer-card-v3">
+    <div className="eer-card-elevated p-6">
       <div className="flex items-center gap-2">
         <div className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground">
           <RadioTower className="size-4" />
@@ -321,7 +321,7 @@ function ActiveDispatchesFeed() {
         {activeDispatches.map((d) => (
           <div
             key={d.id}
-            className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-2.5 transition-base hover:bg-muted/50"
+            className="eer-card-elevated eer-hover-lift flex items-center gap-3 !rounded-lg !bg-muted/30 p-2.5"
           >
             <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
               <MapPin className="size-4" />
@@ -376,7 +376,7 @@ function PageHeader({
           <Cog className="size-5" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="eer-display text-2xl text-foreground">
             Dispatch Configuration
           </h1>
           <p className="mt-0.5 text-xs text-muted-foreground">
@@ -414,7 +414,7 @@ function ConfigLoading() {
       <div className="grid gap-4 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-3">
           {Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="rounded-2xl border border-border bg-card p-5">
+            <div key={i} className="eer-card-elevated p-5">
               <div className="flex items-center gap-3">
                 <EerSkeleton className="size-9 rounded-lg" />
                 <div className="space-y-1.5">

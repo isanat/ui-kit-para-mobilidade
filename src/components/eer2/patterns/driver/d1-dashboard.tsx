@@ -137,7 +137,7 @@ function DriverHeader({
           </div>
           <div className="min-w-0">
             <p className="text-xs text-muted-foreground">Good evening,</p>
-            <h1 className="truncate text-xl font-bold tracking-tight text-foreground">{driver.name.split(' ')[0]}</h1>
+            <h1 className="eer-display truncate text-xl text-foreground">{driver.name.split(' ')[0]}</h1>
             <p className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
               <Star className="size-3 fill-current text-warning" />
               {driver.rating} · {driver.totalRides} rides
@@ -153,7 +153,7 @@ function DriverHeader({
 // ── Earnings hero card (monochrome, hero number) ──
 function EarningsHero({ today }: { today: typeof mockDriverToday }) {
   return (
-    <div className="mx-5 mt-4 eer-card-v3 slide-up">
+    <div className="eer-card-elevated mx-5 mt-4 p-5 slide-up">
       <div className="flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -214,7 +214,7 @@ function QuickActions() {
         {quickActions.map((a) => (
           <button
             key={a.label}
-            className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.98]"
+            className="eer-card-elevated eer-hover-lift flex items-center gap-3 p-3 text-left active:scale-[0.98]"
           >
             <div
               className={cn(
@@ -273,7 +273,7 @@ function RideActions({ status }: { status: BookingStatus }) {
 
 function ActiveRideCard({ ride }: { ride: DriverRide }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="eer-card-elevated p-5">
       <div className="flex items-center justify-between">
         <EerBookingStatusBadge status={ride.status} />
         <span className="text-xs font-medium text-muted-foreground">
@@ -339,7 +339,7 @@ function ActiveRideCard({ ride }: { ride: DriverRide }) {
 // ── Recent ride row (compact) ──
 function RecentRideRow({ ride }: { ride: DriverRide }) {
   return (
-    <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.99]">
+    <button className="eer-card-elevated eer-hover-lift flex w-full items-center gap-3 p-4 text-left shadow-sm active:scale-[0.99]">
       <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-foreground">
         <Car className="size-4" />
       </div>

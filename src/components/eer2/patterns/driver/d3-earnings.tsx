@@ -94,20 +94,20 @@ function EarningsHeader({
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold text-foreground">Earnings</span>
+        <span className="eer-display text-sm font-semibold text-foreground">Earnings</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground">Your earnings</h1>
+      <h1 className="eer-display mt-4 text-xl text-foreground">Your earnings</h1>
       <div className="mt-5 grid grid-cols-3 gap-2">
-        <div className="rounded-xl border border-border bg-card p-3">
+        <div className="eer-card-elevated p-3">
           <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Today</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight text-foreground">{formatUSD(today.earnings)}</p>
+          <p className="mt-1 eer-hero-number text-2xl text-foreground">{formatUSD(today.earnings)}</p>
         </div>
-        <div className="rounded-xl border border-border bg-card p-3">
+        <div className="eer-card-elevated p-3">
           <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Tips</p>
           <p className="mt-1 text-base font-bold tabular-nums text-foreground">{formatUSD(today.tipsToday)}</p>
         </div>
-        <div className="rounded-xl border border-border bg-card p-3">
+        <div className="eer-card-elevated p-3">
           <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Balance</p>
           <p className="mt-1 text-base font-bold tabular-nums text-foreground">{formatUSD(today.walletBalance)}</p>
         </div>
@@ -126,7 +126,7 @@ function TipsOverview({ daily }: { daily: number }) {
     { label: 'Monthly', value: monthly, icon: TrendingUp },
   ]
   return (
-    <div className="eer-card-v3">
+    <div className="eer-card-elevated p-5">
       <div className="flex items-center gap-1.5">
         <HandCoins className="size-4 text-muted-foreground" />
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tips Overview</h2>
@@ -155,7 +155,7 @@ function CompletedRidesCard({
   thisPeriod: number
 }) {
   return (
-    <div className="eer-card-v3">
+    <div className="eer-card-elevated p-5">
       <div className="flex items-center gap-1.5">
         <CheckCircle2 className="size-4 text-muted-foreground" />
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Completed Rides</h2>
@@ -201,7 +201,7 @@ function WithdrawalRow({ w }: { w: Withdrawal }) {
         ? Wallet
         : Building2
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
+    <div className="eer-card-elevated eer-hover-lift flex items-center gap-3 p-4">
       <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <Icon className="size-5" />
       </div>
@@ -318,7 +318,7 @@ function WithdrawalSheet({
           </div>
 
           {/* Fee breakdown */}
-          <div className="space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
+          <div className="eer-card-elevated space-y-2 p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Amount</span>
               <span className="text-foreground">
@@ -494,7 +494,7 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
           />
 
           {/* Withdrawals section */}
-          <div className="eer-card-v3">
+          <div className="eer-card-elevated p-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <Banknote className="size-4 text-muted-foreground" />

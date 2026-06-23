@@ -52,14 +52,14 @@ function PaymentHeader({ onBack }: { onBack?: () => void }) {
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold text-foreground">Payment</span>
+        <span className="eer-display text-sm text-foreground">Payment</span>
         <div className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground">
           <Lock className="size-4" />
         </div>
       </div>
       <div className="mt-5">
         <p className="text-xs text-muted-foreground">Order total</p>
-        <h1 className="mt-0.5 text-2xl font-bold tabular-nums text-foreground">{formatUSD(38.5)}</h1>
+        <h1 className="eer-hero-number mt-0.5 text-foreground">{formatUSD(38.5)}</h1>
         <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
           <Shield className="size-3.5" />
           Secured by Square · 256-bit encryption
@@ -77,7 +77,7 @@ function OrderSummary({ booking }: { booking: (typeof mockBookings)[0] }) {
   const distanceFare = Number((booking.distance * 2.5).toFixed(2))
   const durationFare = Number((booking.duration * 0.45).toFixed(2))
   return (
-    <div className="mx-4 -mt-4 rounded-2xl border border-border bg-card p-5 shadow-lg">
+    <div className="eer-card-elevated mx-4 -mt-4 p-5">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium tabular-nums text-muted-foreground">{booking.displayId}</span>
         <EerServiceBadge service={booking.service} size="xs" />
@@ -159,7 +159,7 @@ function TipSection({
               key={opt.id}
               onClick={() => onSelect(opt.id)}
               className={cn(
-                'flex flex-col items-center gap-0.5 rounded-xl border-2 py-2.5 text-center transition-base active:scale-[0.97]',
+                'eer-hover-lift flex flex-col items-center gap-0.5 rounded-xl border-2 py-2.5 text-center transition-base',
                 isActive
                   ? 'border-foreground bg-card'
                   : 'border-border bg-card hover:border-muted-foreground',
@@ -358,7 +358,7 @@ function PaymentLoading() {
   return (
     <div className="flex flex-col">
       <PaymentHeader />
-      <div className="mx-4 -mt-4 space-y-3 rounded-2xl border border-border bg-card p-4">
+      <div className="eer-card-elevated mx-4 -mt-4 p-4">
         <EerSkeleton className="h-3 w-24" />
         <div className="flex items-center gap-3">
           <EerSkeleton className="size-2.5 rounded-full" />
@@ -412,14 +412,14 @@ function PaymentSuccess({
           </div>
         </div>
         <div className="space-y-1">
-          <h2 className="text-xl font-bold text-foreground">Payment successful!</h2>
+          <h2 className="eer-display text-xl text-foreground">Payment successful!</h2>
           <p className="text-sm text-muted-foreground">
             Your booking is confirmed. A receipt has been emailed to you.
           </p>
         </div>
-        <div className="w-full max-w-xs rounded-2xl border border-border bg-card p-5">
+        <div className="eer-card-elevated w-full max-w-xs p-5">
           <p className="text-xs text-muted-foreground">Amount paid</p>
-          <p className="mt-0.5 text-3xl font-bold tabular-nums text-foreground">{formatUSD(amount)}</p>
+          <p className="eer-hero-number mt-0.5 text-foreground">{formatUSD(amount)}</p>
           <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
             <span>Booking</span>
             <span className="font-medium tabular-nums text-foreground">{mockBookings[0].displayId}</span>
@@ -492,7 +492,7 @@ export function P6Payment({ state, onStateChange }: PatternProps) {
             <AlertCircle className="size-8" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-foreground">Payment failed</h2>
+            <h2 className="eer-display text-lg text-foreground">Payment failed</h2>
             <p className="max-w-xs text-sm text-muted-foreground">
               Your card was declined. Please check your details or try a different payment method.
             </p>
