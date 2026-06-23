@@ -259,6 +259,23 @@
   --bottom-nav-safe: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
   --header-height: 3.5rem;             /* 56px */
   --action-bar-height: 5rem;           /* 80px fixed bottom action bar */
+
+  /* ── Spacing scale v3 (generous whitespace) ── */
+  --space-section: 2rem;       /* 32px between major sections */
+  --space-section-lg: 3rem;    /* 48px between page-level sections */
+  --space-card: 1.25rem;       /* 20px card internal padding */
+  --space-card-lg: 1.5rem;     /* 24px card internal padding */
+  --space-element: 0.75rem;    /* 12px between elements in a card */
+  --space-element-sm: 0.5rem;  /* 8px tight grouping (label+value) */
+
+  /* ── Typography weights (deliberate hierarchy) ── */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ── Tabular numbers for data ── */
+  --font-numeric: 'Geist Mono', 'Geist Mono Fallback', monospace;
 }
 
 .dark {
@@ -370,4 +387,81 @@
     padding-bottom: calc(var(--action-bar-height) + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* =============================================
+   EER DESIGN SYSTEM v3 — Clean / Minimal
+   Inspired by Uber (monochrome), Lyft (clarity),
+   Linear/Stripe (whitespace + hierarchy).
+   ============================================= */
+
+@layer utilities {
+  /* ── Monochrome header (replaces gradients) ── */
+  .eer-header-solid {
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Hero number (price, ETA, large KPI) ── */
+  .eer-hero-number {
+    font-family: var(--font-numeric);
+    font-size: var(--text-display);
+    font-weight: var(--weight-bold);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Section spacing (generous whitespace) ── */
+  .eer-section {
+    margin-bottom: var(--space-section);
+  }
+  .eer-section-lg {
+    margin-bottom: var(--space-section-lg);
+  }
+
+  /* ── Card v3 (more padding, subtle border) ── */
+  .eer-card-v3 {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-card-lg);
+  }
+
+  /* ── Primary action (Uber-style: black on light, white on dark) ── */
+  .eer-btn-primary {
+    background-color: var(--foreground);
+    color: var(--background);
+    font-weight: var(--weight-semibold);
+    border-radius: var(--radius-md);
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  .eer-btn-primary:hover {
+    opacity: 0.85;
+  }
+  .eer-btn-primary:active {
+    opacity: 0.75;
+  }
+
+  /* ── Search bar (dominant element) ── */
+  .eer-search-bar {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.875rem 1rem;
+    width: 100%;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .eer-search-bar:hover {
+    border-color: var(--muted-foreground);
+  }
+
+  /* ── Status dot (minimal status indicator) ── */
+  .eer-status-dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+  }
+}
+
 
