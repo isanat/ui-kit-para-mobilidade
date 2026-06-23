@@ -8,7 +8,10 @@ const migrationMap = [
   { eer: 'LandingView.vue', pattern: 'P1 Landing', screens: 1 },
   { eer: 'UserTypeSelector, LoginForm, SignupForm, ForgotPassword, ResetPassword', pattern: 'P2 Authentication', screens: 5 },
   { eer: 'HomeView.vue', pattern: 'P3 Home Dashboard', screens: 1 },
-  { eer: 'ReserveViewNew, ChauffeurServiceView, ChauffeurVehiclesView, ChauffeurConfirmationView, PackagesView', pattern: 'P4 Booking Wizard', screens: 5 },
+  { eer: 'ReserveViewNew', pattern: 'P4a One-Way Ride', screens: 1 },
+  { eer: 'ChauffeurServiceView, ChauffeurVehiclesView, ChauffeurConfirmationView', pattern: 'P4c Chauffeur', screens: 3 },
+  { eer: 'PackagesView', pattern: 'P4d Package Delivery', screens: 1 },
+  { eer: '(/reservation?service=tow-truck + DriverTowTruckView tow subscription)', pattern: 'P4b Tow Truck', screens: 2 },
   { eer: 'MapView, BookingMapView', pattern: 'P5 Map & Selection', screens: 2 },
   { eer: 'PaymentView, PayBookingView, PayOvertimeView, DriverTowTruckView, AdvertisingView', pattern: 'P6 Payment Checkout', screens: 5 },
   { eer: 'BookingsView, PaymentsView, PointsView, ReferralsView, TipsHistoryView', pattern: 'P7 List & Detail', screens: 5 },
@@ -32,14 +35,14 @@ const qualityChecklist = [
   { error: 'UI Kit components ignored (Toast, EmptyState, LoadingSpinner never used)', fix: 'EerState component handles all 4 states. Every pattern uses it. No hand-rolled spinners.' },
   { error: '4 different feedback patterns (SweetAlert, alert(), inline, toast)', fix: 'Single EerState success/error pattern. No alert() or swal anywhere.' },
   { error: 'Square payment duplicated 4×', fix: 'P6 Payment pattern is the single source. One form, one flow, tip selection built-in.' },
-  { error: '3 different progress bar patterns', fix: 'P4 Booking Wizard has one unified progress bar. All multi-step flows use it.' },
+  { error: '3 different progress bar patterns', fix: 'P4a/b/c/d each have their own 3-step progress bar, specialized per service.' },
   { error: 'Chat 95% duplicated (ChatView ≈ DriverChatView)', fix: 'P8 Chat is ONE component. Passenger/driver differ only by accent color prop.' },
   { error: 'Dark mode inconsistent (bg-gray-50 vs dark:bg-gray-900 vs dark:bg-gray-950)', fix: 'Semantic surface tokens: bg-background, bg-card, bg-muted. Dark mode is automatic via tokens.' },
   { error: 'Back navigation chaotic ($router.push, back(), go(-1), window.location.href)', fix: 'Patterns use shell navigation. No window.location.href. No $router.go(-1).' },
   { error: 'No global 401/auth-expiry handling', fix: 'I18nProvider + shell state manages auth. Patterns receive state via props.' },
   { error: 'No standardized loading/empty/error states', fix: 'AppState type (loading/empty/error/success/populated). Every pattern implements all 5.' },
   { error: 'Orphan routes (Withdrawals, TowTruck not in nav)', fix: 'All patterns are in the sidebar. No orphans. Driver nav has all 5 tabs.' },
-  { error: 'City Confirmation friction in ReserveViewNew', fix: 'P4 Booking Wizard uses clean autocomplete. No forced confirmation step.' },
+  { error: 'City Confirmation friction in ReserveViewNew', fix: 'P4a One-Way uses clean autocomplete. No forced confirmation step.' },
   { error: 'Facebook Pixel inlined 4×', fix: 'Analytics handled at app level (layout.tsx). Patterns never inline scripts.' },
   { error: 'Two different map integration patterns', fix: 'P5 Map & Selection is the single map pattern. Stylized placeholder for UI Kit.' },
   { error: 'Hardcoded fallbacks (chauffeur vehicles, min withdrawal $50, fee 2.5%)', fix: 'All data in mock/data.ts. Single source of truth. No duplicated fallbacks.' },
@@ -62,8 +65,8 @@ const principles = [
   {
     icon: Layers,
     title: 'One pattern, many screens',
-    principle: 'Canonical patterns replace one-off designs. 18 patterns cover 65 screens.',
-    detail: 'When every screen is designed from scratch, inconsistency creeps in. By mapping 65 eagleeyerides screens to 18 canonical patterns, we ensure visual consistency, reduce code, and make maintenance trivial. A programmer fixing a bug in the "list pattern" fixes it for 5 screens at once.',
+    principle: 'Canonical patterns replace one-off designs. 21 patterns cover 65 screens.',
+    detail: 'When every screen is designed from scratch, inconsistency creeps in. By mapping 65 eagleeyerides screens to 21 canonical patterns, we ensure visual consistency, reduce code, and make maintenance trivial. A programmer fixing a bug in the "list pattern" fixes it for 5 screens at once.',
   },
   {
     icon: Zap,
@@ -76,6 +79,12 @@ const principles = [
     title: 'Mobile-first, always',
     principle: 'Design for 375px first. Desktop is an enhancement, not the default.',
     detail: 'Eagle Eye Rides is a mobile app. Every passenger and driver pattern is designed for a phone frame. Touch targets are ≥36px. Bottom navs respect safe-area insets. Fixed action bars use semantic spacing tokens. Desktop admin patterns are the exception, not the rule.',
+  },
+  {
+    icon: Layers,
+    title: 'Specialize for each service',
+    principle: 'Eagle Eye Rides is multi-service. Each service gets its own flow, not a generic wizard.',
+    detail: 'Eagle Eye Rides offers 5 services: One-Way Rides, Tow Truck, Chauffeur, Package Delivery, and Advertising. Each has fundamentally different inputs — tow truck asks about breakdown type and vehicle condition; chauffeur is duration-based; package delivery has two contacts and no passenger. Forcing them into one generic "booking wizard" loses critical context. P4 is split into P4a (One-Way), P4b (Tow Truck), P4c (Chauffeur), and P4d (Package Delivery), each with a specialized 3-step flow. The shared shell (header, progress bar, action bar) stays consistent; the content specializes.',
   },
 ]
 
@@ -94,7 +103,7 @@ function DocsOverview() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { icon: Shield, title: 'UX Principles', desc: 'The "why" behind every decision', section: 'principles' },
-          { icon: Layers, title: 'Pattern Catalog', desc: '18 patterns → 65 screens', section: 'patterns' },
+          { icon: Layers, title: 'Pattern Catalog', desc: '21 patterns → 65 screens', section: 'patterns' },
           { icon: ArrowRight, title: 'Migration Guide', desc: 'eagleeyerides → UI Kit mapping', section: 'migration' },
           { icon: Check, title: 'Quality Checklist', desc: '22 errors fixed', section: 'checklist' },
         ].map((item) => (
@@ -108,7 +117,7 @@ function DocsOverview() {
       <div className="rounded-xl border border-border bg-card p-6">
         <h3 className="text-lg font-semibold">How to use this UI Kit</h3>
         <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
-          <li><strong className="text-foreground">1. Browse patterns</strong> — Use the sidebar to explore the 18 canonical patterns across Passenger, Driver, and Admin journeys.</li>
+          <li><strong className="text-foreground">1. Browse patterns</strong> — Use the sidebar to explore the 21 canonical patterns across Passenger, Driver, and Admin journeys.</li>
           <li><strong className="text-foreground">2. Test states</strong> — Use the state selector (top bar) to see each pattern in loading, empty, error, success, and populated states.</li>
           <li><strong className="text-foreground">3. Switch language</strong> — Toggle EN / PT-BR to verify bilingual support. English is the native language.</li>
           <li><strong className="text-foreground">4. Read the migration guide</strong> — Map each eagleeyerides screen to its UI Kit pattern before starting implementation.</li>
@@ -150,7 +159,7 @@ function DocsMigration() {
       <div>
         <h2 className="text-xl font-semibold tracking-tight">Migration Guide</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Map each eagleeyerides screen to its UI Kit pattern. 65 screens → 18 patterns.
+          Map each eagleeyerides screen to its UI Kit pattern. 65 screens → 21 patterns.
         </p>
       </div>
       <div className="overflow-hidden rounded-xl border border-border">
@@ -224,7 +233,10 @@ function DocsPatterns() {
     { id: 'P1', name: 'Landing / Marketing', category: 'Passenger', covers: 'LandingView' },
     { id: 'P2', name: 'Authentication', category: 'Passenger', covers: '5 auth screens' },
     { id: 'P3', name: 'Home Dashboard', category: 'Passenger', covers: 'HomeView' },
-    { id: 'P4', name: 'Booking Wizard', category: 'Passenger', covers: 'Reserve, Chauffeur×3, Packages' },
+    { id: 'P4a', name: 'One-Way Ride', category: 'Passenger', covers: 'ReserveViewNew' },
+    { id: 'P4b', name: 'Tow Truck', category: 'Passenger', covers: 'Tow booking + driver subscription' },
+    { id: 'P4c', name: 'Chauffeur', category: 'Passenger', covers: 'Chauffeur flow ×3 screens' },
+    { id: 'P4d', name: 'Package Delivery', category: 'Passenger', covers: 'PackagesView' },
     { id: 'P5', name: 'Map & Selection', category: 'Passenger', covers: 'MapView, BookingMapView' },
     { id: 'P6', name: 'Payment Checkout', category: 'Passenger', covers: '5 payment screens' },
     { id: 'P7', name: 'List & Detail', category: 'Passenger', covers: 'Bookings, Payments, Points, Referrals, Tips' },
@@ -249,7 +261,7 @@ function DocsPatterns() {
     <div className="space-y-5">
       <div>
         <h2 className="text-xl font-semibold tracking-tight">Pattern Catalog</h2>
-        <p className="mt-1 text-sm text-muted-foreground">18 canonical patterns. Each has 5 interactive states and covers multiple eagleeyerides screens.</p>
+        <p className="mt-1 text-sm text-muted-foreground">21 canonical patterns. Each has 5 interactive states and covers multiple eagleeyerides screens.</p>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {patterns.map((p) => (
