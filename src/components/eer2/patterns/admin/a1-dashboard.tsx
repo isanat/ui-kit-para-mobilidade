@@ -28,7 +28,7 @@ import type { PatternProps } from '../types'
 function KpiHero() {
   const revenue = mockAdminStats.revenue.today
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
+    <div className="eer-card-elevated p-6">
       <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         Today's Revenue
       </p>
@@ -47,9 +47,9 @@ function KpiHero() {
 // ── Secondary KPI (small, 2-line) ──
 function KpiSecondary({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="eer-card-elevated p-5">
       <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
-      <p className="mt-2 font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">
+      <p className="eer-display mt-2 font-variant-numeric-tabular text-2xl text-foreground">
         {value}
       </p>
       {sub && <p className="mt-1 text-xs text-muted-foreground">{sub}</p>}
@@ -60,7 +60,7 @@ function KpiSecondary({ label, value, sub }: { label: string; value: string; sub
 // ── Minimal bookings table ──
 function BookingsTable() {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+    <div className="eer-card-elevated overflow-hidden">
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <div>
           <h3 className="text-sm font-semibold text-foreground">Recent Bookings</h3>
@@ -92,7 +92,7 @@ function BookingsTable() {
         </thead>
         <tbody className="divide-y divide-border">
           {mockAdminBookings.slice(0, 6).map((b) => (
-            <tr key={b.id} className="transition-base hover:bg-muted/40">
+            <tr key={b.id} className="transition-base hover:bg-muted/40 eer-hover-lift">
               <td className="px-5 py-3.5">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs font-medium text-foreground">{b.displayId}</span>
@@ -130,7 +130,7 @@ function BookingsTable() {
 function DriverMetrics() {
   const d = mockAdminStats.drivers
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="eer-card-elevated p-5">
       <h3 className="text-sm font-semibold text-foreground">Driver Availability</h3>
       <div className="mt-4 space-y-3">
         {[
@@ -167,7 +167,7 @@ function PageHeader() {
   return (
     <div className="flex items-center justify-between pb-2">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">Operations</h1>
+        <h1 className="eer-display text-3xl text-foreground">Operations</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
           {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
         </p>
@@ -271,7 +271,7 @@ export function A1Dashboard({ state, onStateChange }: PatternProps) {
         </div>
         <div className="space-y-6">
           <DriverMetrics />
-          <div className="rounded-2xl border border-border bg-card p-5">
+          <div className="eer-card-elevated p-5">
             <h3 className="text-sm font-semibold text-foreground">Tips Summary</h3>
             <div className="mt-4 space-y-2.5">
               <div className="flex items-center justify-between text-sm">

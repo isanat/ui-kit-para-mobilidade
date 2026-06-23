@@ -32,7 +32,7 @@ function CleanHeader() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs text-muted-foreground">Good evening</p>
-          <h1 className="text-xl font-bold tracking-tight">Sarah</h1>
+          <h1 className="eer-display text-2xl text-foreground">Sarah</h1>
         </div>
         <button
           className="relative flex size-10 items-center justify-center rounded-full border border-border bg-card transition-base hover:bg-muted"
@@ -66,7 +66,7 @@ function DominantSearch({ onClick }: { onClick?: () => void }) {
 function ActiveRideCard({ booking }: { booking: typeof mockBookings[0] }) {
   const driver = booking.driver!
   return (
-    <div className="mx-5 overflow-hidden rounded-2xl border border-border bg-card">
+    <div className="eer-card-elevated mx-5 overflow-hidden">
       <div className="flex items-center gap-2 border-b border-border px-5 py-3">
         <span className="eer-status-dot bg-success" />
         <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -110,13 +110,13 @@ function ServiceSelector() {
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Services
       </h2>
-      <div className="divide-y divide-border rounded-xl border border-border bg-card">
+      <div className="divide-y divide-border rounded-xl border border-border bg-card shadow-sm">
         {services.map((service) => (
           <button
             key={service.id}
             onClick={() => setSelected(service.id)}
             className={cn(
-              'flex w-full items-center gap-4 px-4 py-4 text-left transition-base first:rounded-t-xl last:rounded-b-xl hover:bg-muted',
+              'eer-hover-lift flex w-full items-center gap-4 px-4 py-4 text-left first:rounded-t-xl last:rounded-b-xl',
               selected === service.id && 'bg-muted',
             )}
           >
@@ -147,11 +147,11 @@ function RecentPlaces() {
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Recent
       </h2>
-      <div className="divide-y divide-border rounded-xl border border-border bg-card">
+      <div className="divide-y divide-border rounded-xl border border-border bg-card shadow-sm">
         {places.map((place, i) => (
           <button
             key={i}
-            className="flex w-full items-center gap-4 px-4 py-3.5 text-left transition-base first:rounded-t-xl last:rounded-b-xl hover:bg-muted"
+            className="eer-hover-lift flex w-full items-center gap-4 px-4 py-3.5 text-left first:rounded-t-xl last:rounded-b-xl"
           >
             <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted">
               <place.icon className="size-[18px] text-foreground" />
@@ -257,7 +257,7 @@ export function P3HomeDashboard({ state, onStateChange }: PatternProps) {
       <div className="flex h-full flex-col">
         <CleanHeader />
         <div className="flex-1 overflow-y-auto scrollbar-thin">
-          <div className="mx-5 mt-4">
+          <div className="eer-card-elevated mx-5 mt-4">
             <div className="rounded-2xl border border-success/30 bg-success/5 p-5">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 items-center justify-center rounded-full bg-success text-success-foreground">
