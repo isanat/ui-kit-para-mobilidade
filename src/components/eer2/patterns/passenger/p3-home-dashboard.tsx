@@ -1,26 +1,29 @@
 'use client'
 
-import { Bell, Search, MapPin, Clock, Navigation, Star, Phone, MessageSquare, Home, ClipboardList, User } from 'lucide-react'
+import { Bell, Search, MapPin, Clock, Navigation, Star, Phone, MessageSquare, Home, ClipboardList, User, Car, Package, Crown, Truck } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { EerState, EerSkeleton } from '../../state'
 import {
   mockBookings,
-  mockAddresses,
   formatUSD,
   formatDuration,
 } from '@/lib/mock/data'
 import type { PatternProps } from '../types'
 
 // ═══════════════════════════════════════════════════════════════
-// P3 HOME DASHBOARD — v3 Clean (Uber-inspired minimalism)
-// Principles applied:
-// - Monochrome: bg-background, fg foreground, NO gradient headers
-// - Search-first: "Where to?" is the dominant element
-// - Hick's Law: ~8 visible elements, not 25
-// - Whitespace: 32px+ between sections
-// - Hierarchy: search > active ride > recent places
+// P3 HOME DASHBOARD — v3.1 Multi-service (Gojek/Grab inspired)
+// Eagle Eye Rides is NOT just rides — it offers 5 services:
+//   One-Way, Tow Truck, Chauffeur, Package Delivery, Advertising
+// This home makes all services accessible without clutter.
 // ═══════════════════════════════════════════════════════════════
+
+const services = [
+  { id: 'one-way', icon: Car, label: 'Reserve a Ride', desc: 'Point A to point B' },
+  { id: 'package', icon: Package, label: 'Send a Package', desc: 'Door-to-door delivery' },
+  { id: 'chauffeur', icon: Crown, label: 'Book a Chauffeur', desc: 'By the hour, premium' },
+  { id: 'tow', icon: Truck, label: 'Request Tow Truck', desc: 'Vehicle breakdown help' },
+] as const
 
 // ── Minimal header (solid, not gradient) ──
 function CleanHeader() {
@@ -43,7 +46,7 @@ function CleanHeader() {
   )
 }
 
-// ── Dominant search bar (Uber "Where to?" pattern) ──
+// ── Dominant search bar (for quick one-way booking) ──
 function DominantSearch({ onClick }: { onClick?: () => void }) {
   return (
     <button
@@ -59,19 +62,17 @@ function DominantSearch({ onClick }: { onClick?: () => void }) {
   )
 }
 
-// ── Active ride card (minimal: name + ETA + 1 action) ──
+// ── Active ride card (minimal) ──
 function ActiveRideCard({ booking }: { booking: typeof mockBookings[0] }) {
   const driver = booking.driver!
   return (
     <div className="mx-5 overflow-hidden rounded-2xl border border-border bg-card">
-      {/* Status strip — subtle, not loud */}
       <div className="flex items-center gap-2 border-b border-border px-5 py-3">
         <span className="eer-status-dot bg-success" />
         <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           {formatDuration(booking.duration)} away · {booking.dropoff.label}
         </span>
       </div>
-      {/* Driver info — minimal */}
       <div className="flex items-center gap-4 px-5 py-4">
         <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
           {driver.name.split(' ').map((n) => n[0]).join('')}
@@ -87,7 +88,6 @@ function ActiveRideCard({ booking }: { booking: typeof mockBookings[0] }) {
           {driver.rating}
         </div>
       </div>
-      {/* Actions — only 2, clean */}
       <div className="grid grid-cols-2 border-t border-border">
         <button className="flex items-center justify-center gap-2 py-3.5 text-sm font-medium text-foreground transition-base hover:bg-muted">
           <MessageSquare className="size-4" />
@@ -102,7 +102,40 @@ function ActiveRideCard({ booking }: { booking: typeof mockBookings[0] }) {
   )
 }
 
-// ── Recent places (replaces services grid + ads) ──
+// ── Service selector (Gojek/Grab style: clean, monochrome, accessible) ──
+function ServiceSelector() {
+  const [selected, setSelected] = useState<string | null>(null)
+  return (
+    <div className="mx-5">
+      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Services
+      </h2>
+      <div className="divide-y divide-border rounded-xl border border-border bg-card">
+        {services.map((service) => (
+          <button
+            key={service.id}
+            onClick={() => setSelected(service.id)}
+            className={cn(
+              'flex w-full items-center gap-4 px-4 py-4 text-left transition-base first:rounded-t-xl last:rounded-b-xl hover:bg-muted',
+              selected === service.id && 'bg-muted',
+            )}
+          >
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+              <service.icon className="size-5 text-foreground" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-foreground">{service.label}</p>
+              <p className="truncate text-xs text-muted-foreground">{service.desc}</p>
+            </div>
+            <Navigation className="size-4 shrink-0 text-muted-foreground" />
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Recent places ──
 function RecentPlaces() {
   const places = [
     { icon: Home, label: 'Home', address: '123 W 21st St' },
@@ -134,7 +167,7 @@ function RecentPlaces() {
   )
 }
 
-// ── Bottom nav (standard 4 items, minimal) ──
+// ── Bottom nav ──
 function BottomNav() {
   const [active, setActive] = useState('home')
   const items = [
@@ -162,7 +195,7 @@ function BottomNav() {
   )
 }
 
-// ── Loading skeleton (matches clean layout) ──
+// ── Loading skeleton ──
 function HomeLoading() {
   return (
     <div className="flex flex-col">
@@ -173,11 +206,11 @@ function HomeLoading() {
       <div className="mt-8 px-5">
         <EerSkeleton className="h-3 w-16 rounded" />
         <div className="mt-3 divide-y divide-border rounded-xl border border-border">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-4 px-4 py-3.5">
-              <EerSkeleton className="size-9 rounded-full" />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-4 px-4 py-4">
+              <EerSkeleton className="size-10 rounded-lg" />
               <div className="flex-1 space-y-1.5">
-                <EerSkeleton className="h-3.5 w-20 rounded" />
+                <EerSkeleton className="h-3.5 w-28 rounded" />
                 <EerSkeleton className="h-3 w-32 rounded" />
               </div>
             </div>
@@ -188,7 +221,7 @@ function HomeLoading() {
   )
 }
 
-// ── Main pattern ──
+// ── Main ──
 export function P3HomeDashboard({ state, onStateChange }: PatternProps) {
   if (state === 'loading') {
     return (
@@ -250,17 +283,18 @@ export function P3HomeDashboard({ state, onStateChange }: PatternProps) {
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         <CleanHeader />
-        {/* Search — dominant, immediately after header */}
         <div className="mt-4">
           <DominantSearch />
         </div>
-        {/* Active ride — if exists, this is the priority */}
         {activeBooking && (
           <div className="mt-8">
             <ActiveRideCard booking={activeBooking} />
           </div>
         )}
-        {/* Recent places — replaces services grid + ads carousel */}
+        {/* Service selector — ALL services accessible, clean */}
+        <div className="mt-8">
+          <ServiceSelector />
+        </div>
         <div className="mt-8 pb-8">
           <RecentPlaces />
         </div>

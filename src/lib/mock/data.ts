@@ -569,3 +569,69 @@ export const mockAdminAlerts = [
     date: hoursAgo(5),
   },
 ]
+
+// ═══════════════════════════════════════════════════════════════
+// SERVICE-SPECIFIC MOCK DATA (P4a-P4d specialized flows)
+// ═══════════════════════════════════════════════════════════════
+
+// ── One-Way vehicle classes ──
+export const oneWayVehicleClasses = [
+  { id: 'sedan', name: 'Black Sedan', desc: 'Mercedes E-Class · 4 seats', price: 32, eta: 4, icon: 'sedan' },
+  { id: 'suv', name: 'Black SUV', desc: 'Cadillac Escalade · 6 seats', price: 45, eta: 6, icon: 'suv' },
+  { id: 'luxury', name: 'Luxury', desc: 'BMW 7 Series · 4 seats', price: 65, eta: 8, icon: 'luxury' },
+]
+
+// ── Tow Truck: vehicle breakdown types ──
+export const towBreakdownTypes = [
+  { id: 'flat-tire', label: 'Flat tire', icon: 'tire' },
+  { id: 'dead-battery', label: 'Dead battery', icon: 'battery' },
+  { id: 'engine', label: 'Engine trouble', icon: 'engine' },
+  { id: 'accident', label: 'Accident / collision', icon: 'accident' },
+  { id: 'locked-out', label: 'Locked out', icon: 'key' },
+  { id: 'other', label: 'Other issue', icon: 'wrench' },
+]
+
+export const towVehicleTypes = [
+  { id: 'sedan', label: 'Sedan' },
+  { id: 'suv', label: 'SUV' },
+  { id: 'truck', label: 'Pickup truck' },
+  { id: 'van', label: 'Van' },
+  { id: 'motorcycle', label: 'Motorcycle' },
+]
+
+export const towTruckOptions = [
+  { id: 'flatbed', name: 'Flatbed tow truck', desc: 'Best for luxury / AWD vehicles', price: 85, eta: 22 },
+  { id: 'wheel-lift', name: 'Wheel-lift tow truck', desc: 'Standard for most vehicles', price: 65, eta: 18 },
+  { id: 'heavy-duty', name: 'Heavy-duty tow truck', desc: 'For trucks, vans, large SUVs', price: 145, eta: 35 },
+]
+
+// ── Chauffeur: durations & vehicles ──
+export const chauffeurDurations = [
+  { hours: 3, label: '3 hours', popular: true },
+  { hours: 4, label: '4 hours' },
+  { hours: 6, label: '6 hours' },
+  { hours: 8, label: '8 hours', popular: true },
+  { hours: 10, label: '10 hours' },
+  { hours: 12, label: '12 hours' },
+]
+
+export const chauffeurVehicles = [
+  { id: 'sedan', name: 'Black Sedan', desc: 'Mercedes E-Class · up to 4 passengers', pricePerHour: 80 },
+  { id: 'suv', name: 'Black SUV', desc: 'Cadillac Escalade · up to 6 passengers', pricePerHour: 110 },
+  { id: 'luxury', name: 'Luxury Sedan', desc: 'BMW 7 Series · up to 4 passengers', pricePerHour: 150 },
+  { id: 'sprinter', name: 'Sprinter Van', desc: 'Mercedes Sprinter · up to 12 passengers', pricePerHour: 180 },
+]
+
+// ── Package Delivery ──
+export const packageSizes = [
+  { id: 'small', label: 'Small', desc: 'Up to 5 lbs · envelopes, documents', price: 12 },
+  { id: 'medium', label: 'Medium', desc: '5–25 lbs · small boxes', price: 18 },
+  { id: 'large', label: 'Large', desc: '25–60 lbs · larger boxes', price: 28 },
+  { id: 'xl', label: 'Extra Large', desc: '60+ lbs · requires 2 handlers', price: 45 },
+]
+
+export const packageContactTypes = [
+  { id: 'person', label: 'Person', desc: 'Hand to a specific person' },
+  { id: 'front-desk', label: 'Front desk', desc: 'Leave with reception / front desk' },
+  { id: 'door', label: 'Door drop-off', desc: 'Leave at the door' },
+]

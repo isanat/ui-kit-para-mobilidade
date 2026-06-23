@@ -26,7 +26,10 @@ import { appStates } from './patterns/types'
 import { P1Landing } from './patterns/passenger/p1-landing'
 import { P2Auth } from './patterns/passenger/p2-auth'
 import { P3HomeDashboard } from './patterns/passenger/p3-home-dashboard'
-import { P4BookingWizard } from './patterns/passenger/p4-booking-wizard'
+import { P4aOneWay } from './patterns/passenger/p4a-one-way'
+import { P4bTowTruck } from './patterns/passenger/p4b-tow-truck'
+import { P4cChauffeur } from './patterns/passenger/p4c-chauffeur'
+import { P4dPackage } from './patterns/passenger/p4d-package'
 import { P5MapSelection } from './patterns/passenger/p5-map-selection'
 import { P6Payment } from './patterns/passenger/p6-payment'
 import { P7ListDetail } from './patterns/passenger/p7-list-detail'
@@ -47,7 +50,10 @@ const patternRegistry: Record<string, React.ComponentType<{ state: AppState; onS
   p1: P1Landing,
   p2: P2Auth,
   p3: P3HomeDashboard,
-  p4: P4BookingWizard,
+  p4a: P4aOneWay,
+  p4b: P4bTowTruck,
+  p4c: P4cChauffeur,
+  p4d: P4dPackage,
   p5: P5MapSelection,
   p6: P6Payment,
   p7: P7ListDetail,
@@ -91,7 +97,10 @@ const navItems: NavItem[] = [
   { id: 'p1', category: 'passenger', labelKey: 'pattern.p1.title', descKey: 'pattern.p1.desc', renderType: 'mobile', patternId: 'p1', badge: 'P1' },
   { id: 'p2', category: 'passenger', labelKey: 'pattern.p2.title', descKey: 'pattern.p2.desc', renderType: 'mobile', patternId: 'p2', badge: 'P2' },
   { id: 'p3', category: 'passenger', labelKey: 'pattern.p3.title', descKey: 'pattern.p3.desc', renderType: 'mobile', patternId: 'p3', badge: 'P3' },
-  { id: 'p4', category: 'passenger', labelKey: 'pattern.p4.title', descKey: 'pattern.p4.desc', renderType: 'mobile', patternId: 'p4', badge: 'P4' },
+  { id: 'p4a', category: 'passenger', labelKey: 'pattern.p4a.title', descKey: 'pattern.p4a.desc', renderType: 'mobile', patternId: 'p4a', badge: 'P4a' },
+  { id: 'p4b', category: 'passenger', labelKey: 'pattern.p4b.title', descKey: 'pattern.p4b.desc', renderType: 'mobile', patternId: 'p4b', badge: 'P4b' },
+  { id: 'p4c', category: 'passenger', labelKey: 'pattern.p4c.title', descKey: 'pattern.p4c.desc', renderType: 'mobile', patternId: 'p4c', badge: 'P4c' },
+  { id: 'p4d', category: 'passenger', labelKey: 'pattern.p4d.title', descKey: 'pattern.p4d.desc', renderType: 'mobile', patternId: 'p4d', badge: 'P4d' },
   { id: 'p5', category: 'passenger', labelKey: 'pattern.p5.title', descKey: 'pattern.p5.desc', renderType: 'mobile', patternId: 'p5', badge: 'P5' },
   { id: 'p6', category: 'passenger', labelKey: 'pattern.p6.title', descKey: 'pattern.p6.desc', renderType: 'mobile', patternId: 'p6', badge: 'P6' },
   { id: 'p7', category: 'passenger', labelKey: 'pattern.p7.title', descKey: 'pattern.p7.desc', renderType: 'mobile', patternId: 'p7', badge: 'P7' },
