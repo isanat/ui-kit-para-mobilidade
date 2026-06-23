@@ -42,7 +42,7 @@ import type { PatternProps } from '../types'
 
 type UserType = typeof mockPassengers[0]
 
-// ── Avatar with initials ──
+// ── Avatar with initials (v3 clean: muted bg, not primary) ──
 function Avatar({ name, size = 'lg' }: { name: string; size?: 'lg' | 'sm' }) {
   const initials = name
     .split(' ')
@@ -53,7 +53,7 @@ function Avatar({ name, size = 'lg' }: { name: string; size?: 'lg' | 'sm' }) {
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-full bg-white/20 font-bold text-primary-foreground backdrop-blur-sm',
+        'flex items-center justify-center rounded-full bg-muted font-bold text-foreground',
         size === 'lg' ? 'size-16 text-xl' : 'size-10 text-sm',
       )}
     >
@@ -62,18 +62,18 @@ function Avatar({ name, size = 'lg' }: { name: string; size?: 'lg' | 'sm' }) {
   )
 }
 
-// ── Profile header ──
+// ── Profile header (v3 clean: solid bg, monochrome) ──
 function ProfileHeader({ user }: { user: UserType }) {
   return (
-    <div className="bg-gradient-to-br from-primary to-primary/80 px-5 pb-12 pt-12 text-primary-foreground">
+    <div className="eer-header-solid px-5 pb-12 pt-12">
       <div className="flex items-center justify-between pt-safe">
         <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-white/15">
-            <Truck className="size-4" />
+          <div className="flex size-8 items-center justify-center rounded-lg border border-border bg-card">
+            <Truck className="size-4 text-foreground" />
           </div>
-          <span className="text-sm font-semibold">Account</span>
+          <span className="text-sm font-semibold text-foreground">Account</span>
         </div>
-        <button className="flex size-9 items-center justify-center rounded-full bg-white/15">
+        <button className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted">
           <Settings className="size-4" />
         </button>
       </div>
@@ -81,9 +81,9 @@ function ProfileHeader({ user }: { user: UserType }) {
       <div className="mt-5 flex items-center gap-4">
         <Avatar name={user.name} />
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-xl font-bold">{user.name}</h1>
-          <p className="truncate text-sm opacity-80">{user.email}</p>
-          <p className="mt-0.5 text-[11px] opacity-70">
+          <h1 className="truncate text-xl font-bold text-foreground">{user.name}</h1>
+          <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">
             Member since {new Date(user.memberSince).getFullYear()}
           </p>
         </div>
@@ -92,27 +92,27 @@ function ProfileHeader({ user }: { user: UserType }) {
   )
 }
 
-// ── Stats row ──
+// ── Stats row (monochrome numbers, semantic star color) ──
 function StatsRow({ rides, points }: { rides: number; points: number }) {
   return (
-    <div className="mx-4 -mt-6 rounded-2xl border border-border bg-card p-4 shadow-lg">
+    <div className="mx-4 -mt-6 rounded-2xl border border-border bg-card p-5 shadow-lg">
       <div className="grid grid-cols-3 divide-x divide-border">
         <div className="px-2 text-center">
-          <div className="flex items-center justify-center gap-1 text-lg font-bold text-foreground">
-            <Car className="size-4 text-primary" />
+          <div className="flex items-center justify-center gap-1 text-lg font-bold tabular-nums text-foreground">
+            <Car className="size-4 text-muted-foreground" />
             {rides}
           </div>
           <div className="mt-0.5 text-[11px] text-muted-foreground">Total Rides</div>
         </div>
         <div className="px-2 text-center">
-          <div className="flex items-center justify-center gap-1 text-lg font-bold text-foreground">
-            <Award className="size-4 text-amber" />
+          <div className="flex items-center justify-center gap-1 text-lg font-bold tabular-nums text-foreground">
+            <Award className="size-4 text-muted-foreground" />
             {points.toLocaleString()}
           </div>
           <div className="mt-0.5 text-[11px] text-muted-foreground">Points</div>
         </div>
         <div className="px-2 text-center">
-          <div className="flex items-center justify-center gap-1 text-lg font-bold text-foreground">
+          <div className="flex items-center justify-center gap-1 text-lg font-bold tabular-nums text-foreground">
             <Star className="size-4 fill-current text-warning" />
             4.9
           </div>
@@ -163,7 +163,7 @@ function MenuItem({
   )
 }
 
-// ── Menu list ──
+// ── Menu list (monochrome icons) ──
 function MenuList({
   onEditProfile,
   onChangePassword,
@@ -172,14 +172,14 @@ function MenuList({
   onChangePassword: () => void
 }) {
   return (
-    <div className="mt-4">
+    <div className="mt-8">
       <p className="px-5 pb-2 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Account
       </p>
       <div className="border-y border-border bg-card">
         <MenuItem
           icon={Pencil}
-          iconColor="bg-primary/10 text-primary"
+          iconColor="bg-muted text-foreground"
           label="Edit Profile"
           desc="Name, email, phone, DOB"
           onClick={onEditProfile}
@@ -187,50 +187,50 @@ function MenuList({
         <div className="mx-5 border-t border-border" />
         <MenuItem
           icon={KeyRound}
-          iconColor="bg-primary/10 text-primary"
+          iconColor="bg-muted text-foreground"
           label="Change Password"
           onClick={onChangePassword}
         />
       </div>
 
-      <p className="px-5 pb-2 pt-5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+      <p className="px-5 pb-2 pt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         Activity
       </p>
       <div className="border-y border-border bg-card">
         <MenuItem
           icon={Calendar}
-          iconColor="bg-[var(--service-one-way)] text-[var(--service-one-way-fg)]"
+          iconColor="bg-muted text-foreground"
           label="My Bookings"
           desc="Past & upcoming rides"
         />
         <div className="mx-5 border-t border-border" />
         <MenuItem
           icon={CreditCard}
-          iconColor="bg-success/15 text-success"
+          iconColor="bg-muted text-foreground"
           label="Payment Methods"
           desc="Cards, Apple Pay, Google Pay"
         />
         <div className="mx-5 border-t border-border" />
         <MenuItem
           icon={Gift}
-          iconColor="bg-magenta/15 text-magenta"
+          iconColor="bg-muted text-foreground"
           label="Referrals"
           desc="Invite friends, earn rewards"
         />
         <div className="mx-5 border-t border-border" />
         <MenuItem
           icon={HandCoins}
-          iconColor="bg-amber/15 text-amber"
+          iconColor="bg-muted text-foreground"
           label="Tips History"
           desc="Tips you've given drivers"
         />
       </div>
 
-      <p className="px-5 pb-2 pt-5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+      <p className="px-5 pb-2 pt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         General
       </p>
       <div className="border-y border-border bg-card">
-        <MenuItem icon={Settings} iconColor="bg-muted text-muted-foreground" label="Settings" />
+        <MenuItem icon={Settings} iconColor="bg-muted text-foreground" label="Settings" />
         <div className="mx-5 border-t border-border" />
         <MenuItem
           icon={LogOut}
@@ -246,13 +246,13 @@ function MenuList({
 // ── Recent points preview (uses mockPointsHistory) ──
 function RecentPoints() {
   return (
-    <div className="mt-6 px-5 pb-8">
-      <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="mt-8 px-5 pb-10">
+      <div className="rounded-2xl border border-border bg-card p-5">
         <div className="flex items-center justify-between">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-            <Award className="size-4 text-amber" /> Recent Points
+            <Award className="size-4 text-muted-foreground" /> Recent Points
           </p>
-          <button className="text-xs font-medium text-primary transition-base hover:text-primary/80">
+          <button className="text-xs font-medium text-foreground transition-base hover:opacity-70">
             View all
           </button>
         </div>
@@ -265,7 +265,7 @@ function RecentPoints() {
               </div>
               <span
                 className={cn(
-                  'ml-2 font-semibold',
+                  'ml-2 font-semibold tabular-nums',
                   p.type === 'credited' ? 'text-success' : 'text-destructive',
                 )}
               >
@@ -333,7 +333,7 @@ function EditProfileSheet({
           >
             Cancel
           </Button>
-          <Button className="flex-1" onClick={onSave}>
+          <Button className="eer-btn-primary flex-1" onClick={onSave}>
             Save Changes
           </Button>
         </SheetFooter>
@@ -387,7 +387,7 @@ function ChangePasswordSheet({
           >
             Cancel
           </Button>
-          <Button className="flex-1" onClick={onSave}>
+          <Button className="eer-btn-primary flex-1" onClick={onSave}>
             Update Password
           </Button>
         </SheetFooter>
@@ -406,7 +406,7 @@ function SuccessToast({ message }: { message: string }) {
   )
 }
 
-// ── Bottom nav (Account active) ──
+// ── Bottom nav (Account active) — monochrome ──
 function BottomNav() {
   const items = [
     { id: 'home', icon: Car, label: 'Home' },
@@ -420,7 +420,7 @@ function BottomNav() {
           key={item.id}
           className={cn(
             'flex flex-col items-center gap-1 rounded-lg px-4 py-1.5 transition-base',
-            item.id === 'account' ? 'text-primary' : 'text-muted-foreground',
+            item.id === 'account' ? 'text-foreground' : 'text-muted-foreground',
           )}
         >
           <item.icon className="size-5" />
@@ -436,7 +436,7 @@ function AccountLoading() {
   return (
     <div className="flex flex-col">
       {/* Header skeleton */}
-      <div className="bg-gradient-to-br from-primary/30 to-primary/20 px-5 pb-12 pt-12">
+      <div className="eer-header-solid px-5 pb-12 pt-12">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <EerSkeleton className="size-8 rounded-lg" />
@@ -550,8 +550,8 @@ export function P9Account({ state, onStateChange }: PatternProps) {
         {state === 'success' && <SuccessToast message="Profile updated!" />}
 
         {isEmpty ? (
-          <div className="mx-4 mt-5 rounded-2xl border border-dashed border-border bg-card p-5 text-center">
-            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <div className="mx-4 mt-8 rounded-2xl border border-dashed border-border bg-card p-6 text-center">
+            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-muted text-foreground">
               <Car className="size-6" />
             </div>
             <h3 className="mt-3 text-sm font-semibold text-foreground">
@@ -560,7 +560,7 @@ export function P9Account({ state, onStateChange }: PatternProps) {
             <p className="mx-auto mt-1 max-w-[260px] text-xs text-muted-foreground">
               You haven&apos;t taken any rides yet. Book your first ride to start earning points.
             </p>
-            <Button size="sm" className="mt-3">
+            <Button size="sm" className="eer-btn-primary mt-4">
               Book a Ride
             </Button>
           </div>

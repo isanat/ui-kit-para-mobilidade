@@ -50,10 +50,10 @@ function PageHeader() {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Bookings Management
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="mt-0.5 text-sm text-muted-foreground">
           Search, filter, and manage all bookings across services
         </p>
       </div>
@@ -62,7 +62,7 @@ function PageHeader() {
           <Download className="size-4" />
           Export
         </Button>
-        <Button size="sm" className="h-9">
+        <Button size="sm" className="eer-btn-primary h-9">
           <Plus className="size-4" />
           Create
         </Button>
@@ -74,7 +74,7 @@ function PageHeader() {
 // ── Filter bar ──
 function FilterBar() {
   return (
-    <div className="rounded-xl border border-border bg-card p-3">
+    <div className="rounded-2xl border border-border bg-card p-4">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -109,7 +109,7 @@ function FilterBar() {
         <Input type="date" className="h-9 lg:w-36" />
         <Input type="date" className="h-9 lg:w-36" />
         <div className="flex gap-2">
-          <Button size="sm" className="h-9">
+          <Button size="sm" className="eer-btn-primary h-9">
             Apply Filters
           </Button>
           <Button variant="outline" size="sm" className="h-9">
@@ -140,14 +140,14 @@ function FilterStatCard({
   accent: string
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-3 transition-all-eer hover:shadow-md">
+    <div className="rounded-2xl border border-border bg-card p-5">
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
-        <span className={cn('size-2 rounded-full', accent)} />
+        <span className={cn('eer-status-dot', accent)} />
       </div>
-      <p className="mt-1 text-2xl font-bold text-foreground">{value}</p>
+      <p className="mt-2 font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{value}</p>
     </div>
   )
 }
@@ -155,7 +155,7 @@ function FilterStatCard({
 function FilterStats() {
   const s = mockAdminStats.bookings
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <FilterStatCard
         label="Total"
         value={s.awaiting + s.inProgress + s.completed + s.cancelled}
@@ -179,7 +179,7 @@ function ActionIcons({ onView }: { onView: () => void }) {
       <Button
         variant="ghost"
         size="icon"
-        className="size-7 text-muted-foreground hover:text-primary"
+        className="size-7 text-muted-foreground hover:text-foreground"
         onClick={(e) => {
           e.stopPropagation()
           onView()
@@ -191,7 +191,7 @@ function ActionIcons({ onView }: { onView: () => void }) {
       <Button
         variant="ghost"
         size="icon"
-        className="size-7 text-muted-foreground hover:text-primary"
+        className="size-7 text-muted-foreground hover:text-foreground"
         onClick={(e) => e.stopPropagation()}
         aria-label="Edit"
       >
@@ -219,19 +219,35 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
     mockAdminStats.bookings.completed +
     mockAdminStats.bookings.cancelled
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 z-[1] bg-muted/50 text-left">
-            <tr className="text-[11px] uppercase tracking-wide text-muted-foreground">
-              <th className="px-4 py-3 font-medium">Order ID</th>
-              <th className="px-4 py-3 font-medium">Service</th>
-              <th className="px-4 py-3 font-medium">Customer</th>
-              <th className="px-4 py-3 font-medium">Driver</th>
-              <th className="px-4 py-3 text-right font-medium">Fare</th>
-              <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium">Date</th>
-              <th className="px-4 py-3 text-right font-medium">Actions</th>
+          <thead className="sticky top-0 z-[1]">
+            <tr className="border-b border-border bg-muted/30">
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Order ID
+              </th>
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Service
+              </th>
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Customer
+              </th>
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Driver
+              </th>
+              <th className="px-5 py-2.5 text-right text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Fare
+              </th>
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Status
+              </th>
+              <th className="px-5 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Date
+              </th>
+              <th className="px-5 py-2.5 text-right text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -244,20 +260,20 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
                 }}
                 className={cn(
                   'cursor-pointer transition-base',
-                  selectedId === b.id ? 'bg-primary/5' : 'hover:bg-muted/40',
+                  selectedId === b.id ? 'bg-muted/60' : 'hover:bg-muted/40',
                 )}
               >
-                <td className="px-4 py-3 font-mono text-xs font-semibold text-foreground">
+                <td className="px-5 py-3.5 font-mono text-xs font-semibold tabular-nums text-foreground">
                   {b.displayId}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3.5">
                   <EerServiceBadge service={b.service} size="xs" />
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3.5">
                   <p className="font-medium text-foreground">{b.passenger.name}</p>
                   <p className="text-xs text-muted-foreground">{b.passenger.phone}</p>
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3.5">
                   {b.driver ? (
                     <div>
                       <p className="font-medium text-foreground">{b.driver.name}</p>
@@ -267,16 +283,16 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
                     <span className="text-xs italic text-muted-foreground">Unassigned</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-right font-semibold text-foreground">
+                <td className="px-5 py-3.5 text-right font-semibold tabular-nums text-foreground">
                   {b.fare > 0 ? formatUSD(b.fare) : '—'}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3.5">
                   <EerBookingStatusBadge status={b.status} />
                 </td>
-                <td className="px-4 py-3 text-xs text-muted-foreground">
+                <td className="px-5 py-3.5 text-xs text-muted-foreground">
                   {formatDateTime(b.date)}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3.5">
                   <ActionIcons onView={() => onSelect(b)} />
                 </td>
               </tr>
@@ -284,7 +300,7 @@ function BookingsTable({ onSelect }: { onSelect: (b: AdminBooking) => void }) {
           </tbody>
         </table>
       </div>
-      <div className="flex flex-col items-center justify-between gap-2 border-t border-border px-4 py-3 sm:flex-row">
+      <div className="flex flex-col items-center justify-between gap-2 border-t border-border px-5 py-3 sm:flex-row">
         <p className="text-xs text-muted-foreground">
           Showing 1–{mockAdminBookings.length} of {total}
         </p>
@@ -329,16 +345,16 @@ function BookingDetailSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full gap-0 overflow-y-auto p-0 sm:max-w-md"
+        className="w-full gap-0 overflow-y-auto border-l border-border bg-card p-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-border px-4 py-3">
+        <SheetHeader className="border-b border-border px-5 py-4">
           <SheetTitle className="text-base">Booking Details</SheetTitle>
           <SheetDescription>
             {booking ? `Order ${booking.displayId}` : ''}
           </SheetDescription>
         </SheetHeader>
         {booking && (
-          <div className="space-y-4 p-4">
+          <div className="space-y-4 p-5">
             {/* Status + service */}
             <div className="flex items-center gap-2">
               <EerBookingStatusBadge status={booking.status} />
@@ -346,22 +362,22 @@ function BookingDetailSheet({
             </div>
 
             {/* Route */}
-            <div className="rounded-xl border border-border bg-muted/30 p-3">
+            <div className="eer-card-v3 !p-4">
               <div className="flex items-stretch gap-3">
                 <div className="flex flex-col items-center pt-1">
-                  <span className="size-2 rounded-full bg-success ring-4 ring-success/15" />
+                  <span className="size-2 rounded-full bg-foreground" />
                   <span className="my-1 w-0.5 grow bg-border" />
-                  <span className="size-2 rounded-full bg-destructive ring-4 ring-destructive/15" />
+                  <span className="size-2 rounded-full bg-muted-foreground" />
                 </div>
                 <div className="flex-1 space-y-3">
                   <div>
-                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                       Pickup
                     </p>
                     <p className="text-sm font-medium text-foreground">{booking.pickup}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                       Dropoff
                     </p>
                     <p className="text-sm font-medium text-foreground">{booking.dropoff}</p>
@@ -371,8 +387,8 @@ function BookingDetailSheet({
             </div>
 
             {/* Customer info */}
-            <div className="rounded-xl border border-border bg-card p-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="eer-card-v3 !p-4">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Customer
               </p>
               <p className="mt-1 text-sm font-semibold text-foreground">
@@ -382,8 +398,8 @@ function BookingDetailSheet({
             </div>
 
             {/* Driver info */}
-            <div className="rounded-xl border border-border bg-card p-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="eer-card-v3 !p-4">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Driver
               </p>
               {booking.driver ? (
@@ -399,14 +415,14 @@ function BookingDetailSheet({
             </div>
 
             {/* Fare breakdown */}
-            <div className="rounded-xl border border-border bg-card p-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="eer-card-v3 !p-4">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 Fare Breakdown
               </p>
               <div className="mt-2 space-y-1.5">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Base fare</span>
-                  <span className="font-medium text-foreground">{formatUSD(booking.fare)}</span>
+                  <span className="font-medium tabular-nums text-foreground">{formatUSD(booking.fare)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Booking time</span>
@@ -416,14 +432,14 @@ function BookingDetailSheet({
                 </div>
                 <div className="flex justify-between border-t border-border pt-1.5 text-sm">
                   <span className="font-medium text-foreground">Total</span>
-                  <span className="font-bold text-foreground">{formatUSD(booking.fare)}</span>
+                  <span className="font-bold tabular-nums text-foreground">{formatUSD(booking.fare)}</span>
                 </div>
               </div>
             </div>
 
             {/* Actions */}
             <div className="flex gap-2 pt-1">
-              <Button className="flex-1">Edit Booking</Button>
+              <Button className="eer-btn-primary flex-1">Edit Booking</Button>
               <Button variant="outline">Contact</Button>
             </div>
           </div>
@@ -436,26 +452,26 @@ function BookingDetailSheet({
 // ── Loading skeleton ──
 function TableLoading() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <PageHeader />
-      <div className="rounded-xl border border-border bg-card p-3">
+      <div className="rounded-2xl border border-border bg-card p-4">
         <div className="flex gap-2">
           <EerSkeleton className="h-9 flex-1" />
           <EerSkeleton className="h-9 w-36" />
           <EerSkeleton className="h-9 w-36" />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <EerSkeleton key={i} className="h-20 rounded-xl" />
+          <EerSkeleton key={i} className="h-24 rounded-2xl" />
         ))}
       </div>
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card">
         <EerSkeleton className="h-10 w-full rounded-none" />
         {Array.from({ length: 7 }).map((_, i) => (
           <div
             key={i}
-            className="flex items-center gap-4 border-b border-border px-4 py-3 last:border-0"
+            className="flex items-center gap-4 border-b border-border px-5 py-3.5 last:border-0"
           >
             <EerSkeleton className="h-3 w-16" />
             <EerSkeleton className="h-3 w-20" />
@@ -481,9 +497,9 @@ function SuccessBanner({
   onDismiss?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-3 spring-in">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
-        <CheckCircle2 className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-success/30 bg-success/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
+        <CheckCircle2 className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -518,9 +534,9 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
 
   if (state === 'error') {
     return (
-      <div className="space-y-4">
+      <div className="space-y-8">
         <PageHeader />
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card">
           <EerState
             state="error"
             title="Couldn't load bookings"
@@ -535,7 +551,7 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
 
   if (state === 'success') {
     return (
-      <div className="space-y-4">
+      <div className="space-y-8">
         <PageHeader />
         <SuccessBanner
           message="Booking updated!"
@@ -556,10 +572,10 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
 
   if (state === 'empty') {
     return (
-      <div className="space-y-4">
+      <div className="space-y-8">
         <PageHeader />
         <FilterBar />
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card">
           <EerState
             state="empty"
             title="No bookings found"
@@ -579,7 +595,7 @@ export function A2DataTable({ state, onStateChange }: PatternProps) {
 
   // Populated
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <PageHeader />
       <FilterBar />
       <FilterStats />

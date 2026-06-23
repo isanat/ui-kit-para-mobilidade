@@ -3,15 +3,12 @@
 import {
   Truck,
   Star,
-  Crown,
-  Shield,
   ArrowRight,
   ChevronDown,
   Calendar,
   Car,
   MapPinned,
   Footprints,
-  Sparkles,
   type LucideIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -21,51 +18,38 @@ import type { ServiceType } from '@/lib/mock/data'
 import { mockPassengers, formatUSD } from '@/lib/mock/data'
 import type { PatternProps } from '../types'
 
-// ── Hero ──
+// ── Hero (v3 clean: solid bg, no gradient) ──
 function LandingHero({ onCta, onLearn }: { onCta?: () => void; onLearn?: () => void }) {
   return (
-    <div className="relative flex min-h-[600px] flex-col justify-between bg-gradient-to-b from-primary via-primary/95 to-black px-6 pb-10 pt-14 text-primary-foreground">
+    <div className="relative flex min-h-[560px] flex-col justify-between bg-background px-6 pb-10 pt-14 text-foreground">
       {/* Brand bar */}
       <div className="flex items-center justify-between pt-safe">
         <div className="flex items-center gap-2">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
-            <Truck className="size-5" />
+          <div className="flex size-9 items-center justify-center rounded-xl border border-border bg-card">
+            <Truck className="size-5 text-foreground" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-bold">Eagle Eye Rides</div>
-            <div className="text-[10px] opacity-70">Premium Urban Mobility</div>
+            <div className="text-sm font-bold text-foreground">Eagle Eye Rides</div>
+            <div className="text-[10px] text-muted-foreground">Premium Urban Mobility</div>
           </div>
         </div>
-        <div className="flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-xs backdrop-blur-sm">
+        <div className="flex items-center gap-1 rounded-full border border-border bg-card px-2.5 py-1 text-xs">
           <Star className="size-3 fill-current text-amber" />
-          <span className="font-semibold">4.9</span>
+          <span className="font-semibold text-foreground">4.9</span>
         </div>
       </div>
 
       {/* Tagline */}
-      <div className="space-y-3 slide-up">
-        <h1 className="text-[2rem] font-bold leading-[1.1]">
+      <div className="space-y-4 slide-up">
+        <h1 className="text-[2.25rem] font-bold leading-[1.1] tracking-tight text-foreground">
           Premium urban mobility,
           <br />
-          <span className="text-amber">redefined.</span>
+          <span className="text-muted-foreground">redefined.</span>
         </h1>
-        <p className="max-w-xs text-sm leading-relaxed opacity-80">
+        <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
           Luxury black-car service, on-demand chauffeurs, package delivery, and roadside assistance —
           all in one app.
         </p>
-
-        {/* Trust badges */}
-        <div className="flex flex-wrap gap-2 pt-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-xs backdrop-blur-sm">
-            <Shield className="size-3" /> Licensed
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-xs backdrop-blur-sm">
-            <Crown className="size-3" /> Luxury Fleet
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-xs backdrop-blur-sm">
-            <Star className="size-3 fill-current text-amber" /> 4.9★
-          </span>
-        </div>
       </div>
 
       {/* CTAs */}
@@ -73,7 +57,7 @@ function LandingHero({ onCta, onLearn }: { onCta?: () => void; onLearn?: () => v
         <Button
           onClick={onCta}
           size="lg"
-          className="w-full spring-in bg-amber text-amber-foreground hover:bg-amber/90"
+          className="eer-btn-primary w-full spring-in"
         >
           Get Started
           <ArrowRight className="size-4" />
@@ -81,7 +65,7 @@ function LandingHero({ onCta, onLearn }: { onCta?: () => void; onLearn?: () => v
         <Button
           onClick={onLearn}
           variant="ghost"
-          className="w-full text-primary-foreground hover:bg-white/10 hover:text-primary-foreground"
+          className="w-full text-foreground hover:bg-muted hover:text-foreground"
         >
           Learn More
           <ChevronDown className="size-4" />
@@ -100,22 +84,22 @@ const howItWorks: { icon: LucideIcon; title: string; desc: string }[] = [
 
 function HowItWorks() {
   return (
-    <section className="px-5 py-8">
+    <section className="px-5 py-10">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">How it works</p>
       <h2 className="mt-1 text-xl font-bold text-foreground">Three steps to your ride</h2>
-      <div className="mt-5 space-y-3">
+      <div className="mt-8 space-y-4">
         {howItWorks.map((step, i) => (
           <div
             key={step.title}
-            className="flex items-start gap-4 rounded-2xl border border-border bg-card p-4 slide-up"
+            className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5 slide-up"
             style={{ animationDelay: `${i * 60}ms` }}
           >
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground">
               <step.icon className="size-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                <span className="flex size-5 items-center justify-center rounded-full bg-foreground text-[10px] font-bold text-background">
                   {i + 1}
                 </span>
                 <h3 className="text-sm font-semibold text-foreground">{step.title}</h3>
@@ -144,23 +128,24 @@ const serviceHighlights: {
 
 function ServiceHighlights() {
   return (
-    <section className="bg-secondary/40 px-5 py-8">
-      <div className="flex items-center gap-2">
-        <Sparkles className="size-4 text-primary" />
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Our services</p>
-      </div>
+    <section className="border-t border-border bg-background px-5 py-10">
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Our services</p>
       <h2 className="mt-1 text-xl font-bold text-foreground">One app, every ride you need</h2>
-      <div className="mt-5 grid grid-cols-2 gap-3">
+      <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-card">
         {serviceHighlights.map((s) => (
           <div
             key={s.service}
-            className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all-eer hover:border-primary/30 hover:shadow-sm"
+            className="flex items-center gap-4 p-5 transition-base hover:bg-muted/50"
           >
-            <EerServiceBadge service={s.service} size="xs" className="w-fit" />
-            <h3 className="text-sm font-semibold text-foreground">{s.title}</h3>
-            <p className="text-[11px] leading-relaxed text-muted-foreground">{s.desc}</p>
-            <p className="mt-auto text-xs font-medium text-foreground">
-              From <span className="font-bold text-primary">{formatUSD(s.priceFrom, { showCents: false })}</span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-foreground">{s.title}</h3>
+                <EerServiceBadge service={s.service} size="xs" />
+              </div>
+              <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+            </div>
+            <p className="shrink-0 text-sm font-semibold text-foreground tabular-nums">
+              {formatUSD(s.priceFrom, { showCents: false })}
             </p>
           </div>
         ))}
@@ -177,11 +162,11 @@ function SocialProof() {
     { value: '<4 min', label: 'Avg pickup time' },
   ]
   return (
-    <section className="px-5 py-8">
-      <div className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card p-5">
+    <section className="px-5 py-10">
+      <div className="grid grid-cols-3 gap-2 rounded-2xl border border-border bg-card p-6">
         {stats.map((s) => (
           <div key={s.label} className="text-center">
-            <div className="text-lg font-bold text-primary">{s.value}</div>
+            <div className="text-lg font-bold tabular-nums text-foreground">{s.value}</div>
             <div className="mt-0.5 text-[11px] text-muted-foreground">{s.label}</div>
           </div>
         ))}
@@ -193,17 +178,17 @@ function SocialProof() {
 // ── Final CTA ──
 function FinalCta({ onCta }: { onCta?: () => void }) {
   return (
-    <section className="px-5 pb-10">
-      <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/80 p-6 text-primary-foreground">
-        <Footprints className="size-6 opacity-80" />
-        <h2 className="mt-3 text-xl font-bold leading-tight">Ready to ride in style?</h2>
-        <p className="mt-1 text-sm opacity-80">
+    <section className="px-5 pb-12">
+      <div className="overflow-hidden rounded-3xl border border-border bg-card p-6">
+        <Footprints className="size-6 text-muted-foreground" />
+        <h2 className="mt-3 text-xl font-bold leading-tight text-foreground">Ready to ride in style?</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
           Join {mockPassengers.length * 8000}+ riders who trust Eagle Eye Rides for premium urban mobility.
         </p>
         <Button
           onClick={onCta}
           size="lg"
-          className="mt-4 w-full bg-amber text-amber-foreground hover:bg-amber/90"
+          className="eer-btn-primary mt-5 w-full"
         >
           Get Started
           <ArrowRight className="size-4" />
@@ -217,10 +202,10 @@ function FinalCta({ onCta }: { onCta?: () => void }) {
 function LandingFooter() {
   const links = ['Terms of Service', 'Privacy Policy', 'Support', 'Contact']
   return (
-    <footer className="border-t border-border bg-card px-5 py-6 pb-safe">
+    <footer className="border-t border-border bg-background px-5 py-8 pb-safe">
       <div className="flex items-center gap-2">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Truck className="size-4" />
+        <div className="flex size-7 items-center justify-center rounded-lg border border-border bg-card">
+          <Truck className="size-4 text-foreground" />
         </div>
         <span className="text-sm font-semibold text-foreground">Eagle Eye Rides</span>
       </div>
@@ -247,7 +232,7 @@ function LandingLoading() {
   return (
     <div className="flex flex-col">
       {/* Hero skeleton */}
-      <div className="flex min-h-[600px] flex-col justify-between bg-gradient-to-b from-primary/30 via-primary/20 to-black px-6 pb-10 pt-14">
+      <div className="flex min-h-[560px] flex-col justify-between bg-background px-6 pb-10 pt-14">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <EerSkeleton className="size-9 rounded-xl" />

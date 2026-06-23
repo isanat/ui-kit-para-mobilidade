@@ -38,27 +38,27 @@ const alertTypeConfig: Record<
 > = {
   sos: {
     label: 'SOS Emergency',
-    headerClass: 'bg-destructive',
+    headerClass: 'border-l-4 border-l-destructive',
     icon: ShieldAlert,
-    iconClass: 'text-destructive-foreground',
+    iconClass: 'text-destructive',
   },
   'feel-unsafe': {
     label: 'Feel Unsafe',
-    headerClass: 'bg-warning',
+    headerClass: 'border-l-4 border-l-warning',
     icon: AlertTriangle,
-    iconClass: 'text-warning-foreground',
+    iconClass: 'text-warning',
   },
   accident: {
     label: 'Accident',
-    headerClass: 'bg-amber',
+    headerClass: 'border-l-4 border-l-amber',
     icon: AlertOctagon,
-    iconClass: 'text-amber-foreground',
+    iconClass: 'text-amber',
   },
   breakdown: {
     label: 'Breakdown',
-    headerClass: 'bg-info',
+    headerClass: 'border-l-4 border-l-info',
     icon: AlertCircle,
-    iconClass: 'text-info-foreground',
+    iconClass: 'text-info',
   },
 }
 
@@ -99,14 +99,14 @@ function PageHeader({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-xl bg-destructive/15 text-destructive">
+        <div className="flex size-10 items-center justify-center rounded-xl bg-muted text-foreground">
           <ShieldAlert className="size-5" />
         </div>
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             SOS Alert Triage
           </h1>
-          <p className="text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             Monitor and resolve safety incidents in real time
           </p>
         </div>
@@ -120,7 +120,7 @@ function PageHeader({
               className={cn(
                 'rounded-md px-3 py-1 text-xs font-medium transition-base',
                 filter === o.id
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-foreground text-background'
                   : 'text-muted-foreground hover:text-foreground',
               )}
             >
@@ -155,19 +155,14 @@ function AlertStatCard({
   dotClass: string
 }) {
   return (
-    <div
-      className={cn(
-        'rounded-xl border bg-card p-4 transition-all-eer hover:shadow-md',
-        accentClass,
-      )}
-    >
+    <div className="rounded-2xl border border-border bg-card p-5">
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
-        <span className={cn('size-2 rounded-full', dotClass)} />
+        <span className={cn('eer-status-dot', dotClass)} />
       </div>
-      <p className="mt-1 text-2xl font-bold text-foreground tabular-nums">{value}</p>
+      <p className="mt-2 font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{value}</p>
     </div>
   )
 }
@@ -178,30 +173,30 @@ function AlertStats({ alerts }: { alerts: AdminAlert[] }) {
   // Mock data has 'active' | 'resolved'; widen to AlertStatus for future false-alarms
   const falseAlarm = alerts.filter((a) => (a.status as AlertStatus) === 'false-alarm').length
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <AlertStatCard
         label="Active"
         value={active}
-        accentClass="border-destructive/20"
+        accentClass=""
         dotClass="bg-destructive"
       />
       <AlertStatCard
         label="Resolved"
         value={resolved}
-        accentClass="border-success/20"
+        accentClass=""
         dotClass="bg-success"
       />
       <AlertStatCard
         label="False Alarms"
         value={falseAlarm}
-        accentClass="border-border"
+        accentClass=""
         dotClass="bg-muted-foreground"
       />
       <AlertStatCard
         label="Total"
         value={alerts.length}
-        accentClass="border-primary/20"
-        dotClass="bg-primary"
+        accentClass=""
+        dotClass="bg-foreground"
       />
     </div>
   )
@@ -217,27 +212,31 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-xl border bg-card transition-all-eer hover:shadow-md',
-        isResolved ? 'border-border opacity-90' : 'border-border',
+        'overflow-hidden rounded-2xl border border-border bg-card',
+        isResolved && 'opacity-90',
+        typeCfg.headerClass,
       )}
     >
-      {/* Colored header strip */}
-      <div className={cn('flex items-center gap-2 px-4 py-2.5', typeCfg.headerClass)}>
+      {/* Subtle header strip with alert type label */}
+      <div className="flex items-center gap-2 border-b border-border bg-muted/30 px-4 py-3">
         <Icon className={cn('size-4', typeCfg.iconClass)} />
-        <span className={cn('text-sm font-semibold', typeCfg.iconClass)}>
+        <span className={cn('text-xs font-medium uppercase tracking-wider', typeCfg.iconClass)}>
           {typeCfg.label}
         </span>
         <span
           className={cn(
             'ml-auto inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium',
-            'border-white/20 bg-white/15 backdrop-blur-sm',
-            isResolved ? 'text-white/90' : 'text-white',
+            statusCfg.badgeClass,
           )}
         >
           <span
             className={cn(
               'size-1.5 rounded-full',
-              alert.status === 'active' ? 'animate-pulse bg-white' : 'bg-white/60',
+              alert.status === 'active'
+                ? 'animate-pulse bg-destructive'
+                : alert.status === 'resolved'
+                  ? 'bg-success'
+                  : 'bg-muted-foreground',
             )}
           />
           {statusCfg.label}
@@ -245,10 +244,10 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
       </div>
 
       {/* Body */}
-      <div className={cn('space-y-3 p-4', isResolved && 'bg-muted/30')}>
+      <div className={cn('space-y-3 p-5', isResolved && 'bg-muted/20')}>
         {/* Booking ID + timestamp */}
         <div className="flex items-center justify-between">
-          <span className="font-mono text-xs font-semibold text-foreground">
+          <span className="font-mono text-xs font-semibold tabular-nums text-foreground">
             {alert.bookingId}
           </span>
           <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
@@ -265,7 +264,7 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
         {/* User + Driver info */}
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-lg border border-border p-2.5">
-            <p className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+            <p className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground">
               <User className="size-3" />
               Passenger
             </p>
@@ -275,7 +274,7 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
             <p className="truncate text-[11px] text-muted-foreground">{alert.user.phone}</p>
           </div>
           <div className="rounded-lg border border-border p-2.5">
-            <p className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+            <p className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground">
               <Phone className="size-3" />
               Driver
             </p>
@@ -289,12 +288,12 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
         {/* GPS coordinates */}
         <div className="flex items-center justify-between rounded-lg border border-border bg-muted/30 px-3 py-2">
           <div className="flex items-center gap-1.5 min-w-0">
-            <MapPin className="size-3.5 shrink-0 text-primary" />
+            <MapPin className="size-3.5 shrink-0 text-muted-foreground" />
             <span className="truncate font-mono text-[11px] text-foreground">
               {alert.location}
             </span>
           </div>
-          <button className="shrink-0 text-[11px] font-medium text-primary transition-base hover:text-primary/80">
+          <button className="shrink-0 text-[11px] font-medium text-foreground transition-base hover:text-muted-foreground">
             View on map
           </button>
         </div>
@@ -312,7 +311,7 @@ function AlertCard({ alert }: { alert: AdminAlert }) {
           <div className="flex flex-wrap gap-2 pt-1">
             <Button
               size="sm"
-              className="h-8 bg-success text-success-foreground hover:bg-success/90"
+              className="eer-btn-primary h-8"
             >
               <CheckCircle2 className="size-3.5" />
               Resolve
@@ -346,7 +345,7 @@ function AlertCardsGrid({ alerts }: { alerts: AdminAlert[] }) {
 // ── Loading skeleton ──
 function AlertLoading() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <EerSkeleton className="h-12 w-56" />
         <div className="flex gap-2">
@@ -354,16 +353,16 @@ function AlertLoading() {
           <EerSkeleton className="size-9 rounded-md" />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <EerSkeleton key={i} className="h-20 rounded-xl" />
+          <EerSkeleton key={i} className="h-24 rounded-2xl" />
         ))}
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="overflow-hidden rounded-xl border border-border bg-card">
+          <div key={i} className="overflow-hidden rounded-2xl border border-border bg-card">
             <EerSkeleton className="h-10 w-full rounded-none" />
-            <div className="space-y-3 p-4">
+            <div className="space-y-3 p-5">
               <EerSkeleton className="h-3 w-24" />
               <EerSkeleton className="h-12 w-full" />
               <div className="grid grid-cols-2 gap-2">
@@ -390,9 +389,9 @@ function SuccessToast({
   onDismiss?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-3 spring-in">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
-        <ShieldCheck className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-success/30 bg-success/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
+        <ShieldCheck className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -426,10 +425,10 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
 
   if (state === 'error') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader filter={filter} onFilterChange={setFilter} />
         <AlertStats alerts={mockAdminAlerts} />
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card">
           <EerState
             state="error"
             title="Couldn't load alerts"
@@ -444,7 +443,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
 
   if (state === 'success') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader
           filter={filter}
           onFilterChange={setFilter}
@@ -463,10 +462,10 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
 
   if (state === 'empty') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader filter={filter} onFilterChange={setFilter} />
         <AlertStats alerts={[]} />
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card">
           <EerState
             state="empty"
             title="No active alerts — all clear"
@@ -481,7 +480,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
 
   // Populated
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <PageHeader
         filter={filter}
         onFilterChange={setFilter}
@@ -489,7 +488,7 @@ export function A4AlertTriage({ state, onStateChange }: PatternProps) {
       />
       <AlertStats alerts={mockAdminAlerts} />
       {filteredAlerts.length === 0 ? (
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card">
           <EerState
             state="empty"
             title={`No ${filter === 'all' ? '' : filter + ' '}alerts`}

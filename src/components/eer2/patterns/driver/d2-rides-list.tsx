@@ -39,7 +39,7 @@ import type { PatternProps } from '../types'
 
 type DriverRide = (typeof mockDriverRides)[number]
 
-// ── Bottom nav (driver — emerald active state) ──
+// ── Bottom nav (driver — monochrome active state) ──
 function DriverBottomNav({ active = 'rides' }: { active?: string }) {
   const [current, setCurrent] = useState(active)
   const items: { id: string; icon: LucideIcon; label: string }[] = [
@@ -50,7 +50,7 @@ function DriverBottomNav({ active = 'rides' }: { active?: string }) {
     { id: 'settings', icon: SettingsIcon, label: 'Settings' },
   ]
   return (
-    <div className="flex items-center justify-around border-t border-border bg-card px-1.5 py-2 pb-safe">
+    <div className="flex items-center justify-around border-t border-border bg-background px-1.5 py-2 pb-safe">
       {items.map((item) => {
         const isActive = item.id === current
         return (
@@ -59,7 +59,7 @@ function DriverBottomNav({ active = 'rides' }: { active?: string }) {
             onClick={() => setCurrent(item.id)}
             className={cn(
               'flex flex-col items-center gap-1 rounded-lg px-2.5 py-1.5 transition-base',
-              isActive ? 'text-success' : 'text-muted-foreground',
+              isActive ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             <item.icon className="size-5" />
@@ -108,15 +108,15 @@ function FilterPills({
             className={cn(
               'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-base',
               isActive
-                ? 'border-success bg-success/10 text-success'
+                ? 'border-foreground bg-foreground text-background'
                 : 'border-border bg-card text-muted-foreground hover:text-foreground',
             )}
           >
             {p.label}
             <span
               className={cn(
-                'rounded-full px-1.5 text-[10px] font-semibold',
-                isActive ? 'bg-success/15' : 'bg-muted',
+                'rounded-full px-1.5 text-[10px] font-semibold tabular-nums',
+                isActive ? 'bg-background/15' : 'bg-muted',
               )}
             >
               {counts[p.id]}
@@ -128,26 +128,26 @@ function FilterPills({
   )
 }
 
-// ── Emerald gradient header ──
+// ── Monochrome solid header ──
 function RidesHeader({ onBack }: { onBack?: () => void }) {
   return (
-    <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-6 pt-10 text-success-foreground">
+    <header className="eer-header-solid px-5 pb-6 pt-10 text-foreground">
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
           aria-label="Back"
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold">My Rides</span>
+        <span className="text-sm font-semibold text-foreground">My Rides</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold">Ride history</h1>
-      <p className="mt-0.5 text-xs opacity-80">
+      <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground">Ride history</h1>
+      <p className="mt-0.5 text-xs text-muted-foreground">
         Active rides, completed trips, and cancellations.
       </p>
-    </div>
+    </header>
   )
 }
 
@@ -162,9 +162,9 @@ function RideCard({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-success/30 hover:shadow-sm active:scale-[0.99]"
+      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.99]"
     >
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success">
+      <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <Car className="size-5" />
       </div>
       <div className="min-w-0 flex-1">
@@ -187,14 +187,14 @@ function RideCard({
       <div className="flex shrink-0 flex-col items-end">
         <span
           className={cn(
-            'text-sm font-semibold',
+            'text-sm font-semibold tabular-nums',
             ride.status === 'cancelled' ? 'text-muted-foreground' : 'text-foreground',
           )}
         >
           {ride.fare > 0 ? formatUSD(ride.fare + (ride.tip ?? 0)) : '—'}
         </span>
         {ride.tip > 0 && (
-          <span className="text-[11px] text-amber">+{formatUSD(ride.tip, { showCents: false })} tip</span>
+          <span className="text-[11px] tabular-nums text-muted-foreground">+{formatUSD(ride.tip, { showCents: false })} tip</span>
         )}
         <ChevronRight className="mt-1 size-4 text-muted-foreground" />
       </div>
@@ -259,7 +259,7 @@ function RideDetailSheet({
 
           {/* Passenger info + call button */}
           <div className="mt-4 flex items-center gap-3 rounded-xl border border-border bg-card p-3">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-success/10 text-sm font-bold text-success">
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
               {ride.passenger.name
                 .split(' ')
                 .map((n) => n[0])
@@ -275,7 +275,7 @@ function RideDetailSheet({
             </div>
             <Button
               size="icon"
-              className="size-9 rounded-full bg-success text-success-foreground hover:bg-success/90"
+              className="size-9 rounded-full bg-foreground text-background hover:bg-foreground/90"
             >
               <Phone className="size-4" />
             </Button>
@@ -304,9 +304,9 @@ function RideDetailSheet({
           {/* Route info */}
           <div className="mt-4 flex items-stretch gap-3 rounded-xl border border-border bg-card p-3">
             <div className="flex flex-col items-center pt-1">
-              <div className="size-2.5 rounded-full bg-success ring-4 ring-success/15" />
+              <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/15" />
               <div className="my-1 w-0.5 grow bg-border" />
-              <div className="size-2.5 rounded-full bg-destructive ring-4 ring-destructive/15" />
+              <div className="size-2.5 rounded-full bg-muted-foreground ring-4 ring-muted-foreground/15" />
             </div>
             <div className="flex-1 space-y-3 py-0.5">
               <div>
@@ -359,17 +359,17 @@ function RideDetailSheet({
             </div>
             <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
               <span className="text-foreground">Total earned</span>
-              <span className="text-success">{formatUSD(total)}</span>
+              <span className="text-foreground tabular-nums">{formatUSD(total)}</span>
             </div>
           </div>
 
           {/* Action buttons */}
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <Button variant="outline" className="rounded-xl">
+            <Button variant="outline" className="rounded-xl border-border bg-card text-foreground">
               <MessageSquare className="size-4" />
               Message
             </Button>
-            <Button className="rounded-xl bg-success text-success-foreground hover:bg-success/90">
+            <Button className="rounded-xl bg-foreground text-background hover:bg-foreground/90">
               <Phone className="size-4" />
               Call passenger
             </Button>
@@ -411,7 +411,7 @@ export function D2RidesList({ state, onStateChange }: PatternProps) {
             onSelect={setActiveFilter}
             counts={counts}
           />
-          <div className="px-4 pb-6">
+          <div className="px-5 pb-8">
             <EerSkeletonList count={4} />
           </div>
         </div>
@@ -473,7 +473,7 @@ export function D2RidesList({ state, onStateChange }: PatternProps) {
           onSelect={setActiveFilter}
           counts={counts}
         />
-        <div className="space-y-2 px-4 pb-6">
+        <div className="space-y-2 px-5 pb-8">
           {filteredRides.map((ride) => (
             <RideCard
               key={ride.id}

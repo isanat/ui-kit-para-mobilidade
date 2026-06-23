@@ -26,16 +26,16 @@ import type { PatternProps } from '../types'
 type UserType = 'passenger' | 'driver'
 type Step = 0 | 1 | 2 | 3
 
-// ── Brand header ──
+// ── Brand header (v3 clean: solid bg) ──
 function AuthBrand() {
   return (
-    <div className="flex items-center gap-2 text-primary-foreground">
-      <div className="flex size-10 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
+    <div className="flex items-center gap-2 text-foreground">
+      <div className="flex size-10 items-center justify-center rounded-xl border border-border bg-card">
         <Truck className="size-5" />
       </div>
       <div className="leading-tight">
-        <div className="text-sm font-bold">Eagle Eye Rides</div>
-        <div className="text-[10px] opacity-70">Premium Urban Mobility</div>
+        <div className="text-sm font-bold text-foreground">Eagle Eye Rides</div>
+        <div className="text-[10px] text-muted-foreground">Premium Urban Mobility</div>
       </div>
     </div>
   )
@@ -47,7 +47,7 @@ function BackButton({ onClick, visible }: { onClick: () => void; visible: boolea
   return (
     <button
       onClick={onClick}
-      className="flex size-9 items-center justify-center rounded-full bg-white/10 text-primary-foreground backdrop-blur-sm transition-base hover:bg-white/20"
+      className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
       aria-label="Back"
     >
       <ArrowLeft className="size-4" />
@@ -62,7 +62,7 @@ function UserTypeSelector({ onSelect }: { onSelect: (type: UserType) => void }) 
     { type: 'driver', icon: Car, title: 'Driver', desc: 'Drive & earn with premium fleet' },
   ]
   return (
-    <div className="space-y-5 slide-up">
+    <div className="space-y-6 slide-up">
       <div className="space-y-1">
         <h2 className="text-xl font-bold text-foreground">Welcome</h2>
         <p className="text-sm text-muted-foreground">Choose how you'll ride with us today.</p>
@@ -72,9 +72,9 @@ function UserTypeSelector({ onSelect }: { onSelect: (type: UserType) => void }) 
           <button
             key={c.type}
             onClick={() => onSelect(c.type)}
-            className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-4 text-left transition-all-eer hover:border-primary/40 hover:shadow-md active:scale-[0.98]"
+            className="flex w-full items-center gap-4 rounded-2xl border border-border bg-card p-5 text-left transition-base hover:border-muted-foreground active:scale-[0.99]"
           >
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-muted text-foreground">
               <c.icon className="size-6" />
             </div>
             <div className="flex-1">
@@ -187,12 +187,12 @@ function LoginForm({
         <button
           type="button"
           onClick={onForgot}
-          className="text-xs font-medium text-primary transition-base hover:text-primary/80"
+          className="text-xs font-medium text-foreground transition-base hover:opacity-70"
         >
           Forgot password?
         </button>
       </div>
-      <Button onClick={onSubmit} disabled={submitting} size="lg" className="w-full">
+      <Button onClick={onSubmit} disabled={submitting} size="lg" className="eer-btn-primary w-full">
         {submitting ? (
           <>
             <Loader2 className="size-4 animate-spin" />
@@ -206,7 +206,7 @@ function LoginForm({
         Don&apos;t have an account?{' '}
         <button
           onClick={onCreate}
-          className="font-medium text-primary transition-base hover:text-primary/80"
+          className="font-medium text-foreground transition-base hover:opacity-70"
         >
           Create one
         </button>
@@ -277,9 +277,9 @@ function SignupForm({
 
       {/* Driver-only vehicle fields */}
       {userType === 'driver' && (
-        <div className="space-y-3 rounded-xl border border-border bg-secondary/30 p-3">
+        <div className="space-y-3 rounded-xl border border-border bg-card p-4">
           <p className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
-            <Car className="size-3.5 text-primary" /> Vehicle details
+            <Car className="size-3.5" /> Vehicle details
           </p>
           <Field id="su-vehicle" label="Vehicle model">
             <Input id="su-vehicle" type="text" placeholder="Cadillac Escalade" className="h-10" />
@@ -304,11 +304,11 @@ function SignupForm({
         />
         <Label htmlFor="terms" className="text-xs leading-relaxed text-muted-foreground">
           I agree to the{' '}
-          <span className="font-medium text-primary">Terms of Service</span> and{' '}
-          <span className="font-medium text-primary">Privacy Policy</span>.
+          <span className="font-medium text-foreground">Terms of Service</span> and{' '}
+          <span className="font-medium text-foreground">Privacy Policy</span>.
         </Label>
       </div>
-      <Button onClick={onSubmit} disabled={submitting || !agree} size="lg" className="w-full">
+      <Button onClick={onSubmit} disabled={submitting || !agree} size="lg" className="eer-btn-primary w-full">
         {submitting ? (
           <>
             <Loader2 className="size-4 animate-spin" />
@@ -322,7 +322,7 @@ function SignupForm({
         Already have an account?{' '}
         <button
           onClick={onLogin}
-          className="font-medium text-primary transition-base hover:text-primary/80"
+          className="font-medium text-foreground transition-base hover:opacity-70"
         >
           Sign in
         </button>
@@ -361,7 +361,7 @@ function ForgotForm({
           />
         </div>
       </Field>
-      <Button onClick={onSubmit} disabled={submitting} size="lg" className="w-full">
+      <Button onClick={onSubmit} disabled={submitting} size="lg" className="eer-btn-primary w-full">
         {submitting ? (
           <>
             <Loader2 className="size-4 animate-spin" />
@@ -375,7 +375,7 @@ function ForgotForm({
         Remembered it?{' '}
         <button
           onClick={onBackToLogin}
-          className="font-medium text-primary transition-base hover:text-primary/80"
+          className="font-medium text-foreground transition-base hover:opacity-70"
         >
           Back to sign in
         </button>
@@ -407,7 +407,7 @@ function AuthSuccess({ step }: { step: Step }) {
         <p className="max-w-xs text-sm text-muted-foreground">{desc}</p>
       </div>
       <div className="mt-2 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground">
-        <Truck className="size-3.5 text-primary" />
+        <Truck className="size-3.5" />
         Eagle Eye Rides
       </div>
     </div>
@@ -419,7 +419,7 @@ function AuthLoading() {
   return (
     <div className="flex h-full flex-col">
       {/* Header skeleton */}
-      <div className="flex items-center justify-between bg-gradient-to-b from-primary to-primary/90 px-5 pb-5 pt-12">
+      <div className="flex items-center justify-between eer-header-solid px-5 pb-5 pt-12">
         <div className="flex items-center gap-2">
           <EerSkeleton className="size-10 rounded-xl" />
           <div className="space-y-1.5">
@@ -481,7 +481,7 @@ export function P2Auth({ state, onStateChange }: PatternProps) {
   if (state === 'success') {
     return (
       <div className="flex h-full flex-col bg-background">
-        <div className="flex items-center justify-between bg-gradient-to-b from-primary to-primary/90 px-5 pb-5 pt-12">
+        <div className="flex items-center justify-between eer-header-solid px-5 pb-5 pt-12">
           <AuthBrand />
           <div className="size-9" aria-hidden />
         </div>
@@ -498,15 +498,15 @@ export function P2Auth({ state, onStateChange }: PatternProps) {
 
   return (
     <div className="flex h-full flex-col bg-background">
-      {/* Gradient header */}
-      <div className="flex items-center justify-between bg-gradient-to-b from-primary to-primary/90 px-5 pb-5 pt-12 text-primary-foreground">
+      {/* Solid header */}
+      <div className="flex items-center justify-between eer-header-solid px-5 pb-5 pt-12">
         <AuthBrand />
         <BackButton onClick={goBack} visible={step !== 0} />
       </div>
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto scrollbar-thin">
-        <div className="space-y-4 px-5 py-6">
+        <div className="space-y-5 px-5 py-8">
           {/* Error banner (only when state === 'error') */}
           {state === 'error' && (
             <ErrorBanner

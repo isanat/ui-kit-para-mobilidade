@@ -35,32 +35,32 @@ const tipOptions = [
 
 // ── Payment method options ──
 const paymentMethods = [
-  { id: 'google-pay', label: 'Google Pay', sub: 'Fast & secure', accent: 'bg-multi' },
-  { id: 'apple-pay', label: 'Apple Pay', sub: 'Fast & secure', accent: 'bg-foreground' },
-  { id: 'card', label: 'Card', sub: 'Visa •••• 4242', accent: 'bg-primary' },
+  { id: 'google-pay', label: 'Google Pay', sub: 'Fast & secure', accent: 'bg-muted text-foreground' },
+  { id: 'apple-pay', label: 'Apple Pay', sub: 'Fast & secure', accent: 'bg-foreground text-background' },
+  { id: 'card', label: 'Card', sub: 'Visa •••• 4242', accent: 'bg-muted text-foreground' },
 ] as const
 
-// ── Green gradient header with back button ──
+// ── Solid header (v3 clean: replaces green gradient) with back button ──
 function PaymentHeader({ onBack }: { onBack?: () => void }) {
   return (
-    <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-5 pt-10 text-success-foreground">
+    <div className="eer-header-solid px-5 pb-5 pt-10">
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
           aria-label="Back"
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold">Payment</span>
-        <div className="flex size-9 items-center justify-center rounded-full bg-white/15">
+        <span className="text-sm font-semibold text-foreground">Payment</span>
+        <div className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground">
           <Lock className="size-4" />
         </div>
       </div>
       <div className="mt-5">
-        <p className="text-xs opacity-80">Order total</p>
-        <h1 className="mt-0.5 text-2xl font-bold">{formatUSD(38.5)}</h1>
-        <p className="mt-1 flex items-center gap-1.5 text-xs opacity-80">
+        <p className="text-xs text-muted-foreground">Order total</p>
+        <h1 className="mt-0.5 text-2xl font-bold tabular-nums text-foreground">{formatUSD(38.5)}</h1>
+        <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
           <Shield className="size-3.5" />
           Secured by Square · 256-bit encryption
         </p>
@@ -69,7 +69,7 @@ function PaymentHeader({ onBack }: { onBack?: () => void }) {
   )
 }
 
-// ── Order summary card ──
+// ── Order summary card (v3 clean) ──
 function OrderSummary({ booking }: { booking: (typeof mockBookings)[0] }) {
   // Derive a base fare (booking.fare minus existing tip) for transparent breakdown
   const baseFare = booking.fare - (booking.tip ?? 0)
@@ -77,18 +77,18 @@ function OrderSummary({ booking }: { booking: (typeof mockBookings)[0] }) {
   const distanceFare = Number((booking.distance * 2.5).toFixed(2))
   const durationFare = Number((booking.duration * 0.45).toFixed(2))
   return (
-    <div className="mx-4 -mt-4 rounded-2xl border border-border bg-card p-4 shadow-lg">
+    <div className="mx-4 -mt-4 rounded-2xl border border-border bg-card p-5 shadow-lg">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-muted-foreground">{booking.displayId}</span>
+        <span className="text-xs font-medium tabular-nums text-muted-foreground">{booking.displayId}</span>
         <EerServiceBadge service={booking.service} size="xs" />
       </div>
 
       {/* Route */}
       <div className="mt-3 flex items-stretch gap-3">
         <div className="flex flex-col items-center pt-1">
-          <div className="size-2.5 rounded-full bg-primary ring-4 ring-primary/15" />
+          <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/10" />
           <div className="my-1 w-0.5 grow bg-border" />
-          <div className="size-2.5 rounded-full bg-success ring-4 ring-success/15" />
+          <div className="size-2.5 rounded-full bg-muted-foreground ring-4 ring-muted-foreground/10" />
         </div>
         <div className="flex-1 space-y-3 py-0.5">
           <div>
@@ -108,26 +108,26 @@ function OrderSummary({ booking }: { booking: (typeof mockBookings)[0] }) {
       <div className="mt-4 space-y-2 border-t border-border pt-3 text-sm">
         <div className="flex items-center justify-between">
           <span className="text-muted-foreground">Base fare</span>
-          <span className="text-foreground">{formatUSD(baseFare)}</span>
+          <span className="text-foreground tabular-nums">{formatUSD(baseFare)}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-muted-foreground">
             Distance · {formatDistance(booking.distance)}
           </span>
-          <span className="text-foreground">{formatUSD(distanceFare)}</span>
+          <span className="text-foreground tabular-nums">{formatUSD(distanceFare)}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-muted-foreground">
             Duration · {formatDuration(booking.duration)}
           </span>
-          <span className="text-foreground">{formatUSD(durationFare)}</span>
+          <span className="text-foreground tabular-nums">{formatUSD(durationFare)}</span>
         </div>
       </div>
     </div>
   )
 }
 
-// ── Tip section ──
+// ── Tip section (monochrome selected state) ──
 function TipSection({
   selected,
   onSelect,
@@ -143,10 +143,10 @@ function TipSection({
     <div className="px-4">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-          <Sparkles className="size-4 text-amber" />
+          <Sparkles className="size-4 text-muted-foreground" />
           Add a tip
         </h2>
-        <span className="text-sm font-semibold text-success">
+        <span className="text-sm font-semibold text-foreground tabular-nums">
           {tipAmount > 0 ? `+${formatUSD(tipAmount)}` : '—'}
         </span>
       </div>
@@ -159,21 +159,21 @@ function TipSection({
               key={opt.id}
               onClick={() => onSelect(opt.id)}
               className={cn(
-                'flex flex-col items-center gap-0.5 rounded-xl border-2 py-2.5 text-center transition-all-eer active:scale-[0.97]',
+                'flex flex-col items-center gap-0.5 rounded-xl border-2 py-2.5 text-center transition-base active:scale-[0.97]',
                 isActive
-                  ? 'border-success bg-success/5 ring-2 ring-success/15'
-                  : 'border-border bg-card hover:border-success/30',
+                  ? 'border-foreground bg-card'
+                  : 'border-border bg-card hover:border-muted-foreground',
               )}
             >
               <span
                 className={cn(
                   'text-sm font-bold',
-                  isActive ? 'text-success' : 'text-foreground',
+                  isActive ? 'text-foreground' : 'text-foreground',
                 )}
               >
                 {opt.label}
               </span>
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-[10px] tabular-nums text-muted-foreground">
                 {opt.value > 0 ? formatUSD(fare * opt.value) : '—'}
               </span>
             </button>
@@ -184,7 +184,7 @@ function TipSection({
   )
 }
 
-// ── Payment method selector (radio-style) ──
+// ── Payment method selector (radio-style, monochrome) ──
 function PaymentMethodSelector({
   selected,
   onSelect,
@@ -203,15 +203,15 @@ function PaymentMethodSelector({
               key={m.id}
               onClick={() => onSelect(m.id)}
               className={cn(
-                'flex w-full items-center gap-3 rounded-xl border-2 p-3 text-left transition-all-eer active:scale-[0.99]',
+                'flex w-full items-center gap-3 rounded-xl border-2 p-3 text-left transition-base active:scale-[0.99]',
                 isActive
-                  ? 'border-primary bg-primary/5 ring-2 ring-primary/15'
-                  : 'border-border bg-card hover:border-primary/30',
+                  ? 'border-foreground bg-card'
+                  : 'border-border bg-card hover:border-muted-foreground',
               )}
             >
               <div
                 className={cn(
-                  'flex size-10 items-center justify-center rounded-lg text-white',
+                  'flex size-10 items-center justify-center rounded-lg',
                   m.accent,
                 )}
               >
@@ -224,10 +224,10 @@ function PaymentMethodSelector({
               <div
                 className={cn(
                   'flex size-5 items-center justify-center rounded-full border-2 transition-base',
-                  isActive ? 'border-primary bg-primary' : 'border-border',
+                  isActive ? 'border-foreground bg-foreground' : 'border-border',
                 )}
               >
-                {isActive && <Check className="size-3 text-primary-foreground" />}
+                {isActive && <Check className="size-3 text-background" />}
               </div>
             </button>
           )
@@ -329,13 +329,13 @@ function PayActionBar({
     <div className="flex items-center gap-3 border-t border-border bg-card px-4 py-3 pb-safe">
       <div className="flex-1">
         <p className="text-[11px] text-muted-foreground">Total due</p>
-        <p className="text-lg font-bold text-foreground">{formatUSD(total)}</p>
+        <p className="text-lg font-bold tabular-nums text-foreground">{formatUSD(total)}</p>
       </div>
       <Button
         size="lg"
         onClick={onPay}
         disabled={disabled || busy}
-        className="h-12 flex-[1.5] rounded-xl bg-success text-success-foreground hover:bg-success/90"
+        className="eer-btn-primary h-12 flex-[1.5] rounded-xl"
       >
         {busy ? (
           <>
@@ -417,12 +417,12 @@ function PaymentSuccess({
             Your booking is confirmed. A receipt has been emailed to you.
           </p>
         </div>
-        <div className="w-full max-w-xs rounded-2xl border border-border bg-card p-4">
+        <div className="w-full max-w-xs rounded-2xl border border-border bg-card p-5">
           <p className="text-xs text-muted-foreground">Amount paid</p>
-          <p className="mt-0.5 text-3xl font-bold text-success">{formatUSD(amount)}</p>
+          <p className="mt-0.5 text-3xl font-bold tabular-nums text-foreground">{formatUSD(amount)}</p>
           <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
             <span>Booking</span>
-            <span className="font-medium text-foreground">{mockBookings[0].displayId}</span>
+            <span className="font-medium tabular-nums text-foreground">{mockBookings[0].displayId}</span>
           </div>
         </div>
       </div>
@@ -431,7 +431,7 @@ function PaymentSuccess({
           <Receipt className="size-4" />
           View receipt
         </Button>
-        <Button size="lg" onClick={onDone} className="flex-1 rounded-xl">
+        <Button size="lg" onClick={onDone} className="eer-btn-primary flex-1 rounded-xl">
           Done
         </Button>
       </div>
@@ -513,7 +513,7 @@ export function P6Payment({ state, onStateChange }: PatternProps) {
           </Button>
           <Button
             size="lg"
-            className="flex-1 rounded-xl"
+            className="eer-btn-primary flex-1 rounded-xl"
             onClick={() => {
               onStateChange?.('loading')
               setTimeout(() => onStateChange?.('populated'), 600)
@@ -533,7 +533,7 @@ export function P6Payment({ state, onStateChange }: PatternProps) {
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         <PaymentHeader />
         <OrderSummary booking={booking} />
-        <div className="mt-5 space-y-5 pb-4">
+        <div className="mt-8 space-y-8 pb-4">
           <TipSection selected={tipId} onSelect={setTipId} fare={fare} />
           <PaymentMethodSelector selected={methodId} onSelect={setMethodId} />
           {methodId === 'card' && <CardFormPlaceholder />}

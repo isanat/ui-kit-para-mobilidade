@@ -67,30 +67,30 @@ const filterSets: Record<TabId, string[]> = {
   tips: ['All'],
 }
 
-// ── Royal blue gradient header ──
+// ── Solid header (v3 clean: replaces blue gradient) ──
 function ActivityHeader({ onBack }: { onBack?: () => void }) {
   return (
-    <div className="bg-gradient-to-br from-primary to-primary/80 px-5 pb-5 pt-10 text-primary-foreground">
+    <div className="eer-header-solid px-5 pb-5 pt-10">
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
           aria-label="Back"
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold">My Activity</span>
+        <span className="text-sm font-semibold text-foreground">My Activity</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold">History &amp; details</h1>
-      <p className="mt-0.5 text-xs opacity-80">
+      <h1 className="mt-4 text-xl font-bold text-foreground">History &amp; details</h1>
+      <p className="mt-0.5 text-xs text-muted-foreground">
         Track bookings, payments, points, referrals, and tips.
       </p>
     </div>
   )
 }
 
-// ── Horizontal scrollable tab bar ──
+// ── Horizontal scrollable tab bar (underline style, not pill) ──
 function TabBar({
   active,
   onSelect,
@@ -107,10 +107,10 @@ function TabBar({
             key={t.id}
             onClick={() => onSelect(t.id)}
             className={cn(
-              'flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-base',
+              'flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2 text-sm font-medium transition-base',
               isActive
-                ? 'bg-primary text-primary-foreground'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                ? 'border-foreground text-foreground'
+                : 'border-transparent text-muted-foreground hover:text-foreground',
             )}
           >
             <t.icon className="size-3.5" />
@@ -122,7 +122,7 @@ function TabBar({
   )
 }
 
-// ── Filter pills ──
+// ── Filter pills (monochrome selected state) ──
 function FilterPills({
   filters,
   active,
@@ -143,7 +143,7 @@ function FilterPills({
             className={cn(
               'shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-base',
               isActive
-                ? 'border-primary bg-primary/10 text-primary'
+                ? 'border-foreground bg-foreground text-background'
                 : 'border-border bg-card text-muted-foreground hover:text-foreground',
             )}
           >
@@ -182,7 +182,7 @@ function ListCard({
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-primary/30 hover:shadow-sm active:scale-[0.99]"
+      className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-base hover:border-muted-foreground active:scale-[0.99]"
     >
       <div
         className={cn(
@@ -202,7 +202,7 @@ function ListCard({
       </div>
       {amount && (
         <div className="flex shrink-0 flex-col items-end">
-          <span className={cn('text-sm font-semibold', amountClass)}>{amount}</span>
+          <span className={cn('text-sm font-semibold tabular-nums', amountClass)}>{amount}</span>
           <ChevronRight className="mt-1 size-4 text-muted-foreground" />
         </div>
       )}
@@ -281,9 +281,9 @@ function BookingDetailSheet({
           {/* Route info */}
           <div className="mt-4 flex items-stretch gap-3 rounded-xl border border-border bg-card p-3">
             <div className="flex flex-col items-center pt-1">
-              <div className="size-2.5 rounded-full bg-primary ring-4 ring-primary/15" />
+              <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/10" />
               <div className="my-1 w-0.5 grow bg-border" />
-              <div className="size-2.5 rounded-full bg-success ring-4 ring-success/15" />
+              <div className="size-2.5 rounded-full bg-muted-foreground ring-4 ring-muted-foreground/10" />
             </div>
             <div className="flex-1 space-y-3 py-0.5">
               <div>
@@ -309,17 +309,17 @@ function BookingDetailSheet({
           <div className="mt-4 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Fare</span>
-              <span className="text-foreground">{formatUSD(booking.fare)}</span>
+              <span className="text-foreground tabular-nums">{formatUSD(booking.fare)}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Tip</span>
-              <span className="text-foreground">
+              <span className="text-foreground tabular-nums">
                 {booking.tip ? formatUSD(booking.tip) : '—'}
               </span>
             </div>
             <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
               <span className="text-foreground">Total</span>
-              <span className="text-primary">
+              <span className="text-foreground tabular-nums">
                 {formatUSD(booking.fare + (booking.tip ?? 0))}
               </span>
             </div>
@@ -332,7 +332,7 @@ function BookingDetailSheet({
                 <MessageSquare className="size-4" />
                 Message
               </Button>
-              <Button className="rounded-xl bg-success text-success-foreground hover:bg-success/90">
+              <Button className="eer-btn-primary rounded-xl">
                 <Phone className="size-4" />
                 Call driver
               </Button>
@@ -393,17 +393,17 @@ function PaymentDetailSheet({
           <div className="mt-4 space-y-2 rounded-xl border border-border bg-card p-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Fare</span>
-              <span className="text-foreground">{formatUSD(payment.amount)}</span>
+              <span className="text-foreground tabular-nums">{formatUSD(payment.amount)}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Tip</span>
-              <span className="text-foreground">
+              <span className="text-foreground tabular-nums">
                 {payment.tip ? formatUSD(payment.tip) : '—'}
               </span>
             </div>
             <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
               <span className="text-foreground">Total charged</span>
-              <span className="text-primary">
+              <span className="text-foreground tabular-nums">
                 {formatUSD(payment.amount + (payment.tip ?? 0))}
               </span>
             </div>
@@ -643,7 +643,7 @@ export function P7ListDetail({ state, onStateChange }: PatternProps) {
               {hasMore && (
                 <button
                   onClick={() => setVisibleCount((c) => c + 4)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-base hover:border-primary/40 hover:text-primary"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-base hover:border-muted-foreground hover:text-foreground"
                 >
                   Load more
                   <ChevronRight className="size-4" />
@@ -780,7 +780,7 @@ function VisibleListSlice({
           <ListCard
             key={b.id}
             icon={Car}
-            iconColor="bg-primary/10 text-primary"
+            iconColor="bg-muted text-foreground"
             title={`${b.pickup.label} → ${b.dropoff.label}`}
             subtitle={`${b.displayId} · ${formatDistance(b.distance)} · ${formatDuration(b.duration)}`}
             amount={b.fare > 0 ? formatUSD(b.fare) : '—'}
@@ -801,7 +801,7 @@ function VisibleListSlice({
           <ListCard
             key={p.id}
             icon={CreditCard}
-            iconColor="bg-success/10 text-success"
+            iconColor="bg-muted text-foreground"
             title={`Booking ${p.bookingId}`}
             subtitle={`${p.method.replace('-', ' ')} · ${p.id.toUpperCase()}`}
             amount={formatUSD(p.amount + (p.tip ?? 0))}
@@ -826,11 +826,7 @@ function VisibleListSlice({
             <ListCard
               key={p.id}
               icon={isCredit ? TrendingUp : TrendingDown}
-              iconColor={
-                isCredit
-                  ? 'bg-success/10 text-success'
-                  : 'bg-destructive/10 text-destructive'
-              }
+              iconColor="bg-muted text-foreground"
               title={p.reason}
               subtitle={isCredit ? 'Points earned' : 'Points redeemed'}
               amount={`${p.amount > 0 ? '+' : ''}${p.amount} pts`}
@@ -855,7 +851,7 @@ function VisibleListSlice({
             <ListCard
               key={r.id}
               icon={Gift}
-              iconColor={isDone ? 'bg-magenta/10 text-magenta' : 'bg-muted text-muted-foreground'}
+              iconColor="bg-muted text-foreground"
               title={r.name}
               subtitle={r.email}
               amount={r.reward > 0 ? `+${formatUSD(r.reward, { showCents: false })}` : '—'}
@@ -889,11 +885,11 @@ function VisibleListSlice({
         <ListCard
           key={t.id}
           icon={HandCoins}
-          iconColor="bg-amber/15 text-amber"
+          iconColor="bg-muted text-foreground"
           title={t.driver.name}
           subtitle={`${t.driver.vehicle.model} · Booking ${t.booking}`}
           amount={`+${formatUSD(t.amount)}`}
-          amountClass="text-success"
+          amountClass="text-foreground"
           date={formatRelativeTime(t.date)}
           onClick={() => onSelectTip(i)}
         />

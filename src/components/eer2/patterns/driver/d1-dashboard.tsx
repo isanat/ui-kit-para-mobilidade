@@ -36,7 +36,7 @@ import {
 } from '@/lib/mock/data'
 import type { PatternProps } from '../types'
 
-// ── Bottom nav (driver — emerald active state) ──
+// ── Bottom nav (driver — monochrome active state) ──
 function DriverBottomNav({ active = 'home' }: { active?: string }) {
   const [current, setCurrent] = useState(active)
   const items: { id: string; icon: LucideIcon; label: string }[] = [
@@ -47,7 +47,7 @@ function DriverBottomNav({ active = 'home' }: { active?: string }) {
     { id: 'settings', icon: SettingsIcon, label: 'Settings' },
   ]
   return (
-    <div className="flex items-center justify-around border-t border-border bg-card px-1.5 py-2 pb-safe">
+    <div className="flex items-center justify-around border-t border-border bg-background px-1.5 py-2 pb-safe">
       {items.map((item) => {
         const isActive = item.id === current
         return (
@@ -56,7 +56,7 @@ function DriverBottomNav({ active = 'home' }: { active?: string }) {
             onClick={() => setCurrent(item.id)}
             className={cn(
               'flex flex-col items-center gap-1 rounded-lg px-2.5 py-1.5 transition-base',
-              isActive ? 'text-success' : 'text-muted-foreground',
+              isActive ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             <item.icon className="size-5" />
@@ -68,7 +68,7 @@ function DriverBottomNav({ active = 'home' }: { active?: string }) {
   )
 }
 
-// ── Online/Offline toggle pill ──
+// ── Online/Offline toggle pill (status indicator — semantic colors) ──
 function OnlineToggle({
   online,
   onToggle,
@@ -81,10 +81,10 @@ function OnlineToggle({
       onClick={onToggle}
       aria-label={online ? 'Go offline' : 'Go online'}
       className={cn(
-        'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold backdrop-blur-sm transition-all-eer',
+        'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all-eer',
         online
-          ? 'bg-success-foreground/25 text-success-foreground'
-          : 'bg-white/10 text-success-foreground/80',
+          ? 'border-success bg-success text-success-foreground'
+          : 'border-border bg-card text-muted-foreground',
       )}
     >
       <span
@@ -116,29 +116,29 @@ function DriverHeader({
     .join('')
     .toUpperCase()
   return (
-    <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-10 pt-10 text-success-foreground">
+    <header className="eer-header-solid px-5 pb-6 pt-10 text-foreground">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-white/15">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground">
             <Truck className="size-4" />
           </div>
-          <span className="text-sm font-semibold">Eagle Eye Rides</span>
+          <span className="text-sm font-semibold text-foreground">Eagle Eye Rides</span>
         </div>
-        <button className="relative flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20">
+        <button className="relative flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted">
           <Bell className="size-4" />
-          <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-destructive ring-2 ring-success" />
+          <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-destructive ring-2 ring-background" />
         </button>
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
+      <div className="mt-5 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/20 font-bold backdrop-blur-sm">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
             {initials}
           </div>
           <div className="min-w-0">
-            <p className="text-xs opacity-80">Good evening,</p>
-            <h1 className="truncate text-xl font-bold">{driver.name.split(' ')[0]}</h1>
-            <p className="mt-0.5 flex items-center gap-1 text-[11px] opacity-80">
+            <p className="text-xs text-muted-foreground">Good evening,</p>
+            <h1 className="truncate text-xl font-bold tracking-tight text-foreground">{driver.name.split(' ')[0]}</h1>
+            <p className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
               <Star className="size-3 fill-current text-warning" />
               {driver.rating} · {driver.totalRides} rides
             </p>
@@ -146,43 +146,43 @@ function DriverHeader({
         </div>
         <OnlineToggle online={online} onToggle={onToggleOnline} />
       </div>
-    </div>
+    </header>
   )
 }
 
-// ── Earnings hero card ──
+// ── Earnings hero card (monochrome, hero number) ──
 function EarningsHero({ today }: { today: typeof mockDriverToday }) {
   return (
-    <div className="mx-4 -mt-6 rounded-2xl border border-border bg-card p-4 shadow-lg slide-up">
+    <div className="mx-5 mt-4 eer-card-v3 slide-up">
       <div className="flex items-end justify-between">
         <div>
           <p className="text-xs uppercase tracking-wide text-muted-foreground">
             Today&apos;s Earnings
           </p>
-          <p className="mt-0.5 text-3xl font-bold text-foreground">
+          <p className="mt-1 eer-hero-number text-foreground">
             {formatUSD(today.earnings)}
           </p>
         </div>
-        <span className="flex items-center gap-1 rounded-full bg-success/15 px-2 py-0.5 text-xs font-semibold text-success">
+        <span className="flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-foreground">
           <Navigation className="size-3" />
           +12%
         </span>
       </div>
-      <div className="mt-3 grid grid-cols-3 divide-x divide-border border-t border-border pt-3">
+      <div className="mt-5 grid grid-cols-3 divide-x divide-border border-t border-border pt-4">
         <div className="px-2 text-center">
-          <p className="text-sm font-bold text-foreground">{today.rides}</p>
+          <p className="text-sm font-bold tabular-nums text-foreground">{today.rides}</p>
           <p className="text-[11px] text-muted-foreground">Rides</p>
         </div>
         <div className="px-2 text-center">
-          <p className="flex items-center justify-center gap-0.5 text-sm font-bold text-foreground">
-            <HandCoins className="size-3 text-amber" />
+          <p className="flex items-center justify-center gap-0.5 text-sm font-bold tabular-nums text-foreground">
+            <HandCoins className="size-3 text-muted-foreground" />
             {formatUSD(today.tipsToday, { showCents: false })}
           </p>
           <p className="text-[11px] text-muted-foreground">Tips</p>
         </div>
         <div className="px-2 text-center">
-          <p className="flex items-center justify-center gap-0.5 text-sm font-bold text-foreground">
-            <CheckCircle2 className="size-3 text-success" />
+          <p className="flex items-center justify-center gap-0.5 text-sm font-bold tabular-nums text-foreground">
+            <CheckCircle2 className="size-3 text-muted-foreground" />
             {today.completed}
           </p>
           <p className="text-[11px] text-muted-foreground">Completed</p>
@@ -192,27 +192,29 @@ function EarningsHero({ today }: { today: typeof mockDriverToday }) {
   )
 }
 
-// ── Quick actions 2x2 grid ──
+// ── Quick actions 2x2 grid (monochrome icons) ──
 const quickActions: {
   icon: LucideIcon
   label: string
   color: string
 }[] = [
-  { icon: Car, label: 'Rides', color: 'bg-success/15 text-success' },
-  { icon: Wallet, label: 'Earnings', color: 'bg-primary/15 text-primary' },
-  { icon: DollarSign, label: 'Withdrawals', color: 'bg-amber/15 text-amber' },
-  { icon: SettingsIcon, label: 'Settings', color: 'bg-magenta/15 text-magenta' },
+  { icon: Car, label: 'Rides', color: 'bg-muted text-foreground' },
+  { icon: Wallet, label: 'Earnings', color: 'bg-muted text-foreground' },
+  { icon: DollarSign, label: 'Withdrawals', color: 'bg-muted text-foreground' },
+  { icon: SettingsIcon, label: 'Settings', color: 'bg-muted text-foreground' },
 ]
 
 function QuickActions() {
   return (
-    <div className="px-4">
-      <h2 className="mb-3 text-sm font-semibold text-foreground">Quick Actions</h2>
+    <div className="px-5">
+      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        Quick Actions
+      </h2>
       <div className="grid grid-cols-2 gap-3">
         {quickActions.map((a) => (
           <button
             key={a.label}
-            className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-success/30 hover:shadow-sm active:scale-[0.98]"
+            className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.98]"
           >
             <div
               className={cn(
@@ -253,14 +255,14 @@ function RideActions({ status }: { status: BookingStatus }) {
   return (
     <div className="mt-3 flex gap-2">
       {a.secondary && (
-        <Button variant="outline" size="sm" className="flex-1 rounded-lg">
+        <Button variant="outline" size="sm" className="flex-1 rounded-lg border-border bg-card text-foreground">
           {a.secondary}
         </Button>
       )}
       {a.primary && (
         <Button
           size="sm"
-          className="flex-1 rounded-lg bg-success text-success-foreground hover:bg-success/90"
+          className="flex-1 rounded-lg bg-foreground text-background hover:bg-foreground/90"
         >
           {a.primary}
         </Button>
@@ -271,15 +273,15 @@ function RideActions({ status }: { status: BookingStatus }) {
 
 function ActiveRideCard({ ride }: { ride: DriverRide }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-3">
+    <div className="rounded-xl border border-border bg-card p-5">
       <div className="flex items-center justify-between">
         <EerBookingStatusBadge status={ride.status} />
         <span className="text-xs font-medium text-muted-foreground">
           {ride.bookingId}
         </span>
       </div>
-      <div className="mt-2 flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-full bg-success/10 text-sm font-bold text-success">
+      <div className="mt-3 flex items-center gap-3">
+        <div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
           {ride.passenger.name
             .split(' ')
             .map((n) => n[0])
@@ -292,11 +294,11 @@ function ActiveRideCard({ ride }: { ride: DriverRide }) {
           <p className="truncate text-xs text-muted-foreground">{ride.vehicleClass}</p>
         </div>
         <div className="text-right">
-          <p className="text-sm font-semibold text-foreground">
+          <p className="text-sm font-semibold tabular-nums text-foreground">
             {formatUSD(ride.fare + (ride.tip ?? 0))}
           </p>
           {ride.tip > 0 && (
-            <p className="text-[11px] text-amber">
+            <p className="text-[11px] tabular-nums text-muted-foreground">
               +{formatUSD(ride.tip, { showCents: false })} tip
             </p>
           )}
@@ -304,9 +306,9 @@ function ActiveRideCard({ ride }: { ride: DriverRide }) {
       </div>
       <div className="mt-3 flex items-stretch gap-2 border-t border-border pt-3 text-xs">
         <div className="flex flex-col items-center pt-0.5">
-          <span className="size-2 rounded-full bg-success ring-4 ring-success/15" />
+          <span className="size-2 rounded-full bg-foreground ring-4 ring-foreground/15" />
           <span className="my-1 w-0.5 grow bg-border" />
-          <span className="size-2 rounded-full bg-destructive ring-4 ring-destructive/15" />
+          <span className="size-2 rounded-full bg-muted-foreground ring-4 ring-muted-foreground/15" />
         </div>
         <div className="flex-1 space-y-2">
           <div>
@@ -337,8 +339,8 @@ function ActiveRideCard({ ride }: { ride: DriverRide }) {
 // ── Recent ride row (compact) ──
 function RecentRideRow({ ride }: { ride: DriverRide }) {
   return (
-    <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3 text-left transition-all-eer hover:border-success/30 active:scale-[0.99]">
-      <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+    <button className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all-eer hover:border-muted-foreground active:scale-[0.99]">
+      <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-foreground">
         <Car className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
@@ -352,7 +354,7 @@ function RecentRideRow({ ride }: { ride: DriverRide }) {
       <div className="flex flex-col items-end">
         <span
           className={cn(
-            'text-sm font-semibold',
+            'text-sm font-semibold tabular-nums',
             ride.status === 'cancelled' ? 'text-muted-foreground' : 'text-foreground',
           )}
         >
@@ -370,21 +372,21 @@ function RecentRideRow({ ride }: { ride: DriverRide }) {
 function DashboardLoading() {
   return (
     <div className="flex flex-col">
-      <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-10 pt-10">
+      <div className="eer-header-solid px-5 pb-6 pt-10">
         <div className="flex items-center justify-between">
-          <EerSkeleton className="h-8 w-32 bg-white/15" />
-          <EerSkeleton className="size-9 rounded-full bg-white/15" />
+          <EerSkeleton className="h-8 w-32" />
+          <EerSkeleton className="size-9 rounded-full" />
         </div>
-        <div className="mt-4 flex items-center gap-3">
-          <EerSkeleton className="size-12 rounded-full bg-white/15" />
+        <div className="mt-5 flex items-center gap-3">
+          <EerSkeleton className="size-12 rounded-full" />
           <div className="flex-1 space-y-2">
-            <EerSkeleton className="h-3 w-16 bg-white/15" />
-            <EerSkeleton className="h-5 w-32 bg-white/15" />
+            <EerSkeleton className="h-3 w-16" />
+            <EerSkeleton className="h-5 w-32" />
           </div>
-          <EerSkeleton className="h-7 w-20 rounded-full bg-white/15" />
+          <EerSkeleton className="h-7 w-20 rounded-full" />
         </div>
       </div>
-      <div className="mx-4 -mt-6 space-y-3 rounded-2xl border border-border bg-card p-4 shadow-lg">
+      <div className="mx-5 mt-4 space-y-3 eer-card-v3">
         <EerSkeleton className="h-3 w-28" />
         <EerSkeleton className="h-9 w-40" />
         <div className="grid grid-cols-3 gap-3 border-t border-border pt-3">
@@ -393,7 +395,7 @@ function DashboardLoading() {
           <EerSkeleton className="h-10" />
         </div>
       </div>
-      <div className="mt-5 space-y-3 px-4">
+      <div className="mt-8 space-y-3 px-5">
         <EerSkeleton className="h-4 w-24" />
         <div className="grid grid-cols-2 gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -408,7 +410,7 @@ function DashboardLoading() {
 // ── Success toast banner ──
 function SuccessBanner({ message, sub }: { message: string; sub: string }) {
   return (
-    <div className="mx-4 -mt-4 rounded-2xl border border-success/30 bg-success/10 p-4 spring-in">
+    <div className="mx-5 mt-4 rounded-xl border border-success/30 bg-success/5 p-4 spring-in">
       <div className="flex items-center gap-3">
         <div className="flex size-10 items-center justify-center rounded-full bg-success text-success-foreground">
           <CheckCircle2 className="size-5" />
@@ -483,7 +485,7 @@ export function D1Dashboard({ state, onStateChange }: PatternProps) {
             message="Ride accepted!"
             sub="Olivia Martinez · Black SUV · 16.2 mi"
           />
-          <div className="mt-5 space-y-5 pb-6">
+          <div className="mt-8 space-y-8 pb-6">
             <EarningsHero today={mockDriverToday} />
             <QuickActions />
           </div>
@@ -505,20 +507,20 @@ export function D1Dashboard({ state, onStateChange }: PatternProps) {
           onToggleOnline={() => setOnline((v) => !v)}
         />
         <EarningsHero today={mockDriverToday} />
-        <div className="mt-5 space-y-5 pb-6">
+        <div className="mt-8 space-y-8 pb-8">
           <QuickActions />
 
           {/* Active Rides */}
-          <div className="px-4">
+          <div className="px-5">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-foreground">Active Rides</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Rides</h2>
               <span className="text-xs text-muted-foreground">
                 {online ? 'Live' : 'Offline'}
               </span>
             </div>
             {showEmptyActive ? (
               <div className="rounded-xl border border-dashed border-border p-6 text-center">
-                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-success/10 text-success">
+                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-muted text-foreground">
                   <Car className="size-6" />
                 </div>
                 <p className="mt-3 text-sm font-medium text-foreground">
@@ -541,10 +543,10 @@ export function D1Dashboard({ state, onStateChange }: PatternProps) {
 
           {/* Recent Rides */}
           {recentRides.length > 0 && (
-            <div className="px-4">
+            <div className="px-5">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-foreground">Recent Rides</h2>
-                <button className="flex items-center gap-0.5 text-xs font-medium text-success transition-base hover:text-success/80">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Recent Rides</h2>
+                <button className="flex items-center gap-0.5 text-xs font-medium text-foreground transition-base hover:opacity-70">
                   View all
                   <ChevronRight className="size-3.5" />
                 </button>

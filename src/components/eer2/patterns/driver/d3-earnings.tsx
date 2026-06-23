@@ -44,7 +44,7 @@ type WithdrawalMethod = 'Zelle' | 'Venmo' | 'Bank Transfer'
 const WITHDRAWAL_FEE_RATE = 0.025
 const MIN_WITHDRAWAL = 50
 
-// ── Bottom nav (driver — emerald active state) ──
+// ── Bottom nav (driver — monochrome active state) ──
 function DriverBottomNav({ active = 'earnings' }: { active?: string }) {
   const [current, setCurrent] = useState(active)
   const items: { id: string; icon: LucideIcon; label: string }[] = [
@@ -55,7 +55,7 @@ function DriverBottomNav({ active = 'earnings' }: { active?: string }) {
     { id: 'settings', icon: SettingsIcon, label: 'Settings' },
   ]
   return (
-    <div className="flex items-center justify-around border-t border-border bg-card px-1.5 py-2 pb-safe">
+    <div className="flex items-center justify-around border-t border-border bg-background px-1.5 py-2 pb-safe">
       {items.map((item) => {
         const isActive = item.id === current
         return (
@@ -64,7 +64,7 @@ function DriverBottomNav({ active = 'earnings' }: { active?: string }) {
             onClick={() => setCurrent(item.id)}
             className={cn(
               'flex flex-col items-center gap-1 rounded-lg px-2.5 py-1.5 transition-base',
-              isActive ? 'text-success' : 'text-muted-foreground',
+              isActive ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             <item.icon className="size-5" />
@@ -76,7 +76,7 @@ function DriverBottomNav({ active = 'earnings' }: { active?: string }) {
   )
 }
 
-// ── Emerald gradient header with 3-stat summary ──
+// ── Solid header with 3-stat summary (Today = hero number) ──
 function EarningsHeader({
   today,
   onBack,
@@ -85,38 +85,38 @@ function EarningsHeader({
   onBack?: () => void
 }) {
   return (
-    <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-8 pt-10 text-success-foreground">
+    <header className="eer-header-solid px-5 pb-6 pt-10 text-foreground">
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
           aria-label="Back"
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold">Earnings</span>
+        <span className="text-sm font-semibold text-foreground">Earnings</span>
         <div className="size-9" />
       </div>
-      <h1 className="mt-4 text-xl font-bold">Your earnings</h1>
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        <div className="rounded-xl bg-white/15 p-3 backdrop-blur-sm">
-          <p className="text-[10px] uppercase tracking-wide opacity-80">Today</p>
-          <p className="mt-1 text-base font-bold">{formatUSD(today.earnings)}</p>
+      <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground">Your earnings</h1>
+      <div className="mt-5 grid grid-cols-3 gap-2">
+        <div className="rounded-xl border border-border bg-card p-3">
+          <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Today</p>
+          <p className="mt-1 text-2xl font-bold tabular-nums tracking-tight text-foreground">{formatUSD(today.earnings)}</p>
         </div>
-        <div className="rounded-xl bg-white/15 p-3 backdrop-blur-sm">
-          <p className="text-[10px] uppercase tracking-wide opacity-80">Tips</p>
-          <p className="mt-1 text-base font-bold">{formatUSD(today.tipsToday)}</p>
+        <div className="rounded-xl border border-border bg-card p-3">
+          <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Tips</p>
+          <p className="mt-1 text-base font-bold tabular-nums text-foreground">{formatUSD(today.tipsToday)}</p>
         </div>
-        <div className="rounded-xl bg-white/15 p-3 backdrop-blur-sm">
-          <p className="text-[10px] uppercase tracking-wide opacity-80">Balance</p>
-          <p className="mt-1 text-base font-bold">{formatUSD(today.walletBalance)}</p>
+        <div className="rounded-xl border border-border bg-card p-3">
+          <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Balance</p>
+          <p className="mt-1 text-base font-bold tabular-nums text-foreground">{formatUSD(today.walletBalance)}</p>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
 
-// ── Tips overview card (3-column grid) ──
+// ── Tips overview card (3-column grid, monochrome) ──
 function TipsOverview({ daily }: { daily: number }) {
   const weekly = daily * 7
   const monthly = daily * 30
@@ -126,17 +126,17 @@ function TipsOverview({ daily }: { daily: number }) {
     { label: 'Monthly', value: monthly, icon: TrendingUp },
   ]
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="eer-card-v3">
       <div className="flex items-center gap-1.5">
-        <HandCoins className="size-4 text-amber" />
-        <h2 className="text-sm font-semibold text-foreground">Tips Overview</h2>
+        <HandCoins className="size-4 text-muted-foreground" />
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tips Overview</h2>
       </div>
-      <div className="mt-3 grid grid-cols-3 divide-x divide-border">
+      <div className="mt-4 grid grid-cols-3 divide-x divide-border">
         {tips.map((t) => (
           <div key={t.label} className="px-2 text-center">
             <p className="text-[11px] text-muted-foreground">{t.label}</p>
-            <p className="mt-1 flex items-center justify-center gap-0.5 text-sm font-bold text-foreground">
-              <t.icon className="size-3 text-success" />
+            <p className="mt-1 flex items-center justify-center gap-0.5 text-sm font-bold tabular-nums text-foreground">
+              <t.icon className="size-3 text-muted-foreground" />
               {formatUSD(t.value, { showCents: false })}
             </p>
           </div>
@@ -146,7 +146,7 @@ function TipsOverview({ daily }: { daily: number }) {
   )
 }
 
-// ── Completed rides card ──
+// ── Completed rides card (monochrome) ──
 function CompletedRidesCard({
   total,
   thisPeriod,
@@ -155,18 +155,18 @@ function CompletedRidesCard({
   thisPeriod: number
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="eer-card-v3">
       <div className="flex items-center gap-1.5">
-        <CheckCircle2 className="size-4 text-success" />
-        <h2 className="text-sm font-semibold text-foreground">Completed Rides</h2>
+        <CheckCircle2 className="size-4 text-muted-foreground" />
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Completed Rides</h2>
       </div>
-      <div className="mt-3 grid grid-cols-2 divide-x divide-border">
+      <div className="mt-4 grid grid-cols-2 divide-x divide-border">
         <div className="px-2 text-center">
-          <p className="text-2xl font-bold text-foreground">{thisPeriod}</p>
+          <p className="text-2xl font-bold tabular-nums text-foreground">{thisPeriod}</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">This period</p>
         </div>
         <div className="px-2 text-center">
-          <p className="text-2xl font-bold text-foreground">{total}</p>
+          <p className="text-2xl font-bold tabular-nums text-foreground">{total}</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">All-time</p>
         </div>
       </div>
@@ -201,8 +201,8 @@ function WithdrawalRow({ w }: { w: Withdrawal }) {
         ? Wallet
         : Building2
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-3">
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success">
+    <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-4">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <Icon className="size-5" />
       </div>
       <div className="min-w-0 flex-1">
@@ -212,7 +212,7 @@ function WithdrawalRow({ w }: { w: Withdrawal }) {
         </p>
       </div>
       <div className="flex flex-col items-end">
-        <p className="text-sm font-semibold text-foreground">{formatUSD(w.amount)}</p>
+        <p className="text-sm font-semibold tabular-nums text-foreground">{formatUSD(w.amount)}</p>
         <div className="mt-0.5">
           <WithdrawalStatusBadge status={w.status} />
         </div>
@@ -305,7 +305,7 @@ function WithdrawalSheet({
                     className={cn(
                       'flex flex-col items-center gap-1 rounded-xl border p-2.5 text-[11px] font-medium transition-all-eer',
                       isActive
-                        ? 'border-success bg-success/10 text-success'
+                        ? 'border-foreground bg-foreground text-background'
                         : 'border-border bg-card text-muted-foreground hover:text-foreground',
                     )}
                   >
@@ -335,7 +335,7 @@ function WithdrawalSheet({
             </div>
             <div className="flex items-center justify-between border-t border-border pt-2 font-semibold">
               <span className="text-foreground">Net total</span>
-              <span className="text-success">
+              <span className="text-foreground tabular-nums">
                 {numericAmount > 0 ? formatUSD(net) : '—'}
               </span>
             </div>
@@ -345,13 +345,13 @@ function WithdrawalSheet({
         <SheetFooter className="flex-row gap-2 border-t border-border px-5 pb-safe pt-3">
           <Button
             variant="outline"
-            className="flex-1"
+            className="flex-1 border-border bg-card text-foreground"
             onClick={() => onOpenChange(false)}
           >
             Cancel
           </Button>
           <Button
-            className="flex-1 bg-success text-success-foreground hover:bg-success/90"
+            className="flex-1 bg-foreground text-background hover:bg-foreground/90"
             disabled={!canSubmit}
             onClick={onSubmit}
           >
@@ -367,20 +367,20 @@ function WithdrawalSheet({
 function EarningsLoading() {
   return (
     <div className="flex flex-col">
-      <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-8 pt-10">
+      <div className="eer-header-solid px-5 pb-6 pt-10">
         <div className="flex items-center justify-between">
-          <EerSkeleton className="size-9 rounded-full bg-white/15" />
-          <EerSkeleton className="h-4 w-20 bg-white/15" />
+          <EerSkeleton className="size-9 rounded-full" />
+          <EerSkeleton className="h-4 w-20" />
           <div className="size-9" />
         </div>
-        <EerSkeleton className="mt-4 h-6 w-40 bg-white/15" />
-        <div className="mt-4 grid grid-cols-3 gap-2">
+        <EerSkeleton className="mt-4 h-6 w-40" />
+        <div className="mt-5 grid grid-cols-3 gap-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <EerSkeleton key={i} className="h-16 rounded-xl bg-white/15" />
+            <EerSkeleton key={i} className="h-16 rounded-xl" />
           ))}
         </div>
       </div>
-      <div className="mt-5 space-y-3 px-4">
+      <div className="mt-8 space-y-3 px-5">
         <EerSkeleton className="h-24 rounded-2xl" />
         <EerSkeleton className="h-24 rounded-2xl" />
         <EerSkeleton className="h-16 rounded-2xl" />
@@ -395,7 +395,7 @@ function EarningsLoading() {
 // ── Success toast banner ──
 function SuccessBanner({ message, sub }: { message: string; sub: string }) {
   return (
-    <div className="mx-4 -mt-4 rounded-2xl border border-success/30 bg-success/10 p-4 spring-in">
+    <div className="mx-5 mt-4 rounded-xl border border-success/30 bg-success/5 p-4 spring-in">
       <div className="flex items-center gap-3">
         <div className="flex size-10 items-center justify-center rounded-full bg-success text-success-foreground">
           <CheckCircle2 className="size-5" />
@@ -465,7 +465,7 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
             message="Withdrawal requested!"
             sub="$300.00 via Zelle · arrives in 1–2 business days"
           />
-          <div className="mt-5 space-y-4 px-4 pb-6">
+          <div className="mt-8 space-y-8 px-5 pb-8">
             <TipsOverview daily={today.tipsToday} />
             <CompletedRidesCard
               total={completedRides.total}
@@ -486,7 +486,7 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         <EarningsHeader today={today} />
-        <div className="mt-5 space-y-4 px-4 pb-6">
+        <div className="mt-8 space-y-8 px-5 pb-8">
           <TipsOverview daily={today.tipsToday} />
           <CompletedRidesCard
             total={completedRides.total}
@@ -494,11 +494,11 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
           />
 
           {/* Withdrawals section */}
-          <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="eer-card-v3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <Banknote className="size-4 text-success" />
-                <h2 className="text-sm font-semibold text-foreground">Withdrawals</h2>
+                <Banknote className="size-4 text-muted-foreground" />
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Withdrawals</h2>
               </div>
               <span className="text-xs text-muted-foreground">
                 Balance {formatUSD(today.walletBalance)}
@@ -506,7 +506,7 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
             </div>
 
             <Button
-              className="mt-3 w-full rounded-xl bg-success text-success-foreground hover:bg-success/90"
+              className="mt-4 w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
               onClick={() => setSheetOpen(true)}
             >
               <Wallet className="size-4" />
@@ -514,13 +514,13 @@ export function D3Earnings({ state, onStateChange }: PatternProps) {
             </Button>
 
             {/* History */}
-            <div className="mt-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <div className="mt-5">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 History
               </p>
               {showWithdrawalsEmpty ? (
                 <div className="rounded-xl border border-dashed border-border p-5 text-center">
-                  <div className="mx-auto flex size-10 items-center justify-center rounded-full bg-success/10 text-success">
+                  <div className="mx-auto flex size-10 items-center justify-center rounded-full bg-muted text-foreground">
                     <Banknote className="size-5" />
                   </div>
                   <p className="mt-2 text-sm font-medium text-foreground">

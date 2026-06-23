@@ -59,9 +59,9 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="eer-card-v3">
       <div className="flex items-start gap-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
           <Icon className="size-4" />
         </div>
         <div className="min-w-0">
@@ -98,7 +98,7 @@ function NumberField({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-xs font-medium">
+      <Label htmlFor={id} className="text-sm font-medium text-foreground">
         {label}
       </Label>
       <div className="flex items-center gap-2">
@@ -109,14 +109,14 @@ function NumberField({
           min={min}
           max={max}
           onChange={(e) => onChange(Number(e.target.value) || 0)}
-          className="h-9 w-28"
+          className="h-9 w-28 font-variant-numeric-tabular"
         />
         {suffix && (
           <span className="text-xs text-muted-foreground">{suffix}</span>
         )}
       </div>
       {description && (
-        <p className="text-[11px] leading-relaxed text-muted-foreground">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           {description}
         </p>
       )}
@@ -139,11 +139,11 @@ function WeightSlider({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <Label className="text-xs font-medium">{label}</Label>
+        <Label className="text-sm font-medium text-foreground">{label}</Label>
         <span
           className={cn(
             'rounded-md px-1.5 py-0.5 text-xs font-semibold tabular-nums',
-            accent,
+            'bg-muted text-foreground',
           )}
         >
           {value}%
@@ -183,77 +183,77 @@ function LivePreview({ config }: { config: DispatchConfig }) {
   }, [config])
 
   return (
-    <div className="overflow-hidden rounded-xl border border-primary/30 bg-primary text-primary-foreground">
-      <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-        <Radar className="size-4" />
-        <h3 className="text-sm font-semibold">Live Preview</h3>
-        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide">
-          <span className="size-1.5 animate-pulse rounded-full bg-success-foreground" />
+    <div className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+      <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+        <Radar className="size-4 text-foreground" />
+        <h3 className="text-sm font-semibold text-foreground">Live Preview</h3>
+        <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-border bg-card px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+          <span className="size-1.5 animate-pulse rounded-full bg-success" />
           Simulated
         </span>
       </div>
       <div className="p-4">
-        <p className="text-[11px] uppercase tracking-wide text-primary-foreground/70">
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
           Top Match
         </p>
         <div className="mt-1 flex items-center justify-between">
           <div>
-            <p className="text-base font-bold">Michael Thompson</p>
-            <p className="text-xs text-primary-foreground/70">
+            <p className="text-base font-bold text-foreground">Michael Thompson</p>
+            <p className="text-xs text-muted-foreground">
               Cadillac Escalade · NYC-4821
             </p>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold tabular-nums">{preview.score}</p>
-            <p className="text-[10px] uppercase tracking-wide text-primary-foreground/70">
+            <p className="font-variant-numeric-tabular text-2xl font-bold tracking-tight text-foreground">{preview.score}</p>
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
               Score
             </p>
           </div>
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-2">
-          <div className="rounded-lg bg-white/10 p-2">
-            <p className="text-[10px] uppercase tracking-wide text-primary-foreground/70">
+          <div className="rounded-lg border border-border bg-card p-2">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
               Distance
             </p>
-            <p className="mt-0.5 text-sm font-bold tabular-nums">
+            <p className="mt-0.5 font-variant-numeric-tabular text-sm font-bold text-foreground">
               {preview.distance.toFixed(1)} mi
             </p>
           </div>
-          <div className="rounded-lg bg-white/10 p-2">
-            <p className="text-[10px] uppercase tracking-wide text-primary-foreground/70">
+          <div className="rounded-lg border border-border bg-card p-2">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
               ETA
             </p>
-            <p className="mt-0.5 text-sm font-bold tabular-nums">{preview.eta} min</p>
+            <p className="mt-0.5 font-variant-numeric-tabular text-sm font-bold text-foreground">{preview.eta} min</p>
           </div>
-          <div className="rounded-lg bg-white/10 p-2">
-            <p className="text-[10px] uppercase tracking-wide text-primary-foreground/70">
+          <div className="rounded-lg border border-border bg-card p-2">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
               Rating
             </p>
-            <p className="mt-0.5 text-sm font-bold tabular-nums">4.9 ★</p>
+            <p className="mt-0.5 font-variant-numeric-tabular text-sm font-bold text-foreground">4.9 ★</p>
           </div>
         </div>
 
-        <div className="mt-3 space-y-1.5 rounded-lg bg-white/5 p-3">
+        <div className="mt-3 space-y-1.5 rounded-lg border border-border bg-card p-3">
           <div className="flex items-center justify-between text-[11px]">
-            <span className="text-primary-foreground/70">Proximity score</span>
-            <span className="font-medium tabular-nums">{preview.proximityScore}/100</span>
+            <span className="text-muted-foreground">Proximity score</span>
+            <span className="font-medium tabular-nums text-foreground">{preview.proximityScore}/100</span>
           </div>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="text-primary-foreground/70">Rating score</span>
-            <span className="font-medium tabular-nums">{preview.ratingScore}/100</span>
+            <span className="text-muted-foreground">Rating score</span>
+            <span className="font-medium tabular-nums text-foreground">{preview.ratingScore}/100</span>
           </div>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="text-primary-foreground/70">Acceptance score</span>
-            <span className="font-medium tabular-nums">{preview.acceptanceScore}/100</span>
+            <span className="text-muted-foreground">Acceptance score</span>
+            <span className="font-medium tabular-nums text-foreground">{preview.acceptanceScore}/100</span>
           </div>
         </div>
 
-        <p className="mt-3 text-[10px] leading-relaxed text-primary-foreground/60">
+        <p className="mt-3 text-[10px] leading-relaxed text-muted-foreground">
           Weights update the score in real time. The system will broadcast to{' '}
-          <span className="font-semibold">{config.broadcastCount}</span> drivers within{' '}
-          <span className="font-semibold">{config.maxRadiusKm} mi</span> with a{' '}
-          <span className="font-semibold">{config.offerTimeoutSec}s</span> timeout.
+          <span className="font-semibold text-foreground">{config.broadcastCount}</span> drivers within{' '}
+          <span className="font-semibold text-foreground">{config.maxRadiusKm} mi</span> with a{' '}
+          <span className="font-semibold text-foreground">{config.offerTimeoutSec}s</span> timeout.
         </p>
       </div>
     </div>
@@ -307,13 +307,13 @@ const activeDispatches: ActiveDispatch[] = [
 
 function ActiveDispatchesFeed() {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="eer-card-v3">
       <div className="flex items-center gap-2">
-        <div className="flex size-8 items-center justify-center rounded-lg bg-warning/15 text-warning">
+        <div className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground">
           <RadioTower className="size-4" />
         </div>
         <h3 className="text-sm font-semibold text-foreground">Active Dispatches</h3>
-        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-warning/15 px-2 py-0.5 text-[10px] font-semibold text-warning">
+        <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-warning/30 bg-warning/10 px-2 py-0.5 text-[10px] font-semibold text-warning">
           {activeDispatches.length} LIVE
         </span>
       </div>
@@ -323,12 +323,12 @@ function ActiveDispatchesFeed() {
             key={d.id}
             className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-2.5 transition-base hover:bg-muted/50"
           >
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
               <MapPin className="size-4" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-semibold text-foreground">
+                <span className="font-mono text-xs font-semibold tabular-nums text-foreground">
                   {d.bookingId}
                 </span>
                 <span className="text-[10px] rounded bg-muted px-1.5 py-0.5 font-medium text-muted-foreground">
@@ -340,7 +340,7 @@ function ActiveDispatchesFeed() {
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs font-semibold text-foreground tabular-nums">
+              <p className="font-variant-numeric-tabular text-xs font-semibold text-foreground">
                 {d.radius.toFixed(1)} mi
               </p>
               <Button
@@ -372,14 +372,14 @@ function PageHeader({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-xl bg-primary/15 text-primary">
+        <div className="flex size-10 items-center justify-center rounded-xl bg-muted text-foreground">
           <Cog className="size-5" />
         </div>
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Dispatch Configuration
           </h1>
-          <p className="text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             Tune broadcast, scoring, and dispatch cascade parameters
           </p>
         </div>
@@ -391,7 +391,7 @@ function PageHeader({
             {enabled ? 'Enabled' : 'Disabled'}
           </span>
         </div>
-        <Button size="sm" className="h-9" onClick={onSave}>
+        <Button size="sm" className="eer-btn-primary h-9" onClick={onSave}>
           <Save className="size-4" />
           Save Changes
         </Button>
@@ -403,7 +403,7 @@ function PageHeader({
 // ── Loading skeleton ──
 function ConfigLoading() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <EerSkeleton className="h-12 w-64" />
         <div className="flex gap-2">
@@ -414,7 +414,7 @@ function ConfigLoading() {
       <div className="grid gap-4 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-3">
           {Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-5">
+            <div key={i} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex items-center gap-3">
                 <EerSkeleton className="size-9 rounded-lg" />
                 <div className="space-y-1.5">
@@ -435,8 +435,8 @@ function ConfigLoading() {
           ))}
         </div>
         <div className="space-y-4 lg:col-span-2">
-          <EerSkeleton className="h-72 rounded-xl" />
-          <EerSkeleton className="h-48 rounded-xl" />
+          <EerSkeleton className="h-72 rounded-2xl" />
+          <EerSkeleton className="h-48 rounded-2xl" />
         </div>
       </div>
     </div>
@@ -454,9 +454,9 @@ function SuccessToast({
   onDismiss?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-3 spring-in">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
-        <CheckCircle2 className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-success/30 bg-success/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
+        <CheckCircle2 className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -487,9 +487,9 @@ function ErrorBanner({
   onRetry?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-3 slide-up">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive text-white">
-        <AlertCircle className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-destructive text-destructive-foreground">
+        <AlertCircle className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -518,7 +518,7 @@ export function A3Config({ state, onStateChange }: PatternProps) {
 
   if (state === 'error') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader
           enabled={config.enabled}
           onToggleEnabled={(v) => update('enabled', v)}
@@ -540,7 +540,7 @@ export function A3Config({ state, onStateChange }: PatternProps) {
 
   if (state === 'success') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader
           enabled={config.enabled}
           onToggleEnabled={(v) => update('enabled', v)}
@@ -562,7 +562,7 @@ export function A3Config({ state, onStateChange }: PatternProps) {
 
   // Populated & empty (empty = populated for config)
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <PageHeader
         enabled={config.enabled}
         onToggleEnabled={(v) => update('enabled', v)}
@@ -589,10 +589,10 @@ function ConfigLayout({
 }) {
   return (
     <div className="grid gap-4 lg:grid-cols-5">
-      <div className="space-y-4 lg:col-span-3">
+      <div className="space-y-6 lg:col-span-3">
         <ConfigForm config={config} update={update} weightsSum={weightsSum} />
       </div>
-      <div className="space-y-4 lg:col-span-2">
+      <div className="space-y-6 lg:col-span-2">
         <LivePreview config={config} />
         <ActiveDispatchesFeed />
       </div>
@@ -671,26 +671,26 @@ function ConfigForm({
               label="Proximity"
               value={config.proximityWeight}
               onChange={(v) => update('proximityWeight', v)}
-              accent="bg-primary/15 text-primary"
+              accent="bg-muted text-foreground"
             />
             <WeightSlider
               label="Driver rating"
               value={config.ratingWeight}
               onChange={(v) => update('ratingWeight', v)}
-              accent="bg-success/15 text-success"
+              accent="bg-muted text-foreground"
             />
             <WeightSlider
               label="Acceptance rate"
               value={config.acceptanceWeight}
               onChange={(v) => update('acceptanceWeight', v)}
-              accent="bg-amber/15 text-amber"
+              accent="bg-muted text-foreground"
             />
             <div
               className={cn(
                 'flex items-center justify-between rounded-lg border px-3 py-2 text-xs',
                 weightsSum === 100
-                  ? 'border-success/30 bg-success/10 text-success'
-                  : 'border-warning/30 bg-warning/10 text-warning',
+                  ? 'border-success/30 bg-success/5 text-success'
+                  : 'border-warning/30 bg-warning/5 text-warning',
               )}
             >
               <span className="font-medium">Total weight</span>

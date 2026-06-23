@@ -65,7 +65,7 @@ function MapTopBar({ onBack }: { onBack?: () => void }) {
   )
 }
 
-// ── Route overlay (SVG curved path + pickup/dropoff pins) ──
+// ── Route overlay (SVG curved path + pickup/dropoff pins, monochrome) ──
 function RouteOverlay() {
   return (
     <svg
@@ -77,8 +77,8 @@ function RouteOverlay() {
       {/* Soft glow underlay */}
       <path
         d="M 80 130 C 180 210, 200 360, 280 480"
-        stroke="var(--primary)"
-        strokeOpacity="0.18"
+        stroke="var(--foreground)"
+        strokeOpacity="0.15"
         strokeWidth="12"
         fill="none"
         strokeLinecap="round"
@@ -86,19 +86,19 @@ function RouteOverlay() {
       {/* Main curved route path */}
       <path
         d="M 80 130 C 180 210, 200 360, 280 480"
-        stroke="var(--primary)"
+        stroke="var(--foreground)"
         strokeWidth="4"
         fill="none"
         strokeLinecap="round"
       />
       {/* Pickup pin (top) */}
-      <circle cx="80" cy="130" r="18" fill="var(--primary)" fillOpacity="0.18" />
-      <circle cx="80" cy="130" r="9" fill="var(--primary)" />
-      <circle cx="80" cy="130" r="3" fill="var(--primary-foreground)" />
+      <circle cx="80" cy="130" r="18" fill="var(--foreground)" fillOpacity="0.15" />
+      <circle cx="80" cy="130" r="9" fill="var(--foreground)" />
+      <circle cx="80" cy="130" r="3" fill="var(--background)" />
       {/* Dropoff pin (bottom) */}
-      <circle cx="280" cy="480" r="18" fill="var(--success)" fillOpacity="0.18" />
-      <circle cx="280" cy="480" r="9" fill="var(--success)" />
-      <circle cx="280" cy="480" r="3" fill="var(--success-foreground)" />
+      <circle cx="280" cy="480" r="18" fill="var(--muted-foreground)" fillOpacity="0.18" />
+      <circle cx="280" cy="480" r="9" fill="var(--muted-foreground)" />
+      <circle cx="280" cy="480" r="3" fill="var(--background)" />
     </svg>
   )
 }
@@ -141,9 +141,9 @@ function VehicleSheet({
       <div className="px-4 pt-2">
         <div className="flex items-start gap-2">
           <div className="flex flex-col items-center pt-1">
-            <div className="size-2 rounded-full bg-primary" />
+            <div className="size-2 rounded-full bg-foreground" />
             <div className="my-0.5 h-4 w-0.5 bg-border" />
-            <div className="size-2 rounded-full bg-success" />
+            <div className="size-2 rounded-full bg-muted-foreground" />
           </div>
           <div className="flex-1 space-y-1.5">
             <p className="truncate text-xs text-muted-foreground">{booking.pickup.label}</p>
@@ -173,28 +173,28 @@ function VehicleClassCard({
       onClick={onSelect}
       aria-pressed={selected}
       className={cn(
-        'flex min-w-[150px] flex-col gap-1.5 rounded-2xl border-2 p-3 text-left transition-all-eer active:scale-[0.98]',
+        'flex min-w-[150px] flex-col gap-1.5 rounded-2xl border-2 p-3 text-left transition-base active:scale-[0.98]',
         selected
-          ? 'border-success bg-success/5 ring-2 ring-success/20'
-          : 'border-border bg-background hover:border-success/30',
+          ? 'border-foreground bg-card ring-1 ring-foreground/15'
+          : 'border-border bg-card hover:border-muted-foreground',
       )}
     >
       {/* Image placeholder with car icon */}
       <div className="flex h-16 items-center justify-center rounded-lg bg-muted">
         <Car
-          className={cn('size-8', selected ? 'text-success' : 'text-muted-foreground')}
+          className={cn('size-8', selected ? 'text-foreground' : 'text-muted-foreground')}
         />
       </div>
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-foreground">{vehicle.name}</span>
         {selected && (
-          <span className="flex size-4 items-center justify-center rounded-full bg-success text-success-foreground">
+          <span className="flex size-4 items-center justify-center rounded-full bg-foreground text-background">
             <Check className="size-3" />
           </span>
         )}
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-base font-bold text-primary">
+        <span className="text-base font-bold text-foreground tabular-nums">
           {formatUSD(vehicle.price, { showCents: false })}
         </span>
         <span className="text-[11px] text-muted-foreground">ETA {vehicle.eta} min</span>
@@ -215,7 +215,7 @@ function ConfirmButton({
 }) {
   return (
     <div className="border-t border-border bg-card px-4 py-3 pb-safe">
-      <Button size="lg" className="w-full" onClick={onConfirm} disabled={disabled}>
+      <Button size="lg" className="eer-btn-primary w-full" onClick={onConfirm} disabled={disabled}>
         Confirm {formatUSD(price, { showCents: false })}
       </Button>
     </div>

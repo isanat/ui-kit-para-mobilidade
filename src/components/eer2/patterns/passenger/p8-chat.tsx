@@ -115,37 +115,37 @@ const mockMessages: ChatMessage[] = [
   },
 ]
 
-// ── Header: gradient + avatar + online status ──
+// ── Header (v3 clean: solid bg, monochrome) ──
 function ChatHeader({ onBack }: { onBack?: () => void }) {
   return (
-    <div className="bg-gradient-to-br from-primary to-primary/80 px-4 pb-4 pt-10 text-primary-foreground">
+    <div className="eer-header-solid px-4 pb-4 pt-10">
       <div className="flex items-center gap-3">
         <button
           onClick={onBack}
           aria-label="Back"
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
         >
           <ArrowLeft className="size-4" />
         </button>
 
         {/* Avatar with initials */}
         <div className="relative">
-          <div className="flex size-11 items-center justify-center rounded-full bg-white/20 text-sm font-bold backdrop-blur-sm">
+          <div className="flex size-11 items-center justify-center rounded-full bg-muted text-sm font-bold text-foreground">
             {driver.initials}
           </div>
           {/* Online status dot */}
-          <span className="absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full border-2 border-primary bg-success" />
+          <span className="absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full border-2 border-background bg-success" />
         </div>
 
         {/* Name + vehicle info */}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">{driver.name}</p>
-          <p className="truncate text-xs opacity-80">
+          <p className="truncate text-sm font-semibold text-foreground">{driver.name}</p>
+          <p className="truncate text-xs text-muted-foreground">
             {driver.vehicle} · {driver.plate}
           </p>
         </div>
 
-        {/* Call button */}
+        {/* Call button (semantic action: green = confirm call) */}
         <button
           aria-label="Call driver"
           className="flex size-9 items-center justify-center rounded-full bg-success text-success-foreground transition-base hover:bg-success/90"
@@ -168,7 +168,7 @@ function TimestampSeparator({ iso }: { iso: string }) {
   )
 }
 
-// ── Single message bubble ──
+// ── Single message bubble (sent = bg-foreground, received = bg-card) ──
 function MessageBubble({ msg }: { msg: ChatMessage }) {
   const isMe = msg.from === 'me'
   return (
@@ -177,7 +177,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
         className={cn(
           'flex max-w-[78%] flex-col gap-1 rounded-2xl px-3 py-2 text-sm shadow-sm slide-up',
           isMe
-            ? 'rounded-br-md bg-primary text-primary-foreground'
+            ? 'rounded-br-md bg-foreground text-background'
             : 'rounded-bl-md bg-card text-card-foreground border border-border',
         )}
       >
@@ -194,7 +194,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
             <div
               className={cn(
                 'flex size-10 shrink-0 items-center justify-center rounded-lg',
-                isMe ? 'bg-white/20' : 'bg-primary/10 text-primary',
+                isMe ? 'bg-background/20' : 'bg-muted text-foreground',
               )}
             >
               <MapPin className="size-5" />
@@ -204,7 +204,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
               <p
                 className={cn(
                   'text-xs underline-offset-2',
-                  isMe ? 'opacity-80' : 'text-primary',
+                  isMe ? 'opacity-80' : 'text-muted-foreground',
                 )}
               >
                 Open in Maps →
@@ -219,16 +219,16 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
             <div
               className={cn(
                 'flex aspect-video w-full min-w-[180px] flex-col items-center justify-center gap-1.5 rounded-xl',
-                isMe ? 'bg-white/15' : 'bg-muted/60',
+                isMe ? 'bg-background/15' : 'bg-muted/60',
               )}
             >
               <ImageIcon
-                className={cn('size-7', isMe ? 'text-white/80' : 'text-muted-foreground')}
+                className={cn('size-7', isMe ? 'text-background/80' : 'text-muted-foreground')}
               />
               <span
                 className={cn(
                   'text-[10px]',
-                  isMe ? 'text-white/80' : 'text-muted-foreground',
+                  isMe ? 'text-background/80' : 'text-muted-foreground',
                 )}
               >
                 Photo
@@ -244,7 +244,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
         <div
           className={cn(
             'flex items-center justify-end gap-1 text-[10px]',
-            isMe ? 'text-primary-foreground/70' : 'text-muted-foreground',
+            isMe ? 'text-background/70' : 'text-muted-foreground',
           )}
         >
           <span>{new Date(msg.time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
@@ -292,11 +292,11 @@ function ChatInputBar({
   onShareLocation?: () => void
 }) {
   return (
-    <div className="flex items-center gap-2 border-t border-border bg-card px-3 py-2.5 pb-safe">
+    <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
       <button
         onClick={onShareLocation}
         aria-label="Share location"
-        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-base hover:bg-primary/15 active:scale-95"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted active:scale-95"
       >
         <Navigation className="size-5" />
       </button>
@@ -304,7 +304,7 @@ function ChatInputBar({
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         placeholder="Message Michael…"
-        className="h-11 flex-1 rounded-full border-border bg-background px-4"
+        className="h-11 flex-1 rounded-full border-border bg-card px-4"
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
@@ -317,7 +317,7 @@ function ChatInputBar({
         disabled={!value.trim()}
         size="icon"
         aria-label="Send message"
-        className="size-10 shrink-0 rounded-full"
+        className="eer-btn-primary size-10 shrink-0 rounded-full"
       >
         <Send className="size-4" />
       </Button>
@@ -341,7 +341,7 @@ function ChatLoading() {
         </div>
         {/* Sent bubble */}
         <div className="flex justify-end">
-          <div className="max-w-[78%] space-y-2 rounded-2xl rounded-br-md bg-primary/15 p-3">
+          <div className="max-w-[78%] space-y-2 rounded-2xl rounded-br-md bg-foreground/10 p-3">
             <EerSkeleton className="h-3 w-40" />
             <EerSkeleton className="h-3 w-28" />
           </div>
@@ -376,7 +376,7 @@ function ChatEmpty({
   ]
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-8 text-center fade-in">
-      <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+      <div className="flex size-16 items-center justify-center rounded-full bg-muted text-foreground">
         <MessageSquare className="size-8" />
       </div>
       <div className="space-y-1">
@@ -390,7 +390,7 @@ function ChatEmpty({
           <button
             key={s}
             onClick={() => onGreet?.(s)}
-            className="w-full rounded-xl border border-border bg-card p-3 text-left text-sm font-medium text-foreground transition-all-eer hover:border-primary/30 hover:shadow-sm active:scale-[0.99]"
+            className="w-full rounded-xl border border-border bg-card p-3 text-left text-sm font-medium text-foreground transition-base hover:border-muted-foreground active:scale-[0.99]"
           >
             {s}
           </button>
@@ -489,7 +489,7 @@ export function P8Chat({ state, onStateChange }: PatternProps) {
         <div className="flex-1 overflow-y-auto scrollbar-thin">
           <ChatLoading />
         </div>
-        <div className="flex items-center gap-2 border-t border-border bg-card px-3 py-2.5 pb-safe">
+        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
           <EerSkeleton className="size-10 rounded-full" />
           <EerSkeleton className="h-11 flex-1 rounded-full" />
           <EerSkeleton className="size-10 rounded-full" />
@@ -514,9 +514,9 @@ export function P8Chat({ state, onStateChange }: PatternProps) {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 border-t border-border bg-card px-3 py-2.5 pb-safe">
+        <div className="flex items-center gap-2 border-t border-border bg-background px-3 py-2.5 pb-safe">
           <Button
-            className="w-full rounded-full"
+            className="eer-btn-primary w-full rounded-full"
             onClick={() => {
               onStateChange?.('loading')
               setTimeout(() => onStateChange?.('populated'), 600)

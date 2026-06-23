@@ -73,8 +73,8 @@ function PageHeader({
           <ArrowLeft className="size-4" />
         </Button>
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground">Edit Driver</h1>
-          <p className="text-xs text-muted-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Edit Driver</h1>
+          <p className="mt-0.5 text-xs text-muted-foreground">
             Manage driver profile, vehicle, documents, and finances
           </p>
         </div>
@@ -89,7 +89,7 @@ function PageHeader({
           <Trash2 className="size-4" />
           Delete
         </Button>
-        <Button size="sm" className="h-9" onClick={onSave}>
+        <Button size="sm" className="eer-btn-primary h-9" onClick={onSave}>
           <Save className="size-4" />
           Save Changes
         </Button>
@@ -107,24 +107,24 @@ function ProfileHeader({ driver }: { driver: Driver }) {
     .join('')
     .toUpperCase()
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card">
-      <div className="bg-gradient-to-br from-primary to-primary/80 px-5 py-5 text-primary-foreground">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="px-5 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-2xl font-bold backdrop-blur-sm">
+          <div className="flex size-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-2xl font-bold text-foreground">
             {initials}
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h2 className="truncate text-xl font-bold">{driver.name}</h2>
+              <h2 className="truncate text-xl font-bold text-foreground">{driver.name}</h2>
               <Badge
                 variant="outline"
-                className="border-white/30 bg-white/15 text-primary-foreground"
+                className="border-border bg-card text-foreground"
               >
-                <span className="size-1.5 animate-pulse rounded-full bg-success-foreground" />
+                <span className="size-1.5 animate-pulse rounded-full bg-success" />
                 {driver.status.charAt(0).toUpperCase() + driver.status.slice(1)}
               </Badge>
             </div>
-            <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-primary-foreground/80">
+            <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Mail className="size-3" />
                 {driver.email}
@@ -147,25 +147,25 @@ function ProfileHeader({ driver }: { driver: Driver }) {
           icon={Car}
           label="Total Rides"
           value={driver.totalRides.toLocaleString()}
-          tileClass="bg-primary/15 text-primary"
+          tileClass="bg-muted text-foreground"
         />
         <QuickStat
           icon={Star}
           label="Rating"
           value={driver.rating.toFixed(1)}
-          tileClass="bg-warning/15 text-warning"
+          tileClass="bg-muted text-foreground"
         />
         <QuickStat
           icon={Wallet}
           label="Wallet Balance"
           value={formatUSD(driver.walletBalance)}
-          tileClass="bg-success/15 text-success"
+          tileClass="bg-muted text-foreground"
         />
         <QuickStat
           icon={CreditCard}
           label="Total Earnings"
           value={formatUSD(driver.totalEarnings, { showCents: false })}
-          tileClass="bg-amber/15 text-amber"
+          tileClass="bg-muted text-foreground"
         />
       </div>
     </div>
@@ -184,13 +184,13 @@ function QuickStat({
   tileClass: string
 }) {
   return (
-    <div className="flex items-center gap-3 p-4">
+    <div className="flex items-center gap-3 p-5">
       <div className={cn('flex size-9 shrink-0 items-center justify-center rounded-lg', tileClass)}>
         <Icon className="size-4" />
       </div>
       <div className="min-w-0">
-        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{label}</p>
-        <p className="truncate text-base font-bold text-foreground">{value}</p>
+        <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
+        <p className="truncate font-variant-numeric-tabular text-xl font-bold tracking-tight text-foreground">{value}</p>
       </div>
     </div>
   )
@@ -211,10 +211,10 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="eer-card-v3">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
             <Icon className="size-4" />
           </div>
           <div>
@@ -363,16 +363,7 @@ function DocumentRow({ doc }: { doc: DocItem }) {
   const cfg = docStatusConfig[doc.status]
   return (
     <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-3 transition-base hover:bg-muted/50">
-      <div
-        className={cn(
-          'flex size-9 shrink-0 items-center justify-center rounded-lg',
-          doc.status === 'verified'
-            ? 'bg-success/15 text-success'
-            : doc.status === 'pending'
-              ? 'bg-warning/15 text-warning'
-              : 'bg-destructive/15 text-destructive',
-        )}
-      >
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
         <FileText className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
@@ -387,7 +378,7 @@ function DocumentRow({ doc }: { doc: DocItem }) {
       <Button
         variant="ghost"
         size="sm"
-        className="h-7 shrink-0 text-muted-foreground hover:text-primary"
+        className="h-7 shrink-0 text-muted-foreground hover:text-foreground"
       >
         View
       </Button>
@@ -409,7 +400,7 @@ function DocumentsSection({ onSave }: { onSave: () => void }) {
         ))}
       </div>
       <div className="mt-3 flex gap-2">
-        <Button size="sm" className="h-8 bg-success text-success-foreground hover:bg-success/90">
+        <Button size="sm" className="eer-btn-primary h-8">
           <CheckCircle2 className="size-3.5" />
           Approve All
         </Button>
@@ -437,26 +428,26 @@ function FinancialSection({ driver, onSave }: { driver: Driver; onSave: () => vo
     >
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-border bg-muted/30 p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
             Wallet balance
           </p>
-          <p className="mt-0.5 text-lg font-bold text-foreground">
+          <p className="mt-0.5 font-variant-numeric-tabular text-lg font-bold tracking-tight text-foreground">
             {formatUSD(driver.walletBalance)}
           </p>
         </div>
         <div className="rounded-lg border border-border bg-muted/30 p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
             Total earnings
           </p>
-          <p className="mt-0.5 text-lg font-bold text-foreground">
+          <p className="mt-0.5 font-variant-numeric-tabular text-lg font-bold tracking-tight text-foreground">
             {formatUSD(driver.totalEarnings)}
           </p>
         </div>
         <div className="rounded-lg border border-border bg-muted/30 p-3">
-          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
             Total withdrawals
           </p>
-          <p className="mt-0.5 text-lg font-bold text-foreground">
+          <p className="mt-0.5 font-variant-numeric-tabular text-lg font-bold tracking-tight text-foreground">
             {formatUSD(driver.totalEarnings - driver.walletBalance)}
           </p>
         </div>
@@ -474,7 +465,7 @@ function FinancialSection({ driver, onSave }: { driver: Driver; onSave: () => vo
 // ── Loading skeleton ──
 function DetailLoading() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <EerSkeleton className="size-9 rounded-md" />
@@ -488,7 +479,7 @@ function DetailLoading() {
           <EerSkeleton className="h-9 w-32" />
         </div>
       </div>
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card">
         <EerSkeleton className="h-32 w-full rounded-none" />
         <div className="grid grid-cols-2 sm:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -497,7 +488,7 @@ function DetailLoading() {
         </div>
       </div>
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="rounded-xl border border-border bg-card p-5">
+        <div key={i} className="rounded-2xl border border-border bg-card p-5">
           <div className="flex items-center gap-3">
             <EerSkeleton className="size-9 rounded-lg" />
             <div className="space-y-1.5">
@@ -530,9 +521,9 @@ function SuccessToast({
   onDismiss?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-3 spring-in">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
-        <CheckCircle2 className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-success/30 bg-success/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
+        <CheckCircle2 className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -563,9 +554,9 @@ function ErrorBanner({
   onRetry?: () => void
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-3 slide-up">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive text-white">
-        <AlertCircle className="size-5" />
+    <div className="flex items-center gap-3 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 spring-in">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-destructive text-destructive-foreground">
+        <AlertCircle className="size-4" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-foreground">{message}</p>
@@ -588,7 +579,7 @@ export function A5DetailEdit({ state, onStateChange }: PatternProps) {
 
   if (state === 'error') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader
           onSave={() => onStateChange?.('success')}
           onDelete={() => onStateChange?.('populated')}
@@ -609,7 +600,7 @@ export function A5DetailEdit({ state, onStateChange }: PatternProps) {
 
   if (state === 'success') {
     return (
-      <div className="space-y-5">
+      <div className="space-y-8">
         <PageHeader
           onSave={() => onStateChange?.('success')}
           onDelete={() => onStateChange?.('populated')}
@@ -630,7 +621,7 @@ export function A5DetailEdit({ state, onStateChange }: PatternProps) {
 
   // Populated & empty (empty = populated for detail-edit)
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <PageHeader
         onSave={() => onStateChange?.('success')}
         onDelete={() => onStateChange?.('populated')}
@@ -650,7 +641,7 @@ function DetailContent({
   onSave: () => void
 }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <GeneralSection driver={driver} onSave={onSave} />
       <VehicleSection driver={driver} onSave={onSave} />
       <DocumentsSection onSave={onSave} />

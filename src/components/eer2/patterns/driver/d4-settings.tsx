@@ -30,7 +30,7 @@ import { EerSkeleton } from '../../state'
 import { mockDrivers } from '@/lib/mock/data'
 import type { PatternProps } from '../types'
 
-// ── Bottom nav (driver — emerald active state) ──
+// ── Bottom nav (driver — monochrome active state) ──
 function DriverBottomNav({ active = 'settings' }: { active?: string }) {
   const [current, setCurrent] = useState(active)
   const items: { id: string; icon: LucideIcon; label: string }[] = [
@@ -41,7 +41,7 @@ function DriverBottomNav({ active = 'settings' }: { active?: string }) {
     { id: 'settings', icon: SettingsIcon, label: 'Settings' },
   ]
   return (
-    <div className="flex items-center justify-around border-t border-border bg-card px-1.5 py-2 pb-safe">
+    <div className="flex items-center justify-around border-t border-border bg-background px-1.5 py-2 pb-safe">
       {items.map((item) => {
         const isActive = item.id === current
         return (
@@ -50,7 +50,7 @@ function DriverBottomNav({ active = 'settings' }: { active?: string }) {
             onClick={() => setCurrent(item.id)}
             className={cn(
               'flex flex-col items-center gap-1 rounded-lg px-2.5 py-1.5 transition-base',
-              isActive ? 'text-success' : 'text-muted-foreground',
+              isActive ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             <item.icon className="size-5" />
@@ -62,7 +62,7 @@ function DriverBottomNav({ active = 'settings' }: { active?: string }) {
   )
 }
 
-// ── Emerald gradient header with avatar + upload button ──
+// ── Solid header with avatar + upload button ──
 function SettingsHeader({ driver }: { driver: typeof mockDrivers[0] }) {
   const initials = driver.name
     .split(' ')
@@ -71,37 +71,37 @@ function SettingsHeader({ driver }: { driver: typeof mockDrivers[0] }) {
     .join('')
     .toUpperCase()
   return (
-    <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-10 pt-12 text-success-foreground">
+    <header className="eer-header-solid px-5 pb-6 pt-12 text-foreground">
       <div className="flex items-center justify-between pt-safe">
         <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-white/15">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-muted text-foreground">
             <Truck className="size-4" />
           </div>
-          <span className="text-sm font-semibold">Settings</span>
+          <span className="text-sm font-semibold text-foreground">Settings</span>
         </div>
       </div>
 
       <div className="mt-5 flex items-center gap-4">
         <div className="relative">
-          <div className="flex size-20 items-center justify-center rounded-full bg-white/20 text-2xl font-bold backdrop-blur-sm">
+          <div className="flex size-20 items-center justify-center rounded-full bg-muted text-2xl font-bold text-foreground">
             {initials}
           </div>
           <button
             aria-label="Upload photo"
-            className="absolute -bottom-1 -right-1 flex size-8 items-center justify-center rounded-full bg-success-foreground text-success shadow-md transition-base hover:bg-success-foreground/90"
+            className="absolute -bottom-1 -right-1 flex size-8 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-md transition-base hover:bg-muted"
           >
             <Camera className="size-4" />
           </button>
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-xl font-bold">{driver.name}</h1>
-          <p className="truncate text-sm opacity-80">{driver.email}</p>
-          <p className="mt-0.5 text-[11px] opacity-70">
+          <h1 className="truncate text-xl font-bold tracking-tight text-foreground">{driver.name}</h1>
+          <p className="truncate text-sm text-muted-foreground">{driver.email}</p>
+          <p className="mt-0.5 text-[11px] text-muted-foreground">
             Driver since 2023 · {driver.totalRides} rides
           </p>
         </div>
       </div>
-    </div>
+    </header>
   )
 }
 
@@ -123,7 +123,7 @@ function TabPills({
   onSelect: (id: TabId) => void
 }) {
   return (
-    <div className="flex gap-1 overflow-x-auto no-scrollbar border-b border-border bg-card px-3 py-2">
+    <div className="flex gap-4 overflow-x-auto no-scrollbar border-b border-border bg-background px-5">
       {tabsList.map((t) => {
         const isActive = t.id === active
         return (
@@ -131,10 +131,10 @@ function TabPills({
             key={t.id}
             onClick={() => onSelect(t.id)}
             className={cn(
-              'shrink-0 rounded-lg px-4 py-1.5 text-sm font-medium transition-base',
+              'shrink-0 border-b-2 px-1 py-3 text-sm font-medium transition-base',
               isActive
-                ? 'bg-success text-success-foreground'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                ? 'border-foreground text-foreground'
+                : 'border-transparent text-muted-foreground hover:text-foreground',
             )}
           >
             {t.label}
@@ -188,7 +188,7 @@ function GeneralTab({
         <Input id="g-dob" type="date" defaultValue="1985-06-12" className="h-11" />
       </Field>
       <Button
-        className="w-full rounded-xl bg-success text-success-foreground hover:bg-success/90"
+        className="w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
         onClick={onSave}
       >
         Save Changes
@@ -279,7 +279,7 @@ function VehicleTab({
       </Field>
 
       <Button
-        className="w-full rounded-xl bg-success text-success-foreground hover:bg-success/90"
+        className="w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
         onClick={onSave}
       >
         Save Vehicle
@@ -333,7 +333,7 @@ function PaymentTab({ onSave }: { onSave: () => void }) {
         </Select>
       </Field>
       <Button
-        className="w-full rounded-xl bg-success text-success-foreground hover:bg-success/90"
+        className="w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
         onClick={onSave}
       >
         Save Payment
@@ -393,7 +393,7 @@ function PasswordTab({ onUpdate }: { onUpdate: () => void }) {
         )}
       </Field>
       <Button
-        className="w-full rounded-xl bg-success text-success-foreground hover:bg-success/90"
+        className="w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
         disabled={!canSubmit}
         onClick={onUpdate}
       >
@@ -415,25 +415,25 @@ function PasswordTab({ onUpdate }: { onUpdate: () => void }) {
 function SettingsLoading() {
   return (
     <div className="flex flex-col">
-      <div className="bg-gradient-to-br from-success to-success/80 px-5 pb-10 pt-12">
+      <div className="eer-header-solid px-5 pb-6 pt-12">
         <div className="flex items-center gap-2">
-          <EerSkeleton className="size-8 rounded-lg bg-white/15" />
-          <EerSkeleton className="h-4 w-20 bg-white/15" />
+          <EerSkeleton className="size-8 rounded-lg" />
+          <EerSkeleton className="h-4 w-20" />
         </div>
         <div className="mt-5 flex items-center gap-4">
-          <EerSkeleton className="size-20 rounded-full bg-white/15" />
+          <EerSkeleton className="size-20 rounded-full" />
           <div className="flex-1 space-y-2">
-            <EerSkeleton className="h-5 w-32 bg-white/15" />
-            <EerSkeleton className="h-3 w-48 bg-white/15" />
+            <EerSkeleton className="h-5 w-32" />
+            <EerSkeleton className="h-3 w-48" />
           </div>
         </div>
       </div>
-      <div className="mt-3 flex gap-1 px-3 py-2">
+      <div className="flex gap-4 px-5">
         {Array.from({ length: 4 }).map((_, i) => (
-          <EerSkeleton key={i} className="h-8 w-20 rounded-lg" />
+          <EerSkeleton key={i} className="h-8 w-20" />
         ))}
       </div>
-      <div className="space-y-4 px-4 py-4">
+      <div className="space-y-4 px-5 py-5">
         {Array.from({ length: 4 }).map((_, i) => (
           <EerSkeleton key={i} className="h-11 rounded-md" />
         ))}
@@ -446,7 +446,7 @@ function SettingsLoading() {
 // ── Success / error toast banners ──
 function SuccessToast({ message, sub }: { message: string; sub: string }) {
   return (
-    <div className="mx-4 my-3 flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-3 spring-in">
+    <div className="mx-5 my-4 flex items-center gap-3 rounded-xl border border-success/30 bg-success/5 p-3 spring-in">
       <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-success text-success-foreground">
         <CheckCircle2 className="size-5" />
       </div>
@@ -460,7 +460,7 @@ function SuccessToast({ message, sub }: { message: string; sub: string }) {
 
 function ErrorToast({ message }: { message: string }) {
   return (
-    <div className="mx-4 my-3 flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-3 slide-up">
+    <div className="mx-5 my-4 flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-3 slide-up">
       <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive text-white">
         <AlertCircle className="size-5" />
       </div>
@@ -499,10 +499,10 @@ export function D4Settings({ state, onStateChange }: PatternProps) {
           <SettingsHeader driver={driver} />
           <TabPills active={activeTab} onSelect={setActiveTab} />
           <ErrorToast message="Couldn't save settings" />
-          <div className="px-4 pb-6">
+          <div className="px-5 pb-8">
             <Button
               variant="outline"
-              className="w-full rounded-xl"
+              className="w-full rounded-xl border-border bg-card text-foreground"
               onClick={() => onStateChange?.('populated')}
             >
               Retry
@@ -530,10 +530,10 @@ export function D4Settings({ state, onStateChange }: PatternProps) {
                 : 'Your changes have been saved successfully.'
             }
           />
-          <div className="px-4 pb-6">
+          <div className="px-5 pb-8">
             <Button
               variant="outline"
-              className="w-full rounded-xl"
+              className="w-full rounded-xl border-border bg-card text-foreground"
               onClick={() => onStateChange?.('populated')}
             >
               Back to settings

@@ -44,32 +44,32 @@ const vehicles = [
   { id: 'luxury', name: 'Luxury', price: 65, eta: 8, desc: 'Premium experience' },
 ] as const
 
-// ── Wizard header (3-segment progress bar in royal blue gradient) ──
+// ── Wizard header (v3 clean: solid bg, monochrome progress bar) ──
 function WizardHeader({ step }: { step: number }) {
   return (
-    <div className="bg-gradient-to-br from-primary to-primary/80 px-5 pb-5 pt-10 text-primary-foreground">
+    <div className="eer-header-solid px-5 pb-5 pt-10">
       <div className="flex items-center justify-between">
         <button
-          className="flex size-9 items-center justify-center rounded-full bg-white/15 transition-base hover:bg-white/20"
+          className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted"
           aria-label="Close wizard"
         >
           <ArrowLeft className="size-4" />
         </button>
-        <span className="text-sm font-semibold">Reserve a ride</span>
-        <EerServiceBadge service="one-way" size="xs" className="bg-white/20" />
+        <span className="text-sm font-semibold text-foreground">Reserve a ride</span>
+        <EerServiceBadge service="one-way" size="xs" />
       </div>
       <div className="mt-5">
-        <p className="text-xs opacity-80">Step {step + 1} of 3</p>
-        <h1 className="mt-0.5 text-xl font-bold">{steps[step].label}</h1>
+        <p className="text-xs text-muted-foreground">Step {step + 1} of 3</p>
+        <h1 className="mt-0.5 text-xl font-bold text-foreground">{steps[step].label}</h1>
       </div>
-      {/* 3-segment progress bar */}
+      {/* 3-segment progress bar (monochrome) */}
       <div className="mt-4 flex gap-1.5">
         {steps.map((s, i) => (
           <div
             key={s.id}
             className={cn(
               'h-1.5 flex-1 rounded-full transition-all-eer',
-              i <= step ? 'bg-white' : 'bg-white/25',
+              i <= step ? 'bg-foreground' : 'bg-muted',
             )}
           />
         ))}
@@ -90,19 +90,9 @@ function GpsDetectButton({
     <button
       onClick={onClick}
       aria-label="Detect location via GPS"
-      className={cn(
-        'relative flex size-12 shrink-0 items-center justify-center rounded-full transition-base hover:opacity-90 active:scale-95',
-        accent === 'primary'
-          ? 'bg-primary/10 text-primary'
-          : 'bg-success/10 text-success',
-      )}
+      className="relative flex size-12 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground transition-base hover:bg-muted active:scale-95"
     >
-      <span
-        className={cn(
-          'absolute inset-0 animate-ping rounded-full',
-          accent === 'primary' ? 'bg-primary/20' : 'bg-success/20',
-        )}
-      />
+      <span className="absolute inset-0 animate-ping rounded-full bg-muted" />
       <LocateFixed className="relative size-5" />
     </button>
   )
@@ -122,9 +112,9 @@ function CityConfirmBadge({ city }: { city: string }) {
 function RouteIndicator() {
   return (
     <div className="flex flex-col items-center pt-1">
-      <div className="size-2.5 rounded-full bg-primary ring-4 ring-primary/15" />
+      <div className="size-2.5 rounded-full bg-foreground ring-4 ring-foreground/10" />
       <div className="my-1 w-0.5 grow bg-border" />
-      <div className="size-2.5 rounded-full bg-success ring-4 ring-success/15" />
+      <div className="size-2.5 rounded-full bg-muted-foreground ring-4 ring-muted-foreground/10" />
     </div>
   )
 }
@@ -143,12 +133,7 @@ function AddressInput({
 }) {
   return (
     <div className="relative">
-      <Search
-        className={cn(
-          'pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2',
-          accent === 'primary' ? 'text-primary' : 'text-success',
-        )}
-      />
+      <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
@@ -301,12 +286,7 @@ function AddressStep({
       {/* Use current location */}
       <button
         onClick={() => onSelect?.(mockAddresses[0])}
-        className={cn(
-          'mt-4 flex w-full items-center justify-center gap-2 rounded-xl border p-3 text-sm font-medium transition-base',
-          accent === 'primary'
-            ? 'border-primary/30 bg-primary/5 text-primary hover:bg-primary/10'
-            : 'border-success/30 bg-success/5 text-success hover:bg-success/10',
-        )}
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card p-3 text-sm font-medium text-foreground transition-base hover:bg-muted"
       >
         <Navigation className="size-4" />
         Use current location
@@ -370,17 +350,17 @@ function DetailsStep({
                 key={v.id}
                 onClick={() => onVehicleSelect?.(v.id)}
                 className={cn(
-                  'flex min-w-[130px] flex-col items-center gap-1 rounded-xl border-2 p-3 text-center transition-all-eer active:scale-[0.98]',
+                  'flex min-w-[130px] flex-col items-center gap-1 rounded-xl border-2 p-3 text-center transition-base active:scale-[0.98]',
                   active
-                    ? 'border-primary bg-primary/5 ring-2 ring-primary/15'
-                    : 'border-border bg-card hover:border-primary/30',
+                    ? 'border-foreground bg-card ring-1 ring-foreground/15'
+                    : 'border-border bg-card hover:border-muted-foreground',
                 )}
               >
                 <Car
-                  className={cn('size-6', active ? 'text-primary' : 'text-muted-foreground')}
+                  className={cn('size-6', active ? 'text-foreground' : 'text-muted-foreground')}
                 />
                 <span className="text-sm font-medium text-foreground">{v.name}</span>
-                <span className="text-base font-bold text-primary">
+                <span className="text-base font-bold text-foreground tabular-nums">
                   {formatUSD(v.price, { showCents: false })}
                 </span>
                 <span className="text-[11px] text-muted-foreground">ETA {v.eta} min</span>
@@ -401,12 +381,12 @@ function DetailsStep({
       </div>
 
       {/* Trip summary card */}
-      <div className="rounded-xl border border-border bg-card p-4">
+      <div className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Trip summary
           </p>
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+          <span className="rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-foreground">
             {selectedVehicle.name}
           </span>
         </div>
@@ -436,7 +416,7 @@ function DetailsStep({
           </div>
           <div>
             <p className="text-[11px] text-muted-foreground">Fare estimate</p>
-            <p className="text-sm font-bold text-primary">
+            <p className="text-sm font-bold text-foreground tabular-nums">
               {formatUSD(selectedVehicle.price, { showCents: false })}
             </p>
           </div>
@@ -495,12 +475,12 @@ function ActionBar({
         Back
       </Button>
       {step < 2 ? (
-        <Button size="lg" onClick={onContinue} disabled={!canContinue} className="flex-1">
+        <Button size="lg" onClick={onContinue} disabled={!canContinue} className="eer-btn-primary flex-1">
           Continue
           <ArrowRight className="size-4" />
         </Button>
       ) : (
-        <Button size="lg" onClick={onFindDrivers} className="flex-1">
+        <Button size="lg" onClick={onFindDrivers} className="eer-btn-primary flex-1">
           Find Drivers
           <ArrowRight className="size-4" />
         </Button>
@@ -545,8 +525,8 @@ export function P4BookingWizard({ state, onStateChange }: PatternProps) {
         <WizardHeader step={2} />
         <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
           <div className="relative flex size-20 items-center justify-center">
-            <span className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
-            <div className="relative flex size-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <span className="absolute inset-0 animate-ping rounded-full bg-foreground/10" />
+            <div className="relative flex size-16 items-center justify-center rounded-full bg-foreground text-background">
               <Car className="size-7" />
             </div>
           </div>
