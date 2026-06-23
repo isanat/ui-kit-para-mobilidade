@@ -135,7 +135,7 @@ function LocaleSwitcher() {
         onClick={() => setLocale('en')}
         className={cn(
           'rounded-md px-2.5 py-1 font-medium transition-base',
-          locale === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+          locale === 'en' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
         )}
       >
         EN
@@ -144,7 +144,7 @@ function LocaleSwitcher() {
         onClick={() => setLocale('pt-BR')}
         className={cn(
           'rounded-md px-2.5 py-1 font-medium transition-base',
-          locale === 'pt-BR' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+          locale === 'pt-BR' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
         )}
       >
         PT-BR
@@ -207,13 +207,13 @@ function Sidebar({
 
   return (
     <nav className="flex h-full w-64 flex-col border-r border-border bg-card">
-      <div className="flex h-14 items-center gap-2 border-b border-border px-4">
-        <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Truck className="size-4" />
+      <div className="flex h-14 items-center gap-2.5 border-b border-border px-4">
+        <div className="flex size-7 items-center justify-center rounded-md bg-foreground text-background">
+          <Truck className="size-3.5" />
         </div>
         <div className="leading-tight">
-          <div className="text-sm font-semibold">{t('app.title')}</div>
-          <div className="text-[10px] text-muted-foreground">{t('app.subtitle')}</div>
+          <div className="text-[13px] font-semibold tracking-tight">Eagle Eye Rides</div>
+          <div className="text-[10px] text-muted-foreground">UI Kit</div>
         </div>
         {onClose && (
           <Button variant="ghost" size="icon" className="ml-auto size-8 lg:hidden" onClick={onClose}>
@@ -245,8 +245,8 @@ function Sidebar({
                     className={cn(
                       'flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-base',
                       activeId === item.id
-                        ? 'bg-primary/10 font-medium text-primary'
-                        : 'text-foreground/80 hover:bg-muted hover:text-foreground',
+                        ? 'bg-muted font-medium text-foreground'
+                        : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground',
                     )}
                   >
                     {item.badge && (
@@ -254,7 +254,7 @@ function Sidebar({
                         className={cn(
                           'shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold',
                           activeId === item.id
-                            ? 'bg-primary/20 text-primary'
+                            ? 'bg-foreground text-background'
                             : 'bg-muted text-muted-foreground',
                         )}
                       >
@@ -293,7 +293,7 @@ function StateSelector({ value, onChange }: { value: AppState; onChange: (s: App
           onClick={() => onChange(s)}
           className={cn(
             'rounded-md px-2 py-1 text-xs font-medium transition-base',
-            value === s ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+            value === s ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
           )}
         >
           {stateLabels[s]}
@@ -353,7 +353,7 @@ export function EerShell() {
           </Button>
           <div className="flex items-center gap-2">
             {activeItem.badge && (
-              <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
+              <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
                 {activeItem.badge}
               </span>
             )}
